@@ -1,0 +1,18 @@
+{
+  "name": "github-project",
+  "version": "0.0.0-development",
+  "description": "JavaScript SDK for GitHub's new Projects",
+  "type": "module",
+  "exports": "./index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "github:gr2m/github-project",
+  "keywords": [
+    "github",
+    "project",
+    "sdk"
+  ],
+  "author": "Gregor Martynus (https://github.com/gr2m)",
+  "license": "ISC"
+}
