@@ -5,7 +5,7 @@
   "type": "module",
   "exports": "./index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "c8 --100 uvu"
   },
   "repository": "github:gr2m/github-project",
   "keywords": [
@@ -14,5 +14,9 @@
     "sdk"
   ],
   "author": "Gregor Martynus (https://github.com/gr2m)",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "c8": "^7.10.0",
+    "uvu": "^0.5.2"
+  }
 }
