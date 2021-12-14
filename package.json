@@ -46,5 +46,8 @@
         "prerelease": true
       }
     ]
+  },
+  "dependencies": {
+    "@octokit/core": "^3.5.1"
   }
 }
