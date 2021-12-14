@@ -154,13 +154,13 @@ test("project.items.add() issue", async () => {
     assert.equal(options.method, "POST");
     assert.equal(options.url, "/graphql");
 
-    if (/query getMemexProjectCoreData/.test(options.query)) {
+    if (/query getProjectCoreData\(/.test(options.query)) {
       return {
         data: getProjectCoreDataQueryResultFixture,
       };
     }
 
-    if (/mutation addIssueToProject/.test(options.query)) {
+    if (/mutation addIssueToProject\(/.test(options.query)) {
       return {
         data: addIssueItemQueryResultFixture,
       };
@@ -199,13 +199,13 @@ test("project.items.add() pull request", async () => {
     assert.equal(options.method, "POST");
     assert.equal(options.url, "/graphql");
 
-    if (/query getMemexProjectCoreData/.test(options.query)) {
+    if (/query getProjectCoreData\(/.test(options.query)) {
       return {
         data: getProjectCoreDataQueryResultFixture,
       };
     }
 
-    if (/mutation addIssueToProject/.test(options.query)) {
+    if (/mutation addIssueToProject\(/.test(options.query)) {
       return {
         data: addPullRequestItemQueryResultFixture,
       };
@@ -241,13 +241,13 @@ test("project.items.add() with unknown column", async () => {
     assert.equal(options.method, "POST");
     assert.equal(options.url, "/graphql");
 
-    if (/query getMemexProjectCoreData/.test(options.query)) {
+    if (/query getProjectCoreData\(/.test(options.query)) {
       return {
         data: getProjectCoreDataQueryResultFixture,
       };
     }
 
-    if (/mutation addIssueToProject/.test(options.query)) {
+    if (/mutation addIssueToProject\(/.test(options.query)) {
       return {
         data: addIssueItemQueryResultFixture,
       };
