@@ -8,6 +8,7 @@ import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js"
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state
+ * @param {string} nodeId
  * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
 export default async function getItem(project, state, nodeId) {
