@@ -390,4 +390,73 @@ test("project.items.add() after project.items.list() does not send getProjectCor
   assert.equal(queryCounter, 2);
 });
 
+test("project.items.get()", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+  const { issueItemFixture } = await import(
+    "./test/fixtures/get-item/issue-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+    assert.equal(options.variables, {
+      org: "org",
+      number: 1,
+    });
+
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  const item = await project.items.get("I_kwDOGNkQys49IizC");
+
+  assert.equal(item, issueItemFixture);
+});
+
+test("project.items.get() not found", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+    assert.equal(options.variables, {
+      org: "org",
+      number: 1,
+    });
+
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  const item = await project.items.get("<unknown node id>");
+
+  assert.equal(item, undefined);
+});
+
 test.run();

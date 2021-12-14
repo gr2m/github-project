@@ -103,3 +103,22 @@ export async function addItemTest() {
 
   expectType<number>(item.issueOrPullRequest.number);
 }
+
+export async function getItemTest() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const item = await project.items.get("issue node_id");
+
+  if (typeof item !== "undefined") {
+    expectType<string>(item.id);
+    expectType<false>(item.isDraft);
+    expectType<"Title">(item.fields.title);
+
+    expectType<number>(item.issueOrPullRequest.number);
+  } else {
+    expectType<undefined>(item);
+  }
+}
