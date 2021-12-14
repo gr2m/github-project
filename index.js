@@ -1,5 +1,7 @@
 // @ts-check
 
+import { Octokit } from "@octokit/core";
+
 /** @type {import("./").READ_ONLY_FIELDS} */
 export const READ_ONLY_FIELDS = {
   title: "Title",
@@ -18,13 +20,21 @@ export default class GitHubProject {
   /**
    * @param {import(".").GitHubProjectOptions} options
    */
-  constructor({ org, number, octokit, fields = {} }) {
+  constructor(options) {
+    const { org, number, fields = {} } = options;
     this.org = org;
     this.number = number;
-    this.octokit = octokit;
     this.fields = {
       ...fields,
       ...READ_ONLY_FIELDS,
     };
+
+    if ("token" in options) {
+      this.octokit = new Octokit({
+        auth: options.token,
+      });
+    } else {
+      this.octokit = options.octokit;
+    }
   }
 }
