@@ -2,8 +2,8 @@
 
 import { Octokit } from "@octokit/core";
 
-import listItems from "./lib/items.list.js";
-import addItem from "./lib/items.add.js";
+import listItems from "./api/items.list.js";
+import addItem from "./api/items.add.js";
 
 /** @type {import("./").BUILT_IN_FIELDS} */
 export const BUILT_IN_FIELDS = {
