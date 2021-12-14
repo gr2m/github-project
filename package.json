@@ -6,7 +6,8 @@
   "exports": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
-    "test": "c8 --100 uvu",
+    "test": "npm run test:code && npm run test:tsc && npm run test:tsd && npm run lint",
+    "test:code": "c8 --100 uvu",
     "test:tsc": "npx tsc --allowJs --noEmit --esModuleInterop --skipLibCheck --lib es2020 *.js",
     "test:tsd": "tsd",
     "lint": "prettier --check \"**/*.{js,json,ts,md,yml}\"",
