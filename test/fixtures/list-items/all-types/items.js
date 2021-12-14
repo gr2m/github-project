@@ -1,4 +1,4 @@
-export const allTypesItems = [
+export const allTypesItemsFixture = [
   {
     id: "PNI_lADOBYMIeM0lfM4AAzDD",
     fields: {

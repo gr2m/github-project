@@ -78,10 +78,10 @@ test("getters", () => {
 });
 
 test("project.items.list()", async () => {
-  const { allTypesQueryResult } = await import(
+  const { allTypesQueryResultFixture } = await import(
     "./test/fixtures/list-items/all-types/query-result.js"
   );
-  const { allTypesItems } = await import(
+  const { allTypesItemsFixture } = await import(
     "./test/fixtures/list-items/all-types/items.js"
   );
 
@@ -91,7 +91,7 @@ test("project.items.list()", async () => {
     assert.equal(options.url, "/graphql");
 
     return {
-      data: allTypesQueryResult,
+      data: allTypesQueryResultFixture,
     };
   });
   const project = new GitHubProject({
@@ -106,11 +106,11 @@ test("project.items.list()", async () => {
 
   const items = await project.items.list();
 
-  assert.equal(items, allTypesItems);
+  assert.equal(items, allTypesItemsFixture);
 });
 
 test("project.items.list() with unknown column", async () => {
-  const { allTypesQueryResult } = await import(
+  const { allTypesQueryResultFixture } = await import(
     "./test/fixtures/list-items/all-types/query-result.js"
   );
 
@@ -120,7 +120,7 @@ test("project.items.list() with unknown column", async () => {
     assert.equal(options.url, "/graphql");
 
     return {
-      data: allTypesQueryResult,
+      data: allTypesQueryResultFixture,
     };
   });
   const project = new GitHubProject({

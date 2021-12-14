@@ -1,4 +1,4 @@
-export const allTypesQueryResult = {
+export const allTypesQueryResultFixture = {
   data: {
     organization: {
       projectNext: {
