@@ -14,8 +14,8 @@ export default async function getItem(project, state, nodeId) {
   const stateWithItems = await getStateWithProjectItems(project, state);
 
   for (const item of stateWithItems.items) {
-    if (item.isDraft === true) continue;
-    if (item.issueOrPullRequest.id === nodeId) {
+    // @ts-expect-error - does not handle the conditional chaining operator
+    if (item.id === nodeId || item.issueOrPullRequest?.id === nodeId) {
       return item;
     }
   }
