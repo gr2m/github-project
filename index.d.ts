@@ -1,15 +1,13 @@
 import { Octokit } from "@octokit/core";
 
-export type READ_ONLY_FIELDS = {
+export type BUILT_IN_FIELDS = {
   title: "Title";
-  assignees: "Assignees";
-  labels: "Labels";
-  repository: "Repository";
-  milestone: "Milestone";
+  status: "Status";
 };
 
 export default class GitHubProject<
-  TFields extends Record<string, string> = {}
+  TCustomFields extends Record<string, string> = {},
+  TFields extends BUILT_IN_FIELDS = TCustomFields & BUILT_IN_FIELDS
 > {
   /** GitHub organization login */
   get org(): string;
@@ -21,9 +19,13 @@ export default class GitHubProject<
   get octokit(): Octokit;
 
   /** Map of fields */
-  get fields(): READ_ONLY_FIELDS & TFields;
+  get fields(): TFields;
 
-  constructor(options: GitHubProjectOptions<TFields>);
+  constructor(options: GitHubProjectOptions<TCustomFields>);
+
+  items: {
+    list(): Promise<GitHubProjectItem<TFields>[]>;
+  };
 }
 
 export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
@@ -39,3 +41,76 @@ export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
       octokit: Octokit;
       fields?: TFields;
     };
+
+export type GitHubProjectItem<
+  TFields extends BUILT_IN_FIELDS = BUILT_IN_FIELDS
+> = DraftItem<TFields> | NonDraftItem<TFields>;
+
+type DraftItem<TFields> = {
+  id: string;
+  fields: TFields;
+  isDraft: true;
+};
+type NonDraftItem<TFields> = {
+  id: string;
+  fields: TFields;
+  isDraft: false;
+  issueOrPullRequest: Issue | PullRequest;
+};
+
+type Issue = IssueOrPullRequestCommon & {
+  isIssue: true;
+  isPullRequest: false;
+};
+type PullRequest = IssueOrPullRequestCommon & {
+  isIssue: false;
+  isPullRequest: true;
+  merged: boolean;
+};
+
+type IssueOrPullRequestCommon = {
+  id: string;
+  number: number;
+  createdAt: string;
+  closed: boolean;
+  closedAt?: string;
+  assignees: string[];
+  labels: string[];
+  repository: string;
+  milestone: {
+    title: string;
+    number: number;
+    state: "OPEN" | "CLOSED";
+  };
+};
+
+export type ProjectFieldNode = {
+  id: string;
+  name: string;
+  /**
+   * Settings is a JSON string. It contains view information such as column width.
+   * If the field is of type "Single select", then the `options` property will be set.
+   */
+  settings: string;
+};
+
+export type ProjectFieldMap = Record<
+  string,
+  ProjectField | ProjectFieldWithOptions
+>;
+
+type ProjectField = { id: string; name: string };
+type ProjectFieldWithOptions = {
+  id: string;
+  name: string;
+  optionsById: Record<string, string>;
+  optionsByValue: Record<string, string>;
+};
+
+export type ProjectFieldValueNode = {
+  value: string;
+  projectField: {
+    id: string;
+    name: string;
+  };
+};

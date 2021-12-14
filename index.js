@@ -2,36 +2,40 @@
 
 import { Octokit } from "@octokit/core";
 
-/** @type {import("./").READ_ONLY_FIELDS} */
-export const READ_ONLY_FIELDS = {
+import listItems from "./lib/items.list.js";
+
+/** @type {import("./").BUILT_IN_FIELDS} */
+export const BUILT_IN_FIELDS = {
   title: "Title",
-  assignees: "Assignees",
-  labels: "Labels",
-  repository: "Repository",
-  milestone: "Milestone",
+  status: "Status",
 };
 
 export default class GitHubProject {
-  org;
-  number;
-  octokit;
-  fields;
-
   /**
    * @param {import(".").GitHubProjectOptions} options
    */
   constructor(options) {
     const { org, number, fields = {} } = options;
+
+    // set octokit either from `options.octokit` or `options.token`
     const octokit =
       "token" in options
         ? new Octokit({ auth: options.token })
         : options.octokit;
 
+    // set getters
     Object.defineProperties(this, {
       org: { get: () => org },
       number: { get: () => number },
-      fields: { get: () => ({ ...fields, ...READ_ONLY_FIELDS }) },
+      fields: { get: () => ({ ...fields, ...BUILT_IN_FIELDS }) },
       octokit: { get: () => octokit },
+      items: {
+        get: () => {
+          return {
+            list: listItems.bind(null, this),
+          };
+        },
+      },
     });
   }
 }
