@@ -130,3 +130,32 @@ export async function getItemTest() {
     expectType<number>(item.issueOrPullRequest.number);
   }
 }
+
+export async function updateItemTest() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const item = await project.items.update("issue node_id", {
+    status: "new status",
+  });
+
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  if (item.isDraft === true) {
+    expectType<string>(item.id);
+    expectType<"Title">(item.fields.title);
+
+    // @ts-expect-error - `.issueOrPullRequest` is not set if `.isDraft` is true
+    item.issueOrPullRequest;
+  } else {
+    expectType<string>(item.id);
+    expectType<"Title">(item.fields.title);
+
+    expectType<number>(item.issueOrPullRequest.number);
+  }
+}

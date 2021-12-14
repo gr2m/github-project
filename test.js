@@ -495,4 +495,191 @@ test("project.items.get(itemId)", async () => {
   assert.equal(item, draftItemFixture);
 });
 
+test("project.items.update(id, fields) where id is issue node id", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+  const { issueItemFixture } = await import(
+    "./test/fixtures/get-item/issue-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectItemsQueryResultFixture,
+      };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        projectId: "PN_kwDOBYMIeM0lfA",
+        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
+      });
+      assert.match(
+        options.query,
+        /relevantToUsers: updateProjectNextItemField\(/
+      );
+
+      return { data: {} };
+    }
+
+    throw new Error(`Unexpected query: ${options.query}`);
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  const updatedItem = await project.items.update("I_kwDOGNkQys49IizC", {
+    relevantToUsers: "yes",
+    suggestedChangelog: "this is what changed",
+    // properties not set to a string or `null` are ignored
+    status: undefined,
+  });
+
+  assert.equal(updatedItem, {
+    ...issueItemFixture,
+    fields: {
+      ...issueItemFixture.fields,
+      relevantToUsers: "yes",
+      suggestedChangelog: "this is what changed",
+    },
+  });
+});
+
+test("project.items.update(id, fields) where id is item node id", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+  const { issueItemFixture } = await import(
+    "./test/fixtures/get-item/issue-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectItemsQueryResultFixture,
+      };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        projectId: "PN_kwDOBYMIeM0lfA",
+        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
+      });
+      assert.match(
+        options.query,
+        /relevantToUsers: updateProjectNextItemField\(/
+      );
+
+      return { data: {} };
+    }
+
+    throw new Error(`Unexpected query: ${options.query}`);
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  const updatedItem = await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
+    relevantToUsers: "yes",
+  });
+
+  assert.equal(updatedItem, {
+    ...issueItemFixture,
+    fields: {
+      ...issueItemFixture.fields,
+      relevantToUsers: "yes",
+    },
+  });
+});
+
+test("project.items.update(id, fields) where id is not found", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+  const { issueItemFixture } = await import(
+    "./test/fixtures/get-item/issue-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectItemsQueryResultFixture,
+      };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        projectId: "PN_kwDOBYMIeM0lfA",
+        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
+      });
+      assert.match(
+        options.query,
+        /relevantToUsers: updateProjectNextItemField\(/
+      );
+
+      return { data: {} };
+    }
+
+    throw new Error(`Unexpected query: ${options.query}`);
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  const updatedItem = await project.items.update("<unknown id>", {
+    relevantToUsers: "yes",
+  });
+
+  assert.equal(updatedItem, undefined);
+});
+
 test.run();
