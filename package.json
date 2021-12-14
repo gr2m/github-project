@@ -10,8 +10,8 @@
     "test:code": "c8 --100 uvu",
     "test:tsc": "npx tsc --allowJs --noEmit --esModuleInterop --skipLibCheck --lib es2020 *.js",
     "test:tsd": "tsd",
-    "lint": "prettier --check \"**/*.{js,json,ts,md,yml}\"",
-    "lint:fix": "prettier --write \"**/*.{js,json,ts,md,yml}\""
+    "lint": "prettier --check \"*.{js,json,ts,md}\" \".github/**/*.yml\"",
+    "lint:fix": "prettier --write \"*.{js,json,ts,md}\" \".github/**/*.yml\""
   },
   "repository": "github:gr2m/github-project",
   "keywords": [
