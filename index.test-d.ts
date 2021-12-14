@@ -17,10 +17,7 @@ export function constructorTest() {
   expectType<number>(project.number);
   expectType<Octokit>(project.octokit);
   expectType<"Title">(project.fields.title);
-  expectType<"Assignees">(project.fields.assignees);
-  expectType<"Labels">(project.fields.labels);
-  expectType<"Repository">(project.fields.repository);
-  expectType<"Milestone">(project.fields.milestone);
+  expectType<"Status">(project.fields.status);
 }
 
 export function constructorWithCustomFieldsTest() {
@@ -37,10 +34,7 @@ export function constructorWithCustomFieldsTest() {
   expectType<number>(project.number);
   expectType<Octokit>(project.octokit);
   expectType<"Title">(project.fields.title);
-  expectType<"Assignees">(project.fields.assignees);
-  expectType<"Labels">(project.fields.labels);
-  expectType<"Repository">(project.fields.repository);
-  expectType<"Milestone">(project.fields.milestone);
+  expectType<"Status">(project.fields.status);
   expectType<string>(project.fields.priority);
 }
 
@@ -71,4 +65,26 @@ export function gettersTest() {
   project.octokit = new Octokit();
   // @ts-expect-error - `.fields` is a getter
   project.fields = {};
+}
+
+export async function listItemsTest() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const [item] = await project.items.list();
+
+  if (item.isDraft === true) {
+    expectType<string>(item.id);
+    expectType<"Title">(item.fields.title);
+
+    // @ts-expect-error - `.issueOrPullRequest` is not set if `.isDraft` is true
+    item.issueOrPullRequest;
+  } else {
+    expectType<string>(item.id);
+    expectType<"Title">(item.fields.title);
+
+    expectType<number>(item.issueOrPullRequest.number);
+  }
 }

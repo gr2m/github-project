@@ -21,10 +21,7 @@ test("constructor", () => {
   assert.equal(project.octokit, octokit);
   assert.equal(project.fields, {
     title: "Title",
-    assignees: "Assignees",
-    labels: "Labels",
-    repository: "Repository",
-    milestone: "Milestone",
+    status: "Status",
   });
 });
 
@@ -44,10 +41,7 @@ test("constructor with custom fields", () => {
   assert.equal(project.octokit, octokit);
   assert.equal(project.fields, {
     title: "Title",
-    assignees: "Assignees",
-    labels: "Labels",
-    repository: "Repository",
-    milestone: "Milestone",
+    status: "Status",
     priority: "Priority",
   });
 });
@@ -81,6 +75,67 @@ test("getters", () => {
   assert.throws(() => {
     project.fields = {};
   }, "Cannot set read-only property 'fields'");
+});
+
+test("project.items.list()", async () => {
+  const { allTypesQueryResult } = await import(
+    "./test/fixtures/list-items/all-types/query-result.js"
+  );
+  const { allTypesItems } = await import(
+    "./test/fixtures/list-items/all-types/items.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    return {
+      data: allTypesQueryResult,
+    };
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  const items = await project.items.list();
+
+  assert.equal(items, allTypesItems);
+});
+
+test("project.items.list() with unknown column", async () => {
+  const { allTypesQueryResult } = await import(
+    "./test/fixtures/list-items/all-types/query-result.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    return {
+      data: allTypesQueryResult,
+    };
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {},
+  });
+
+  try {
+    await project.items.list();
+    assert.fail("should throw");
+  } catch (error) {
+    assert.equal(error.message, "Unknown column name: Relevant to users?");
+  }
 });
 
 test.run();
