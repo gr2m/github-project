@@ -4,8 +4,11 @@
   "description": "JavaScript SDK for GitHub's new Projects",
   "type": "module",
   "exports": "./index.js",
+  "types": "./index.d.ts",
   "scripts": {
-    "test": "c8 --100 uvu"
+    "test": "c8 --100 uvu",
+    "test:tsc": "npx tsc --allowJs --noEmit --esModuleInterop --skipLibCheck --lib es2020 *.js",
+    "test:tsd": "tsd"
   },
   "repository": "github:gr2m/github-project",
   "keywords": [
@@ -17,6 +20,8 @@
   "license": "ISC",
   "devDependencies": {
     "c8": "^7.10.0",
+    "tsd": "^0.19.0",
+    "typescript": "^4.5.4",
     "uvu": "^0.5.2"
   }
 }
