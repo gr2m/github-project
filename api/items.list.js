@@ -1,77 +1,6 @@
 // @ts-check
 
-const queryIssuesAndPullRequestNodes = `
-                id
-                number
-                title
-                createdAt
-                databaseId
-                assignees(first:10) {
-                  nodes {
-                    login
-                  }
-                }
-                labels(first:10){
-                  nodes {
-                    name
-                  }
-                }
-                closed
-                closedAt
-                createdAt
-                milestone {
-                  number
-                  title
-                  state
-                }
-                repository {
-                  nameWithOwner
-                }
-`;
-
-const query = `
-  query getMemexProject($org: String!,$number: Int!) {
-    organization(login: $org) {
-      projectNext(number: $number) {
-        id
-        title
-        description
-        url
-        fields(first: 20) {
-          nodes {
-            id
-            name
-            settings
-          }
-        }
-        items(first: 100) {
-          nodes {
-            id
-            title
-            content {
-              __typename
-              ... on Issue {
-                ${queryIssuesAndPullRequestNodes}
-              }
-              ... on PullRequest {
-                ${queryIssuesAndPullRequestNodes}
-                merged
-              }
-            }
-            fieldValues(first: 20) {
-              nodes {
-                value
-                projectField {
-                  id
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+import { getProjectWithItemsQuery } from "./lib/queries.js";
 
 /**
  * @param {import("../").default} project
@@ -80,7 +9,7 @@ const query = `
 export default async function listItems(project) {
   const {
     organization: { projectNext },
-  } = await project.octokit.graphql(query, {
+  } = await project.octokit.graphql(getProjectWithItemsQuery, {
     org: project.org,
     number: project.number,
   });

@@ -1,81 +1,7 @@
-const query = `
-  query getMemexProjectCoreData($org: String!,$number: Int!) {
-    organization(login: $org) {
-      projectNext(number: $number) {
-        id
-        description
-        url
-        fields(first: 20) {
-          nodes {
-            id
-            name
-            settings
-          }
-        }
-      }
-    }
-  }
-`;
-
-const queryIssuesAndPullRequestNodes = `
-            id
-            number
-            title
-            createdAt
-            databaseId
-            assignees(first:10) {
-              nodes {
-                login
-              }
-            }
-            labels(first:10){
-              nodes {
-                name
-              }
-            }
-            closed
-            closedAt
-            createdAt
-            milestone {
-              number
-              title
-              state
-            }
-            repository {
-              nameWithOwner
-            }
-`;
-
-const mutation = `
-  mutation addIssueToProject($projectId:ID!,$contentId:ID!) {
-    addProjectNextItem(input:{
-      projectId:$projectId,
-      contentId:$contentId
-    }) {
-      projectNextItem {
-        id
-        content {
-          __typename
-          ... on Issue {
-            ${queryIssuesAndPullRequestNodes}
-          }
-          ... on PullRequest {
-            ${queryIssuesAndPullRequestNodes}
-            merged
-          }
-        }
-        fieldValues(first: 20) {
-          nodes {
-            value
-            projectField {
-              id
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+import {
+  getProjectCoreDataQuery,
+  addIssueToProjectMutation,
+} from "./lib/queries.js";
 
 /**
  * @param {import("../").default} project
@@ -89,14 +15,14 @@ export default async function addItem(project, contentNodeId) {
 
   const {
     organization: { projectNext },
-  } = await project.octokit.graphql(query, {
+  } = await project.octokit.graphql(getProjectCoreDataQuery, {
     org: project.org,
     number: project.number,
   });
 
   const {
     addProjectNextItem: { projectNextItem: item },
-  } = await project.octokit.graphql(mutation, {
+  } = await project.octokit.graphql(addIssueToProjectMutation, {
     projectId: projectNext.id,
     contentId: contentNodeId,
   });
