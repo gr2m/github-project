@@ -43,3 +43,15 @@ export function constructorWithCustomFieldsTest() {
   expectType<"Milestone">(project.fields.milestone);
   expectType<string>(project.fields.priority);
 }
+
+export function constructorWithTokenTest() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+  });
+
+  expectType<string>(project.org);
+  expectType<number>(project.number);
+  expectType<Octokit>(project.octokit);
+}
