@@ -138,6 +138,38 @@ test("project.items.list() with unknown column", async () => {
   }
 });
 
+test("project.items.list() multiple calls only send query once", async () => {
+  const { allTypesQueryResultFixture } = await import(
+    "./test/fixtures/list-items/all-types/query-result.js"
+  );
+
+  const octokit = new Octokit();
+  let queryCounter = 0;
+  octokit.hook.wrap("request", async (request, options) => {
+    queryCounter++;
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    return {
+      data: allTypesQueryResultFixture,
+    };
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  await project.items.list();
+  await project.items.list();
+
+  assert.equal(queryCounter, 1);
+});
+
 test("project.items.add() issue", async () => {
   const { getProjectCoreDataQueryResultFixture } = await import(
     "./test/fixtures/get-project-core-data/query-result.js"
@@ -268,6 +300,94 @@ test("project.items.add() with unknown column", async () => {
   } catch (error) {
     assert.equal(error.message, "Unknown column name: Relevant to users?");
   }
+});
+
+test("project.items.add() multiple calls sends query to load fields only once", async () => {
+  const { getProjectCoreDataQueryResultFixture } = await import(
+    "./test/fixtures/get-project-core-data/query-result.js"
+  );
+  const { addIssueItemQueryResultFixture } = await import(
+    "./test/fixtures/add-item/issue/query-result.js"
+  );
+
+  let queryCounter = 0;
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      queryCounter++;
+      return {
+        data: getProjectCoreDataQueryResultFixture,
+      };
+    }
+
+    if (/mutation addIssueToProject\(/.test(options.query)) {
+      return {
+        data: addIssueItemQueryResultFixture,
+      };
+    }
+
+    throw new Error(`Unexpected query: ${options.query}`);
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  await project.items.add("issue node_id");
+  await project.items.add("issue node_id");
+  assert.equal(queryCounter, 1);
+});
+
+test("project.items.add() after project.items.list() does not send getProjectCoreData query", async () => {
+  const { allTypesQueryResultFixture } = await import(
+    "./test/fixtures/list-items/all-types/query-result.js"
+  );
+  const { addIssueItemQueryResultFixture } = await import(
+    "./test/fixtures/add-item/issue/query-result.js"
+  );
+
+  const octokit = new Octokit();
+  let queryCounter = 0;
+  octokit.hook.wrap("request", async (request, options) => {
+    queryCounter++;
+
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      return {
+        data: allTypesQueryResultFixture,
+      };
+    }
+
+    if (/mutation addIssueToProject\(/.test(options.query)) {
+      return {
+        data: addIssueItemQueryResultFixture,
+      };
+    }
+
+    throw new Error(`Unexpected query: ${options.query}`);
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  await project.items.list();
+  await project.items.add("issue node_id");
+  assert.equal(queryCounter, 2);
 });
 
 test.run();
