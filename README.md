@@ -56,7 +56,7 @@ for (const item of items) {
   // and an `.issueOrPullRequest` property which is unless the item is a draft
   console.log(
     "%s is due on %s (Priority: %d, Assignees: %j)",
-    item.title,
+    item.fields.title,
     item.fields.priority,
     item.fields.dueAt,
     item.issueOrPullRequest?.assignees.map(({ login }) => login).join(",") ||
