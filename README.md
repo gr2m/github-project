@@ -2,6 +2,8 @@
 
 > JavaScript SDK for GitHub's new Projects
 
+[![Test](https://github.com/gr2m/github-project/actions/workflows/test.yml/badge.svg)](https://github.com/gr2m/github-project/actions/workflows/test.yml)
+
 ## Usage
 
 <table>
