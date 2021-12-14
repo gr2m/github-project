@@ -31,5 +31,20 @@
     "extends": [
       "github>gr2m/.github"
     ]
+  },
+  "release": {
+    "branches": [
+      "+([0-9]).x",
+      "main",
+      "next",
+      {
+        "name": "beta",
+        "prerelease": true
+      },
+      {
+        "name": "debug",
+        "prerelease": true
+      }
+    ]
   }
 }
