@@ -1,4 +1,4 @@
-export const getProjectCoreDataQueryResultFixture = {
+export const getProjectFieldsQueryResultFixture = {
   data: {
     organization: {
       projectNext: {

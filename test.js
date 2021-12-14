@@ -78,11 +78,11 @@ test("getters", () => {
 });
 
 test("project.items.list()", async () => {
-  const { allTypesQueryResultFixture } = await import(
-    "./test/fixtures/list-items/all-types/query-result.js"
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
   );
-  const { allTypesItemsFixture } = await import(
-    "./test/fixtures/list-items/all-types/items.js"
+  const { listItemsFixture } = await import(
+    "./test/fixtures/list-items/items.js"
   );
 
   const octokit = new Octokit();
@@ -91,7 +91,7 @@ test("project.items.list()", async () => {
     assert.equal(options.url, "/graphql");
 
     return {
-      data: allTypesQueryResultFixture,
+      data: getProjectItemsQueryResultFixture,
     };
   });
   const project = new GitHubProject({
@@ -106,12 +106,12 @@ test("project.items.list()", async () => {
 
   const items = await project.items.list();
 
-  assert.equal(items, allTypesItemsFixture);
+  assert.equal(items, listItemsFixture);
 });
 
 test("project.items.list() with unknown column", async () => {
-  const { allTypesQueryResultFixture } = await import(
-    "./test/fixtures/list-items/all-types/query-result.js"
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -120,7 +120,7 @@ test("project.items.list() with unknown column", async () => {
     assert.equal(options.url, "/graphql");
 
     return {
-      data: allTypesQueryResultFixture,
+      data: getProjectItemsQueryResultFixture,
     };
   });
   const project = new GitHubProject({
@@ -139,8 +139,8 @@ test("project.items.list() with unknown column", async () => {
 });
 
 test("project.items.list() multiple calls only send query once", async () => {
-  const { allTypesQueryResultFixture } = await import(
-    "./test/fixtures/list-items/all-types/query-result.js"
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -151,7 +151,7 @@ test("project.items.list() multiple calls only send query once", async () => {
     assert.equal(options.url, "/graphql");
 
     return {
-      data: allTypesQueryResultFixture,
+      data: getProjectItemsQueryResultFixture,
     };
   });
   const project = new GitHubProject({
@@ -171,8 +171,8 @@ test("project.items.list() multiple calls only send query once", async () => {
 });
 
 test("project.items.add() issue", async () => {
-  const { getProjectCoreDataQueryResultFixture } = await import(
-    "./test/fixtures/get-project-core-data/query-result.js"
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
   );
   const { addIssueItemQueryResultFixture } = await import(
     "./test/fixtures/add-item/issue/query-result.js"
@@ -188,7 +188,7 @@ test("project.items.add() issue", async () => {
 
     if (/query getProjectCoreData\(/.test(options.query)) {
       return {
-        data: getProjectCoreDataQueryResultFixture,
+        data: getProjectFieldsQueryResultFixture,
       };
     }
 
@@ -216,8 +216,8 @@ test("project.items.add() issue", async () => {
 });
 
 test("project.items.add() pull request", async () => {
-  const { getProjectCoreDataQueryResultFixture } = await import(
-    "./test/fixtures/get-project-core-data/query-result.js"
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
   );
   const { addPullRequestItemQueryResultFixture } = await import(
     "./test/fixtures/add-item/pull-request/query-result.js"
@@ -233,7 +233,7 @@ test("project.items.add() pull request", async () => {
 
     if (/query getProjectCoreData\(/.test(options.query)) {
       return {
-        data: getProjectCoreDataQueryResultFixture,
+        data: getProjectFieldsQueryResultFixture,
       };
     }
 
@@ -261,8 +261,8 @@ test("project.items.add() pull request", async () => {
 });
 
 test("project.items.add() with unknown column", async () => {
-  const { getProjectCoreDataQueryResultFixture } = await import(
-    "./test/fixtures/get-project-core-data/query-result.js"
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
   );
   const { addIssueItemQueryResultFixture } = await import(
     "./test/fixtures/add-item/issue/query-result.js"
@@ -275,7 +275,7 @@ test("project.items.add() with unknown column", async () => {
 
     if (/query getProjectCoreData\(/.test(options.query)) {
       return {
-        data: getProjectCoreDataQueryResultFixture,
+        data: getProjectFieldsQueryResultFixture,
       };
     }
 
@@ -303,8 +303,8 @@ test("project.items.add() with unknown column", async () => {
 });
 
 test("project.items.add() multiple calls sends query to load fields only once", async () => {
-  const { getProjectCoreDataQueryResultFixture } = await import(
-    "./test/fixtures/get-project-core-data/query-result.js"
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
   );
   const { addIssueItemQueryResultFixture } = await import(
     "./test/fixtures/add-item/issue/query-result.js"
@@ -320,7 +320,7 @@ test("project.items.add() multiple calls sends query to load fields only once", 
     if (/query getProjectCoreData\(/.test(options.query)) {
       queryCounter++;
       return {
-        data: getProjectCoreDataQueryResultFixture,
+        data: getProjectFieldsQueryResultFixture,
       };
     }
 
@@ -349,8 +349,8 @@ test("project.items.add() multiple calls sends query to load fields only once", 
 });
 
 test("project.items.add() after project.items.list() does not send getProjectCoreData query", async () => {
-  const { allTypesQueryResultFixture } = await import(
-    "./test/fixtures/list-items/all-types/query-result.js"
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
   );
   const { addIssueItemQueryResultFixture } = await import(
     "./test/fixtures/add-item/issue/query-result.js"
@@ -363,7 +363,7 @@ test("project.items.add() after project.items.list() does not send getProjectCor
 
     if (/query getProjectWithItems\(/.test(options.query)) {
       return {
-        data: allTypesQueryResultFixture,
+        data: getProjectItemsQueryResultFixture,
       };
     }
 

@@ -1,4 +1,4 @@
-export const allTypesItemsFixture = [
+export const listItemsFixture = [
   {
     id: "PNI_lADOBYMIeM0lfM4AAzDD",
     fields: {
