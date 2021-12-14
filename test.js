@@ -52,4 +52,14 @@ test("constructor with custom fields", () => {
   });
 });
 
+test("constructor with token", () => {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "ghp_secret123",
+  });
+
+  assert.instance(project.octokit, Octokit);
+});
+
 test.run();
