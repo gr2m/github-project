@@ -57,8 +57,8 @@ for (const item of items) {
   console.log(
     "%s is due on %s (Priority: %d, Assignees: %j)",
     item.fields.title,
-    item.fields.priority,
     item.fields.dueAt,
+    item.fields.priority,
     item.issueOrPullRequest?.assignees.map(({ login }) => login).join(",") ||
       "_draft_"
   );
