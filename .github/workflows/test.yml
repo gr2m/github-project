@@ -33,5 +33,6 @@ jobs:
           node-version: ${{ matrix.node_version }}
           cache: npm
       - run: npm ci
-      - run: npm run test:typescript
+      - run: npm run test:tsc
+      - run: npm run test:tsd
       - run: npm run lint
