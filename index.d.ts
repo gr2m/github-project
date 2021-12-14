@@ -115,3 +115,34 @@ export type ProjectFieldValueNode = {
     name: string;
   };
 };
+
+export type GitHubProjectState =
+  | GitHubProjectStateInit
+  | GitHubProjectStateWithFields
+  | GitHubProjectStateWithItems;
+
+type GitHubProjectStateInit = {
+  didLoadFields: false;
+  didLoadItems: false;
+};
+
+export type GitHubProjectStateWithFields = {
+  didLoadFields: true;
+  didLoadItems: false;
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  fields: ProjectFieldMap;
+};
+
+export type GitHubProjectStateWithItems = {
+  didLoadFields: true;
+  didLoadItems: true;
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  fields: ProjectFieldMap;
+  items: GitHubProjectItem[];
+};

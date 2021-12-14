@@ -6,15 +6,12 @@ import { itemFieldsNodesToFieldsMap } from "./item-fields-nodes-to-fields-map.js
  * Takes a GraphQL `ProjectNextItem` node and returns a `ProjectItem` object
  * in the format we return it from the GitHubProject API.
  *
- * @param {import("../..").ProjectFieldMap} projectFields
+ * @param {import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithItems} state
  * @param {any} itemNode
  * @returns {import("../..").GitHubProjectItem}
  */
-export function projectItemNodeToGitHubProjectItem(projectFields, itemNode) {
-  const fields = itemFieldsNodesToFieldsMap(
-    projectFields,
-    itemNode.fieldValues.nodes
-  );
+export function projectItemNodeToGitHubProjectItem(state, itemNode) {
+  const fields = itemFieldsNodesToFieldsMap(state, itemNode.fieldValues.nodes);
 
   // item is draft
   if (!itemNode.content) {

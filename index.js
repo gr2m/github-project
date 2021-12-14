@@ -24,10 +24,16 @@ export default class GitHubProject {
         ? new Octokit({ auth: options.token })
         : options.octokit;
 
+    /** @type {import(".").GitHubProjectState} */
+    const state = {
+      didLoadFields: false,
+      didLoadItems: false,
+    };
+
     // set API
     const itemsApi = {
-      list: listItems.bind(null, this),
-      add: addItem.bind(null, this),
+      list: listItems.bind(null, this, state),
+      add: addItem.bind(null, this, state),
     };
     Object.defineProperties(this, {
       org: { get: () => org },

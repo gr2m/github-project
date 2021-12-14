@@ -1,27 +1,15 @@
 // @ts-check
 
-import { getProjectWithItemsQuery } from "./lib/queries.js";
-import { projectFieldsNodesToFieldsMap } from "./lib/project-fields-nodes-to-fields-map.js";
-import { projectItemNodeToGitHubProjectItem } from "./lib/project-item-node-to-github-project-item.js";
+import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
 
 /**
- * @param {import("../").default} project
+ * Load all project fields and items and cache them
+ *
+ * @param {import("..").default} project
+ * @param {import("..").GitHubProjectState} state
  * @returns {Promise<import("..").GitHubProjectItem[]>}
  */
-export default async function listItems(project) {
-  const {
-    organization: { projectNext },
-  } = await project.octokit.graphql(getProjectWithItemsQuery, {
-    org: project.org,
-    number: project.number,
-  });
-
-  const projectFields = projectFieldsNodesToFieldsMap(
-    project,
-    projectNext.fields.nodes
-  );
-
-  return projectNext.items.nodes.map((node) =>
-    projectItemNodeToGitHubProjectItem(projectFields, node)
-  );
+export default async function listItems(project, state) {
+  const stateWithItems = await getStateWithProjectItems(project, state);
+  return stateWithItems.items;
 }
