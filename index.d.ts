@@ -25,6 +25,7 @@ export default class GitHubProject<
 
   items: {
     list(): Promise<GitHubProjectItem<TFields>[]>;
+    add(contentNodeId: string): Promise<NonDraftItem<TFields>>;
   };
 }
 

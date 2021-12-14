@@ -3,6 +3,7 @@
 import { Octokit } from "@octokit/core";
 
 import listItems from "./lib/items.list.js";
+import addItem from "./lib/items.add.js";
 
 /** @type {import("./").BUILT_IN_FIELDS} */
 export const BUILT_IN_FIELDS = {
@@ -23,19 +24,17 @@ export default class GitHubProject {
         ? new Octokit({ auth: options.token })
         : options.octokit;
 
-    // set getters
+    // set API
+    const itemsApi = {
+      list: listItems.bind(null, this),
+      add: addItem.bind(null, this),
+    };
     Object.defineProperties(this, {
       org: { get: () => org },
       number: { get: () => number },
       fields: { get: () => ({ ...fields, ...BUILT_IN_FIELDS }) },
       octokit: { get: () => octokit },
-      items: {
-        get: () => {
-          return {
-            list: listItems.bind(null, this),
-          };
-        },
-      },
+      items: { get: () => itemsApi },
     });
   }
 }
