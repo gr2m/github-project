@@ -25,7 +25,10 @@ export default class GitHubProject<
 
   items: {
     list(): Promise<GitHubProjectItem<TFields>[]>;
-    add(contentNodeId: string): Promise<NonDraftItem<TFields>>;
+    add(
+      contentNodeId: string,
+      fields?: Partial<Record<keyof TFields, string>>
+    ): Promise<NonDraftItem<TFields>>;
     get(contentNodeId: string): Promise<GitHubProjectItem<TFields> | undefined>;
     update(
       contentNodeId: string,

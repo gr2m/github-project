@@ -1,13 +1,10 @@
 // @ts-check
 
 import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
+import { getFieldsUpdateQuery } from "./lib/get-fields-update-query.js";
 
 /**
  * Updates item fields if the item can be found.
- *
- * Project item fields can only updated one at a time, so this methods sends
- * a single query including one mutation for each field that is updated.
- *
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state
@@ -25,28 +22,7 @@ export default async function updateItem(project, state, nodeId, fields) {
 
   if (!item) return;
 
-  const parts = Object.entries(fields)
-    .map(([key, value]) => {
-      if (value === undefined) return;
-      const field = stateWithItems.fields[key];
-      const valueOrOption =
-        "optionsByValue" in field ? field.optionsByValue[value] : value;
-
-      return `
-        ${key}: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: "${field.id}", value: "${valueOrOption}"}) {
-          clientMutationId
-        }
-      `;
-    })
-    .filter(Boolean)
-    .join("");
-
-  const query = `
-    mutation setItemProperties($projectId: ID!, $itemId: ID!) {
-      ${parts}
-    }
-  `;
-
+  const query = getFieldsUpdateQuery(stateWithItems, fields);
   await project.octokit.graphql(query, {
     projectId: stateWithItems.id,
     itemId: item.id,
