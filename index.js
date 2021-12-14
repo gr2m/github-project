@@ -22,19 +22,16 @@ export default class GitHubProject {
    */
   constructor(options) {
     const { org, number, fields = {} } = options;
-    this.org = org;
-    this.number = number;
-    this.fields = {
-      ...fields,
-      ...READ_ONLY_FIELDS,
-    };
+    const octokit =
+      "token" in options
+        ? new Octokit({ auth: options.token })
+        : options.octokit;
 
-    if ("token" in options) {
-      this.octokit = new Octokit({
-        auth: options.token,
-      });
-    } else {
-      this.octokit = options.octokit;
-    }
+    Object.defineProperties(this, {
+      org: { get: () => org },
+      number: { get: () => number },
+      fields: { get: () => ({ ...fields, ...READ_ONLY_FIELDS }) },
+      octokit: { get: () => octokit },
+    });
   }
 }

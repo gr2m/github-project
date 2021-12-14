@@ -12,16 +12,16 @@ export default class GitHubProject<
   TFields extends Record<string, string> = {}
 > {
   /** GitHub organization login */
-  org: string;
+  get org(): string;
 
   /** Project number */
-  number: number;
+  get number(): number;
 
   /** Octokit instance */
-  octokit: Octokit;
+  get octokit(): Octokit;
 
   /** Map of fields */
-  fields: READ_ONLY_FIELDS & TFields;
+  get fields(): READ_ONLY_FIELDS & TFields;
 
   constructor(options: GitHubProjectOptions<TFields>);
 }
