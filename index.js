@@ -4,6 +4,7 @@ import { Octokit } from "@octokit/core";
 
 import listItems from "./api/items.list.js";
 import addItem from "./api/items.add.js";
+import getItem from "./api/items.get.js";
 
 /** @type {import("./").BUILT_IN_FIELDS} */
 export const BUILT_IN_FIELDS = {
@@ -34,6 +35,7 @@ export default class GitHubProject {
     const itemsApi = {
       list: listItems.bind(null, this, state),
       add: addItem.bind(null, this, state),
+      get: getItem.bind(null, this, state),
     };
     Object.defineProperties(this, {
       org: { get: () => org },
