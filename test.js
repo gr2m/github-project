@@ -215,6 +215,61 @@ test("project.items.add() issue", async () => {
   assert.equal(newItem, newIssueItemFixture);
 });
 
+test("project.items.add() issue with custom fields", async () => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+  const { addIssueItemQueryResultFixture } = await import(
+    "./test/fixtures/add-item/issue/query-result.js"
+  );
+  const { newIssueItemFixture } = await import(
+    "./test/fixtures/add-item/issue/new-issue-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+
+    if (/mutation addIssueToProject\(/.test(options.query)) {
+      return {
+        data: addIssueItemQueryResultFixture,
+      };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      return { data: {} };
+    }
+
+    throw new Error(`Unexpected query: ${options.query}`);
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  const newItem = await project.items.add("issue node_id", { status: "Done" });
+  assert.equal(newItem, {
+    ...newIssueItemFixture,
+    fields: {
+      ...newIssueItemFixture.fields,
+      status: "Done",
+    },
+  });
+});
+
 test("project.items.add() pull request", async () => {
   const { getProjectFieldsQueryResultFixture } = await import(
     "./test/fixtures/get-project-fields/query-result.js"
