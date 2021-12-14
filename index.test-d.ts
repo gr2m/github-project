@@ -55,3 +55,20 @@ export function constructorWithTokenTest() {
   expectType<number>(project.number);
   expectType<Octokit>(project.octokit);
 }
+
+export function gettersTest() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+  });
+
+  // @ts-expect-error - `.org` is a getter
+  project.org = "org";
+  // @ts-expect-error - `.number` is a getter
+  project.number = 2;
+  // @ts-expect-error - `.octokit` is a getter
+  project.octokit = new Octokit();
+  // @ts-expect-error - `.fields` is a getter
+  project.fields = {};
+}

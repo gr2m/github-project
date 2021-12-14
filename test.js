@@ -62,4 +62,25 @@ test("constructor with token", () => {
   assert.instance(project.octokit, Octokit);
 });
 
+test("getters", () => {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "ghp_secret123",
+  });
+
+  assert.throws(() => {
+    project.org = "org2";
+  }, "Cannot set read-only property 'org'");
+  assert.throws(() => {
+    project.number = 2;
+  }, "Cannot set read-only property 'number'");
+  assert.throws(() => {
+    project.octokit = new Octokit();
+  }, "Cannot set read-only property 'octokit'");
+  assert.throws(() => {
+    project.fields = {};
+  }, "Cannot set read-only property 'fields'");
+});
+
 test.run();
