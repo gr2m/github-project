@@ -137,7 +137,7 @@ const project = new GitHubProject(options);
 </td></tr>
     <tr>
       <th>
-        <code>options.previews</code>
+        <code>options.octokit</code>
       </th>
       <td>
         <code>Octokit</code>
