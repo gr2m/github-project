@@ -138,4 +138,136 @@ test("project.items.list() with unknown column", async () => {
   }
 });
 
+test("project.items.add() issue", async () => {
+  const { getProjectCoreDataQueryResultFixture } = await import(
+    "./test/fixtures/get-project-core-data/query-result.js"
+  );
+  const { addIssueItemQueryResultFixture } = await import(
+    "./test/fixtures/add-item/issue/query-result.js"
+  );
+  const { newIssueItemFixture } = await import(
+    "./test/fixtures/add-item/issue/new-issue-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getMemexProjectCoreData/.test(options.query)) {
+      return {
+        data: getProjectCoreDataQueryResultFixture,
+      };
+    }
+
+    if (/mutation addIssueToProject/.test(options.query)) {
+      return {
+        data: addIssueItemQueryResultFixture,
+      };
+    }
+
+    throw new Error(`Unexpected query: ${options.query}`);
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  const newItem = await project.items.add("issue node_id");
+  assert.equal(newItem, newIssueItemFixture);
+});
+
+test("project.items.add() pull request", async () => {
+  const { getProjectCoreDataQueryResultFixture } = await import(
+    "./test/fixtures/get-project-core-data/query-result.js"
+  );
+  const { addPullRequestItemQueryResultFixture } = await import(
+    "./test/fixtures/add-item/pull-request/query-result.js"
+  );
+  const { newPullRequestItemFixture } = await import(
+    "./test/fixtures/add-item/pull-request/new-pull-request-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getMemexProjectCoreData/.test(options.query)) {
+      return {
+        data: getProjectCoreDataQueryResultFixture,
+      };
+    }
+
+    if (/mutation addIssueToProject/.test(options.query)) {
+      return {
+        data: addPullRequestItemQueryResultFixture,
+      };
+    }
+
+    throw new Error(`Unexpected query: ${options.query}`);
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  const newItem = await project.items.add("issue node_id");
+  assert.equal(newItem, newPullRequestItemFixture);
+});
+
+test("project.items.add() with unknown column", async () => {
+  const { getProjectCoreDataQueryResultFixture } = await import(
+    "./test/fixtures/get-project-core-data/query-result.js"
+  );
+  const { addIssueItemQueryResultFixture } = await import(
+    "./test/fixtures/add-item/issue/query-result.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getMemexProjectCoreData/.test(options.query)) {
+      return {
+        data: getProjectCoreDataQueryResultFixture,
+      };
+    }
+
+    if (/mutation addIssueToProject/.test(options.query)) {
+      return {
+        data: addIssueItemQueryResultFixture,
+      };
+    }
+
+    throw new Error(`Unexpected query: ${options.query}`);
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {},
+  });
+
+  try {
+    await project.items.add("issue node_id");
+    assert.fail("should throw");
+  } catch (error) {
+    assert.equal(error.message, "Unknown column name: Relevant to users?");
+  }
+});
+
 test.run();
