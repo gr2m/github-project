@@ -68,11 +68,14 @@ for (const item of items) {
 // You would usually retriev the issue node ID from an event payload, such as `event.issue.node_id`
 const newItem = await project.items.add(issue.node_id, { priority: 1 });
 
-// retrieve a single item using the issue node ID
+// retrieve a single item using the issue node ID (item node ID works, too)
 const item = await project.items.get(issue.node_id);
 
-// update an item
-const updatedItem = await project.items.update(item, { priority: 2 });
+// item is undefined when not found
+if (item) {
+  // update an item
+  const updatedItem = await project.items.update(item, { priority: 2 });
+}
 ```
 
 ## API
@@ -230,10 +233,11 @@ Map of internal field names to their values.
 ### `project.items.get()`
 
 ```js
-const newItem = await project.items.get(issueNodeId);
+const item = await project.items.get(issueNodeIdOrItemNodeId);
 ```
 
 Retrieve a single item based on its issue or pull request node ID.
+Resolves with `undefined` if item cannot be found.
 
 <table>
   <thead align=left>
@@ -252,14 +256,14 @@ Retrieve a single item based on its issue or pull request node ID.
   <tbody align=left valign=top>
     <tr>
       <th>
-        <code>issueNodeId</code>
+        <code>issueNodeIdOrItemNodeId</code>
       </th>
       <td>
         <code>string</code>
       </td>
       <td>
 
-**Required**. The graphql node ID of the issue or pull request you want to add.
+**Required**. The graphql node ID of the project item or issue/pull request.
 
 </td>
     </tr>
