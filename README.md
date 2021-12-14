@@ -132,7 +132,7 @@ const project = new GitHubProject(options);
       </td>
       <td>
 
-**Required** unless `options.octokit` is set. When set to a personal access token or an OAuth token, the `read:org` scope is required for read-only access, and the `write:org` scope is required for read-write access. When set to an installation access token, the `organization_projects:read` permission is required for read-only access, and the `organization_projects:write` permission is required for read-write access.
+**Required unless `options.octokit` is set**. When set to a personal access token or an OAuth token, the `read:org` scope is required for read-only access, and the `write:org` scope is required for read-write access. When set to an installation access token, the `organization_projects:read` permission is required for read-only access, and the `organization_projects:write` permission is required for read-write access.
 
 </td></tr>
     <tr>
@@ -144,7 +144,7 @@ const project = new GitHubProject(options);
       </td>
       <td>
 
-**Required** unless `options.token` is set. You can pass an [`@octokit/core`](https://github.com/octokit/core.js/#readme) instance, or an instance of any `Octokit` class that is built upon it, such as [`octokit`](https://github.com/octokit/octokit.js/#readme).
+**Required unless `options.token` is set**. You can pass an [`@octokit/core`](https://github.com/octokit/core.js/#readme) instance, or an instance of any `Octokit` class that is built upon it, such as [`octokit`](https://github.com/octokit/octokit.js/#readme).
 
 </td>
     </tr>
