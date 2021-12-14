@@ -74,7 +74,7 @@ const item = await project.items.get(issue.node_id);
 // item is undefined when not found
 if (item) {
   // update an item
-  const updatedItem = await project.items.update(item, { priority: 2 });
+  const updatedItem = await project.items.update(item.id, { priority: 2 });
 }
 ```
 
@@ -233,7 +233,7 @@ Map of internal field names to their values.
 ### `project.items.get()`
 
 ```js
-const item = await project.items.get(issueNodeIdOrItemNodeId);
+const item = await project.items.get(nodeId);
 ```
 
 Retrieve a single item based on its issue or pull request node ID.
@@ -256,7 +256,7 @@ Resolves with `undefined` if item cannot be found.
   <tbody align=left valign=top>
     <tr>
       <th>
-        <code>issueNodeIdOrItemNodeId</code>
+        <code>nodeId</code>
       </th>
       <td>
         <code>string</code>
@@ -273,10 +273,11 @@ Resolves with `undefined` if item cannot be found.
 ### `project.items.update()`
 
 ```js
-const newItem = await project.items.update(item, fields);
+const updatedItem = await project.items.update(nodeId, fields);
 ```
 
-Update an exist item. To unse a field, set it to `null`.
+Update an exist item. To unset a field, set it to `null`.
+Returns undefined if item cannot be found.
 
 <table>
   <thead align=left>
@@ -295,14 +296,14 @@ Update an exist item. To unse a field, set it to `null`.
   <tbody align=left valign=top>
     <tr>
       <th>
-        <code>item</code>
+        <code>nodeId</code>
       </th>
       <td>
-        <code>Item</code>
+        <code>string</code>
       </td>
       <td>
 
-**Required**. The `item` object as you retrieved it from using one of the `project.items.*` APIs.
+**Required**. The graphql node ID of the project item or issue/pull request.
 
 </td>
     </tr>
