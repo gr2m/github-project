@@ -1,9 +1,11 @@
+// @ts-check
+
 import {
   getProjectCoreDataQuery,
   addIssueToProjectMutation,
 } from "./lib/queries.js";
 import { projectFieldsNodesToFieldsMap } from "./lib/project-fields-nodes-to-fields-map.js";
-import { itemFieldsNodesToFieldsMap } from "./lib/item-fields-nodes-to-fields-map.js";
+import { projectItemNodeToGitHubProjectItem } from "./lib/project-item-node-to-github-project-item.js";
 
 /**
  * @param {import("../").default} project
@@ -22,51 +24,17 @@ export default async function addItem(project, contentNodeId) {
     number: project.number,
   });
 
+  const projectFields = projectFieldsNodesToFieldsMap(
+    project,
+    projectNext.fields.nodes
+  );
+
   const {
-    addProjectNextItem: { projectNextItem: item },
+    addProjectNextItem: { projectNextItem },
   } = await project.octokit.graphql(addIssueToProjectMutation, {
     projectId: projectNext.id,
     contentId: contentNodeId,
   });
 
-  const projectFields = projectFieldsNodesToFieldsMap(
-    project,
-    projectNext.fields.nodes
-  );
-  const fields = itemFieldsNodesToFieldsMap(
-    projectFields,
-    item.fieldValues.nodes
-  );
-
-  const common = {
-    id: item.content.id,
-    number: item.content.number,
-    createdAt: item.content.createdAt,
-    closed: item.content.closed,
-    closedAt: item.content.closedAt,
-    assignees: item.content.assignees.nodes.map((node) => node.login),
-    labels: item.content.labels.nodes.map((node) => node.name),
-    repository: item.content.repository.nameWithOwner,
-    milestone: item.content.milestone,
-  };
-  const issueOrPullRequest =
-    item.content.__typename === "Issue"
-      ? {
-          isIssue: true,
-          isPullRequest: false,
-          ...common,
-        }
-      : {
-          isIssue: false,
-          isPullRequest: true,
-          ...common,
-          merged: item.content.merged,
-        };
-
-  return {
-    id: item.id,
-    fields,
-    isDraft: false,
-    issueOrPullRequest,
-  };
+  return projectItemNodeToGitHubProjectItem(projectFields, projectNextItem);
 }

@@ -1,9 +1,7 @@
-// @ts-check
-
 /**
  * @param {import("../..").ProjectFieldMap} projectFields
  * @param {import("../..").ProjectFieldValueNode[]} nodes
- * @returns {Record<string, string>}
+ * @returns {import("../..").BUILT_IN_FIELDS & Record<string, string>}
  */
 export function itemFieldsNodesToFieldsMap(projectFields, nodes) {
   return Object.entries(projectFields).reduce(

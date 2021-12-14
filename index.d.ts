@@ -44,7 +44,7 @@ export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
     };
 
 export type GitHubProjectItem<
-  TFields extends BUILT_IN_FIELDS = BUILT_IN_FIELDS
+  TFields extends BUILT_IN_FIELDS = BUILT_IN_FIELDS & Record<string, string>
 > = DraftItem<TFields> | NonDraftItem<TFields>;
 
 type DraftItem<TFields> = {
