@@ -112,13 +112,21 @@ export async function getItemTest() {
   });
   const item = await project.items.get("issue node_id");
 
-  if (typeof item !== "undefined") {
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  if (item.isDraft === true) {
     expectType<string>(item.id);
-    expectType<false>(item.isDraft);
+    expectType<"Title">(item.fields.title);
+
+    // @ts-expect-error - `.issueOrPullRequest` is not set if `.isDraft` is true
+    item.issueOrPullRequest;
+  } else {
+    expectType<string>(item.id);
     expectType<"Title">(item.fields.title);
 
     expectType<number>(item.issueOrPullRequest.number);
-  } else {
-    expectType<undefined>(item);
   }
 }

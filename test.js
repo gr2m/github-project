@@ -390,7 +390,7 @@ test("project.items.add() after project.items.list() does not send getProjectCor
   assert.equal(queryCounter, 2);
 });
 
-test("project.items.get()", async () => {
+test("project.items.get(contentId)", async () => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
   );
@@ -457,6 +457,42 @@ test("project.items.get() not found", async () => {
   const item = await project.items.get("<unknown node id>");
 
   assert.equal(item, undefined);
+});
+
+test("project.items.get(itemId)", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+  const { draftItemFixture } = await import(
+    "./test/fixtures/get-item/draft-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+    assert.equal(options.variables, {
+      org: "org",
+      number: 1,
+    });
+
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  const item = await project.items.get("PNI_lADOBYMIeM0lfM4AAzDD");
+
+  assert.equal(item, draftItemFixture);
 });
 
 test.run();
