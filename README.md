@@ -53,13 +53,14 @@ const project = new GitHubProject({
 const items = await project.items.list();
 for (const item of items) {
   // every item has a `.fields` property for the custome fields
-  // and an `.issue` property which is set if the item is an issue or pull request.
+  // and an `.issueOrPullRequest` property which is unless the item is a draft
   console.log(
     "%s is due on %s (Priority: %d, Assignees: %j)",
     item.title,
     item.fields.priority,
     item.fields.dueAt,
-    item.issue?.assignees.map(({ login }) => login).join(",") || "_draft_"
+    item.issueOrPullRequest?.assignees.map(({ login }) => login).join(",") ||
+      "_draft_"
   );
 }
 
@@ -157,7 +158,7 @@ const project = new GitHubProject(options);
       </td>
       <td>
 
-A map of internal names for fields to the column names. By default, the colum names for all custom fields are used for both keys and values. The `title` key will always be set to `"Title"` and `status` to `"Status"` to account for the built-in fields. The other built-in columns `Assignees`, `Labels`, `Milestone`, and `Repository` cannot be set through the project and are not considered fields. You have to set them on the issue or pull request, and you can access them by `item.issue.assignees`, `item.issue.labels` etc (for both issues and pull requests).
+A map of internal names for fields to the column names. By default, the colum names for all custom fields are used for both keys and values. The `title` key will always be set to `"Title"` and `status` to `"Status"` to account for the built-in fields. The other built-in columns `Assignees`, `Labels`, `Milestone`, and `Repository` cannot be set through the project and are not considered fields. You have to set them on the issue or pull request, and you can access them by `item.issueOrPullRequest.assignees`, `item.issueOrPullRequest.labels` etc (for both issues and pull requests).
 
 </td>
     </tr>
