@@ -26,12 +26,6 @@ export default class GitHubProject<
   constructor(options: GitHubProjectOptions<TFields>);
 }
 
-// type CommonOptions<TFields extends Record<string, string> = {}> = {
-//   org: string;
-//   number: number;
-//   fields?: TFields;
-// };
-
 export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
   | {
       org: string;
