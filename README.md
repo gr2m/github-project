@@ -75,6 +75,9 @@ const item = await project.items.get(issue.node_id);
 if (item) {
   // update an item
   const updatedItem = await project.items.update(item.id, { priority: 2 });
+
+  // remove item
+  await project.items.remove(item.id);
 }
 ```
 
@@ -317,6 +320,45 @@ Returns undefined if item cannot be found.
       <td>
 
 Map of internal field names to their values.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
+### `project.items.remove()`
+
+```js
+await project.items.remove(nodeId);
+```
+
+Removes a single item. Resolves with `undefined`, no matter if item was found or not.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>nodeId</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The graphql node ID of the project item or issue/pull request.
 
 </td>
     </tr>
