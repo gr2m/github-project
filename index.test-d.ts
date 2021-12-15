@@ -184,7 +184,36 @@ export async function updateItemTest() {
     number: 1,
     token: "gpg_secret123",
   });
-  const item = await project.items.update("issue node_id", {
+  const item = await project.items.update("item node it", {
+    status: "new status",
+  });
+
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  if (item.isDraft === true) {
+    expectType<string>(item.id);
+    expectType<"Title">(item.fields.title);
+
+    // @ts-expect-error - `.content` is not set if `.isDraft` is true
+    item.content;
+  } else {
+    expectType<string>(item.id);
+    expectType<"Title">(item.fields.title);
+
+    expectType<number>(item.content.number);
+  }
+}
+
+export async function updateItemByContentIdTest() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const item = await project.items.updateByContentId("issue node id", {
     status: "new status",
   });
 
