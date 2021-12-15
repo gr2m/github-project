@@ -545,12 +545,12 @@ test("project.items.add() adding existing item with fields after project.items.l
   assert.equal(queryCounter, 2);
 });
 
-test("project.items.get(contentId)", async () => {
+test("project.items.get(itemId)", async () => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
   );
-  const { issueItemFixture } = await import(
-    "./test/fixtures/get-item/issue-item.js"
+  const { draftItemFixture } = await import(
+    "./test/fixtures/get-item/draft-item.js"
   );
 
   const octokit = new Octokit();
@@ -576,9 +576,9 @@ test("project.items.get(contentId)", async () => {
     },
   });
 
-  const item = await project.items.get("I_kwDOGNkQys49IizC");
+  const item = await project.items.get("PNI_lADOBYMIeM0lfM4AAzDD");
 
-  assert.equal(item, issueItemFixture);
+  assert.equal(item, draftItemFixture);
 });
 
 test("project.items.get() not found", async () => {
@@ -614,12 +614,43 @@ test("project.items.get() not found", async () => {
   assert.equal(item, undefined);
 });
 
-test("project.items.get(itemId)", async () => {
+test("project.items.get(contentId)", async () => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
   );
-  const { draftItemFixture } = await import(
-    "./test/fixtures/get-item/draft-item.js"
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+    assert.equal(options.variables, {
+      org: "org",
+      number: 1,
+    });
+
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  const item = await project.items.get("I_kwDOGNkQys49IizC");
+  assert.equal(item, undefined);
+});
+
+test("project.items.getByContentId(contentId)", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+  const { issueItemFixture } = await import(
+    "./test/fixtures/get-item/issue-item.js"
   );
 
   const octokit = new Octokit();
@@ -645,9 +676,8 @@ test("project.items.get(itemId)", async () => {
     },
   });
 
-  const item = await project.items.get("PNI_lADOBYMIeM0lfM4AAzDD");
-
-  assert.equal(item, draftItemFixture);
+  const item = await project.items.getByContentId("I_kwDOGNkQys49IizC");
+  assert.equal(item, issueItemFixture);
 });
 
 test("project.items.update(id, fields) where id is issue node id", async () => {
