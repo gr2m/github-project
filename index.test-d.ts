@@ -266,6 +266,39 @@ export async function updateItemByContentIdTest() {
   }
 }
 
+export async function updateItemByContentRepositoryAndNumberTest() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const item = await project.items.updateByContentRepositoryAndNumber(
+    "repository-name",
+    1,
+    {
+      status: "new status",
+    }
+  );
+
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  if (item.isDraft === true) {
+    expectType<string>(item.id);
+    expectType<"Title">(item.fields.title);
+
+    // @ts-expect-error - `.content` is not set if `.isDraft` is true
+    item.content;
+  } else {
+    expectType<string>(item.id);
+    expectType<"Title">(item.fields.title);
+
+    expectType<number>(item.content.number);
+  }
+}
+
 export async function removeItemTest() {
   const project = new GitHubProject({
     org: "org",
