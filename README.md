@@ -4,6 +4,12 @@
 
 [![Test](https://github.com/gr2m/github-project/actions/workflows/test.yml/badge.svg)](https://github.com/gr2m/github-project/actions/workflows/test.yml)
 
+## Features
+
+- Use the new Projects as a database of issues and pull requests with custom fields.
+- Look up items by issue/pull request node IDs.
+- 100% test coverage and type definitions.
+
 ## Usage
 
 <table>
