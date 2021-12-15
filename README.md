@@ -631,6 +631,61 @@ Removes a single item based on the Node ID of its linked issue or pull request. 
   </tbody>
 </table>
 
+### `project.items.removeByContentRepositoryAndNumber()`
+
+```js
+await project.items.removeByContentRepositoryAndNumber(
+  repositoryName,
+  issueOrPullRequestNumber
+);
+```
+
+Removes a single item based on the Node ID of its linked issue or pull request. Resolves with `undefined`, no matter if item was found or not.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>repositoryName</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The repository name, without the `owner/`.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>issueOrPullRequestNumber</code>
+      </th>
+      <td>
+        <code>number</code>
+      </td>
+      <td>
+
+**Required**. The number of the issue or pull request.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
 ## License
 
 [ISC](LICENSE.md)
