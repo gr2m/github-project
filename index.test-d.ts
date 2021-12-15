@@ -178,6 +178,36 @@ export async function getItemByContentIdTest() {
   }
 }
 
+export async function getItemByRepositoryAndNumberTest() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const item = await project.items.getByContentRepositoryAndNumber(
+    "repository-name",
+    1
+  );
+
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  if (item.isDraft === true) {
+    expectType<string>(item.id);
+    expectType<"Title">(item.fields.title);
+
+    // @ts-expect-error - `.content` is not set if `.isDraft` is true
+    item.content;
+  } else {
+    expectType<string>(item.id);
+    expectType<"Title">(item.fields.title);
+
+    expectType<number>(item.content.number);
+  }
+}
+
 export async function updateItemTest() {
   const project = new GitHubProject({
     org: "org",
