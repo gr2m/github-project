@@ -321,6 +321,62 @@ Resolves with `undefined` if item cannot be found.
   </tbody>
 </table>
 
+### `project.items.getByContentRepositoryAndNumber()`
+
+```js
+const item = await project.items.getByContentRepositoryAndNumber(
+  repositoryName,
+  issueOrPullRequestNumber
+);
+```
+
+Retrieve a single item based on its issue or pull request node ID.
+Resolves with `undefined` if item cannot be found.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>repositoryName</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The repository name, without the `owner/`.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>issueOrPullRequestNumber</code>
+      </th>
+      <td>
+        <code>number</code>
+      </td>
+      <td>
+
+**Required**. The number of the issue or pull request.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
 ### `project.items.update()`
 
 ```js
@@ -427,6 +483,76 @@ Map of internal field names to their values.
   </tbody>
 </table>
 
+### `project.items.updateByContentRepositoryAndNumber()`
+
+```js
+const updatedItem = await project.items.updateByContentRepositoryAndNumber(
+  repositoryName,
+  issueOrPullRequestNumber
+  fields
+);
+```
+
+Update an exist item based on the node ID of its linked issue or pull request. To unset a field, set it to `null`.
+Returns undefined if item cannot be found.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>repositoryName</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The repository name, without the `owner/`.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>issueOrPullRequestNumber</code>
+      </th>
+      <td>
+        <code>number</code>
+      </td>
+      <td>
+
+**Required**. The number of the issue or pull request.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>fields</code>
+      </th>
+      <td>
+        <code>object</code>
+      </td>
+      <td>
+
+Map of internal field names to their values.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
 ### `project.items.remove()`
 
 ```js
@@ -499,6 +625,61 @@ Removes a single item based on the Node ID of its linked issue or pull request. 
       <td>
 
 **Required**. The graphql node ID of the issue/pull request the item is linked to.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
+### `project.items.removeByContentRepositoryAndNumber()`
+
+```js
+await project.items.removeByContentRepositoryAndNumber(
+  repositoryName,
+  issueOrPullRequestNumber
+);
+```
+
+Removes a single item based on the Node ID of its linked issue or pull request. Resolves with `undefined`, no matter if item was found or not.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>repositoryName</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The repository name, without the `owner/`.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>issueOrPullRequestNumber</code>
+      </th>
+      <td>
+        <code>number</code>
+      </td>
+      <td>
+
+**Required**. The number of the issue or pull request.
 
 </td>
     </tr>
