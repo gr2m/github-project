@@ -217,7 +217,7 @@ Adds a new item to the project, sets the fields if any were passed, and returns 
         <code>contentId</code>
       </th>
       <td>
-        <code>string<code>
+        <code>string</code>
       </td>
       <td>
 
@@ -230,7 +230,7 @@ Adds a new item to the project, sets the fields if any were passed, and returns 
         <code>fields</code>
       </th>
       <td>
-        <code>object<code>
+        <code>object</code>
       </td>
       <td>
 
@@ -363,7 +363,7 @@ Returns undefined if item cannot be found.
         <code>fields</code>
       </th>
       <td>
-        <code>object<code>
+        <code>object</code>
       </td>
       <td>
 
@@ -416,7 +416,7 @@ Returns undefined if item cannot be found.
         <code>fields</code>
       </th>
       <td>
-        <code>object<code>
+        <code>object</code>
       </td>
       <td>
 
