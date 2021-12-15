@@ -34,6 +34,7 @@ export default class GitHubProject<
       contentNodeId: string,
       fields: Partial<Record<keyof TFields, string>>
     ): Promise<GitHubProjectItem<TFields> | undefined>;
+    remove(contentNodeId: string): Promise<void>;
   };
 }
 

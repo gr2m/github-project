@@ -6,6 +6,7 @@ import listItems from "./api/items.list.js";
 import addItem from "./api/items.add.js";
 import getItem from "./api/items.get.js";
 import updateItem from "./api/items.update.js";
+import removeItem from "./api/items.remove.js";
 
 /** @type {import("./").BUILT_IN_FIELDS} */
 export const BUILT_IN_FIELDS = {
@@ -38,6 +39,7 @@ export default class GitHubProject {
       add: addItem.bind(null, this, state),
       get: getItem.bind(null, this, state),
       update: updateItem.bind(null, this, state),
+      remove: removeItem.bind(null, this, state),
     };
     Object.defineProperties(this, {
       org: { get: () => org },

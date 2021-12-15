@@ -30,19 +30,14 @@ export async function getStateWithProjectFields(project, state) {
 
   const { id, title, description, url } = projectNext;
 
-  /** @type {import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithItems} */
-  const newState = {
-    ...state,
+  // mutate current state and return it
+  // @ts-expect-error - TS can't handle Object.assign
+  return Object.assign(state, {
     didLoadFields: true,
     id,
     title,
     description,
     url,
     fields,
-  };
-
-  // mutate current state
-  Object.assign(state, newState);
-
-  return newState;
+  });
 }
