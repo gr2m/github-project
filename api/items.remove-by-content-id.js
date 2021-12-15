@@ -8,14 +8,15 @@ import { removeItemFromProjectMutation } from "./lib/queries.js";
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state
- * @param {string} itemNodeId
+ * @param {string} contentId
  * @returns {Promise<void>}
  */
-export default async function removeItem(project, state, itemNodeId) {
+export default async function removeItemByContentId(project, state, contentId) {
   const stateWithItems = await getStateWithProjectItems(project, state);
 
   const existingItem = stateWithItems.items.find(
-    (item) => item.id === itemNodeId
+    // @ts-expect-error - does not handle the conditional chaining operator
+    (item) => item.content?.id === contentId
   );
 
   if (!existingItem) return;
