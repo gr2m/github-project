@@ -45,6 +45,11 @@ export default class GitHubProject<
       contentNodeId: string,
       fields: Partial<Record<keyof TFields, string>>
     ): Promise<GitHubProjectItem<TFields> | undefined>;
+    updateByContentRepositoryAndNumber(
+      repositoryName: string,
+      issueOrPullRequestNumber: number,
+      fields: Partial<Record<keyof TFields, string>>
+    ): Promise<GitHubProjectItem<TFields> | undefined>;
     remove(itemNodeId: string): Promise<void>;
     removeByContentId(contentNodeId: string): Promise<void>;
   };
