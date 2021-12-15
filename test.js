@@ -1287,7 +1287,14 @@ test("project.items.remove(unknownId)", async () => {
       });
 
       return {
-        data: {},
+        headers: {},
+        data: {
+          errors: [
+            {
+              type: "NOT_FOUND",
+            },
+          ],
+        },
       };
     }
 
@@ -1309,6 +1316,120 @@ test("project.items.remove(unknownId)", async () => {
   });
 
   await project.items.remove("<unknown id>");
+});
+
+test("project.items.remove() with non-GraphQL error", async () => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+
+  const octokit = new Octokit();
+
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+    if (/mutation deleteProjectNextItem\(/.test(options.query)) {
+      throw new Error("oops");
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  try {
+    await project.items.remove("<unknown id>");
+    assert.not("Should have thrown");
+  } catch (error) {
+    assert.equal(error.message, "oops");
+  }
+});
+
+test("project.items.remove() with unforeseen GraphQL error", async () => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+
+  const octokit = new Octokit();
+
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+    if (/mutation deleteProjectNextItem\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        projectId: "PN_kwDOBYMIeM0lfA",
+        itemId: "<unknown id>",
+      });
+
+      return {
+        headers: {},
+        data: {
+          errors: [
+            {
+              type: "UNFORSEEN_ERROR",
+            },
+          ],
+        },
+      };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  try {
+    await project.items.remove("<unknown id>");
+    assert.not("Should have thrown");
+  } catch (error) {
+    assert.equal(error.name, "GraphqlResponseError");
+  }
 });
 
 test("project.items.list() then project.items.remove(itemId) clears cache", async () => {
@@ -1364,6 +1485,49 @@ test("project.items.list() then project.items.remove(itemId) clears cache", asyn
   await project.items.remove("PNI_lADOBYMIeM0lfM4ADfm9");
   const item = await project.items.get("PNI_lADOBYMIeM0lfM4ADfm9");
   assert.equal(item, undefined);
+});
+
+test("project.items.list() then project.items.remove() does not send mutation request", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+
+  const octokit = new Octokit();
+
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectItemsQueryResultFixture,
+      };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  await project.items.list();
+  await project.items.remove("<unknown id>");
 });
 
 test("project.items.removeByContentId(contentId)", async () => {
