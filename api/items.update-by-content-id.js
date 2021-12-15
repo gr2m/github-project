@@ -6,6 +6,7 @@ import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
 
 /**
  * Updates item fields if the item can be found.
+ * In order to find an item by content ID, all items need to be loaded first.
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state

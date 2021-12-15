@@ -55,7 +55,9 @@ const queryContentNode = `
     }
   }
 `;
-const queryItemFieldValues = `
+export const queryItemFieldNodes = `
+  id
+  ${queryContentNode}
   fieldValues(first: 20) {
     nodes {
       value
@@ -73,9 +75,7 @@ export const getProjectWithItemsQuery = `
         ${queryProjectNodes}
         items(first: 100) {
           nodes {
-            id
-            ${queryContentNode}
-            ${queryItemFieldValues}
+            ${queryItemFieldNodes}
           }
         }
       }
@@ -100,9 +100,7 @@ export const addIssueToProjectMutation = `
       contentId:$contentId
     }) {
       projectNextItem {
-        id
-        ${queryContentNode}
-        ${queryItemFieldValues}
+        ${queryItemFieldNodes}
       }
     }
   }

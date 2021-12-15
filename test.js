@@ -681,6 +681,134 @@ test("project.items.getByContentId(contentId)", async () => {
 });
 
 test("project.items.update(itemNodeId, fields)", async () => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+  const { issueItemFixture } = await import(
+    "./test/fixtures/get-item/issue-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        projectId: "PN_kwDOBYMIeM0lfA",
+        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
+      });
+      assert.match(
+        options.query,
+        /relevantToUsers: updateProjectNextItemField\(/
+      );
+
+      return {
+        data: {
+          data: {
+            relevantToUsers: {
+              projectNextItem: {
+                id: "PNI_lADOBYMIeM0lfM4ADfm9",
+                title: "Enforce setting project via github actions",
+                content: {
+                  __typename: "Issue",
+                  id: "I_kwDOGNkQys49IizC",
+                  number: 2,
+                  title: "Enforce setting project via github actions",
+                  createdAt: "2021-10-13T20:07:02Z",
+                  databaseId: 1025649858,
+                  assignees: {
+                    nodes: [],
+                  },
+                  labels: {
+                    nodes: [],
+                  },
+                  closed: false,
+                  closedAt: null,
+                  milestone: null,
+                  repository: {
+                    name: "example-product",
+                  },
+                },
+                fieldValues: {
+                  nodes: [
+                    {
+                      value: "Enforce setting project via github actions",
+                      projectField: {
+                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTI5NA==",
+                      },
+                    },
+                    {
+                      // Yes
+                      value: "c9823470",
+                      projectField: {
+                        // relevantToUsers
+                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyMw==",
+                      },
+                    },
+                    {
+                      value: "this and that",
+                      projectField: {
+                        // suggestedChangelog
+                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyNA==",
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+            suggestedChangelog: {},
+          },
+        },
+      };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  const updatedItem = await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
+    relevantToUsers: "Yes",
+    suggestedChangelog: "this and that",
+    // properties not set to a string or `null` are ignored
+    status: undefined,
+  });
+
+  assert.equal(updatedItem, {
+    ...issueItemFixture,
+    fields: {
+      ...issueItemFixture.fields,
+      relevantToUsers: "Yes",
+      suggestedChangelog: "this and that",
+    },
+  });
+});
+
+test("project.items.list() then project.items.update(itemNodeId, fields)", async () => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
   );
@@ -734,8 +862,10 @@ test("project.items.update(itemNodeId, fields)", async () => {
     },
   });
 
+  await project.items.list();
+
   const updatedItem = await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
-    relevantToUsers: "yes",
+    relevantToUsers: "Yes",
     suggestedChangelog: "this and that",
     // properties not set to a string or `null` are ignored
     status: undefined,
@@ -745,18 +875,15 @@ test("project.items.update(itemNodeId, fields)", async () => {
     ...issueItemFixture,
     fields: {
       ...issueItemFixture.fields,
-      relevantToUsers: "yes",
+      relevantToUsers: "Yes",
       suggestedChangelog: "this and that",
     },
   });
 });
 
 test("project.items.update(itemNodeId, fields) not found", async () => {
-  const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result.js"
-  );
-  const { issueItemFixture } = await import(
-    "./test/fixtures/get-item/issue-item.js"
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -764,28 +891,46 @@ test("project.items.update(itemNodeId, fields) not found", async () => {
     assert.equal(options.method, "POST");
     assert.equal(options.url, "/graphql");
 
-    if (/query getProjectWithItems\(/.test(options.query)) {
+    if (/query getProjectCoreData\(/.test(options.query)) {
       assert.equal(options.variables, {
         org: "org",
         number: 1,
       });
 
       return {
-        data: getProjectItemsQueryResultFixture,
+        data: getProjectFieldsQueryResultFixture,
       };
     }
 
     if (/mutation setItemProperties\(/.test(options.query)) {
       assert.equal(options.variables, {
         projectId: "PN_kwDOBYMIeM0lfA",
-        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
+        itemId: "<unknown id>",
       });
       assert.match(
         options.query,
         /relevantToUsers: updateProjectNextItemField\(/
       );
 
-      return { data: {} };
+      return {
+        headers: {},
+        data: {
+          errors: [
+            {
+              type: "NOT_FOUND",
+              path: ["relevantToUsers"],
+              locations: [
+                {
+                  line: 2,
+                  column: 3,
+                },
+              ],
+              message:
+                "Could not resolve to a node with the global id of '<unknown id>'",
+            },
+          ],
+        },
+      };
     }
 
     throw new Error(
@@ -812,9 +957,9 @@ test("project.items.update(itemNodeId, fields) not found", async () => {
   assert.equal(updatedItem, undefined);
 });
 
-test("project.items.update(contentNodeId, fields)", async () => {
-  const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result.js"
+test("project.items.update(itemNodeId, fields) unforeseen GraphQL error", async () => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -822,28 +967,37 @@ test("project.items.update(contentNodeId, fields)", async () => {
     assert.equal(options.method, "POST");
     assert.equal(options.url, "/graphql");
 
-    if (/query getProjectWithItems\(/.test(options.query)) {
+    if (/query getProjectCoreData\(/.test(options.query)) {
       assert.equal(options.variables, {
         org: "org",
         number: 1,
       });
 
       return {
-        data: getProjectItemsQueryResultFixture,
+        data: getProjectFieldsQueryResultFixture,
       };
     }
 
     if (/mutation setItemProperties\(/.test(options.query)) {
       assert.equal(options.variables, {
         projectId: "PN_kwDOBYMIeM0lfA",
-        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
+        itemId: "<unknown id>",
       });
       assert.match(
         options.query,
         /relevantToUsers: updateProjectNextItemField\(/
       );
 
-      return { data: {} };
+      return {
+        headers: {},
+        data: {
+          errors: [
+            {
+              type: "UNFORSEEN_ERROR",
+            },
+          ],
+        },
+      };
     }
 
     throw new Error(
@@ -863,12 +1017,66 @@ test("project.items.update(contentNodeId, fields)", async () => {
     },
   });
 
-  const updatedItem = await project.items.update("I_kwDOGNkQys49IizC", {
-    relevantToUsers: "yes",
-    suggestedChangelog: "this is what changed",
+  try {
+    await project.items.update("<unknown id>", {
+      relevantToUsers: "yes",
+    });
+    assert.not("Should have thrown");
+  } catch (error) {
+    assert.equal(error.name, "GraphqlResponseError");
+  }
+});
+
+test("project.items.update(itemNodeId, fields) with non GraphQL error", async () => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      throw new Error("oops");
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
   });
 
-  assert.equal(updatedItem, undefined);
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  try {
+    await project.items.update("<unknown id>", {
+      relevantToUsers: "yes",
+    });
+    assert.not("should have thrown");
+  } catch (error) {
+    assert.equal(error.message, "oops");
+  }
 });
 
 test("project.items.updateByContentId(contentNodeId, fields)", async () => {
