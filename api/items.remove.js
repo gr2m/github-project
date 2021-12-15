@@ -1,7 +1,7 @@
 // @ts-check
 
-import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
 import { removeItemFromProjectMutation } from "./lib/queries.js";
+import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
 
 /**
  * Removes an item if it exists. Resolves with `undefined` either way
@@ -12,21 +12,16 @@ import { removeItemFromProjectMutation } from "./lib/queries.js";
  * @returns {Promise<void>}
  */
 export async function removeItem(project, state, itemNodeId) {
-  const stateWithItems = await getStateWithProjectItems(project, state);
-
-  const existingItem = stateWithItems.items.find(
-    (item) => item.id === itemNodeId
-  );
-
-  if (!existingItem) return;
+  const stateWithFields = await getStateWithProjectFields(project, state);
 
   await project.octokit.graphql(removeItemFromProjectMutation, {
-    projectId: stateWithItems.id,
-    itemId: existingItem.id,
+    projectId: stateWithFields.id,
+    itemId: itemNodeId,
   });
 
   // update cache
-  stateWithItems.items = stateWithItems.items.filter(
-    (item) => item.id !== existingItem.id
-  );
+  if (state.didLoadItems) {
+    const existingItem = state.items.find((item) => item.id === itemNodeId);
+    state.items = state.items.filter((item) => item.id !== existingItem.id);
+  }
 }

@@ -5,6 +5,7 @@ import { removeItemFromProjectMutation } from "./lib/queries.js";
 
 /**
  * Removes an item if it exists. Resolves with `undefined` either way
+ * In order to find an item by content ID, all items need to be loaded first.
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state
