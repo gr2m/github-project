@@ -69,8 +69,8 @@ for (const item of items) {
 // You would usually retriev the issue node ID from an event payload, such as `event.issue.node_id`
 const newItem = await project.items.add(issue.node_id, { priority: 1 });
 
-// retrieve a single item using the issue node ID (item node ID works, too)
-const item = await project.items.get(issue.node_id);
+// retrieve a single item using the issue node ID (passing item node ID as string works, too)
+const item = await project.items.get({ contentId: issue.node_id });
 
 // item is undefined when not found
 if (item) {
@@ -183,12 +183,12 @@ Returns the first 100 items of the project.
 ### `project.items.add()`
 
 ```js
-const newItem = await project.items.add(issueNodeId /*, fields*/);
+const newItem = await project.items.add(contentId /*, fields*/);
 ```
 
 Adds a new item to the project, sets the fields if any were passed, and returns the new item. If the item already exists then it's a no-op, the existing item is still updated with the passed fields if any were passed.
 
-Note: GitHub has currently no API to add a draft issue to a project.
+**Note**: GitHub has currently no API to add a draft issue to a project.
 
 <table>
   <thead align=left>
@@ -207,7 +207,7 @@ Note: GitHub has currently no API to add a draft issue to a project.
   <tbody align=left valign=top>
     <tr>
       <th>
-        <code>issueNodeId</code>
+        <code>contentId</code>
       </th>
       <td>
         <code>string<code>
@@ -237,7 +237,7 @@ Map of internal field names to their values.
 ### `project.items.get()`
 
 ```js
-const item = await project.items.get(nodeId);
+const item = await project.items.get(itemNodeId);
 ```
 
 Retrieve a single item based on its issue or pull request node ID.
@@ -260,14 +260,54 @@ Resolves with `undefined` if item cannot be found.
   <tbody align=left valign=top>
     <tr>
       <th>
-        <code>nodeId</code>
+        <code>itemNodeId</code>
       </th>
       <td>
         <code>string</code>
       </td>
       <td>
 
-**Required**. The graphql node ID of the project item or issue/pull request.
+**Required**. The graphql node ID of the project item
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
+### `project.items.getByContentId()`
+
+```js
+const item = await project.items.getByContentId(contentId);
+```
+
+Retrieve a single item based on its issue or pull request node ID.
+Resolves with `undefined` if item cannot be found.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>contentId</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The graphql node ID of the issue/pull request the item is linked to.
 
 </td>
     </tr>
@@ -277,7 +317,7 @@ Resolves with `undefined` if item cannot be found.
 ### `project.items.update()`
 
 ```js
-const updatedItem = await project.items.update(nodeId, fields);
+const updatedItem = await project.items.update(itemNodeId, fields);
 ```
 
 Update an exist item. To unset a field, set it to `null`.
@@ -300,14 +340,67 @@ Returns undefined if item cannot be found.
   <tbody align=left valign=top>
     <tr>
       <th>
-        <code>nodeId</code>
+        <code>itemNodeId</code>
       </th>
       <td>
         <code>string</code>
       </td>
       <td>
 
-**Required**. The graphql node ID of the project item or issue/pull request.
+**Required**. The graphql node ID of the project item
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>fields</code>
+      </th>
+      <td>
+        <code>object<code>
+      </td>
+      <td>
+
+Map of internal field names to their values.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
+### `project.items.updateByContentId()`
+
+```js
+const updatedItem = await project.items.updateByContentId(contentId, fields);
+```
+
+Update an exist item based on the node ID of its linked issue or pull request. To unset a field, set it to `null`.
+Returns undefined if item cannot be found.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>contentId</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The graphql node ID of the issue/pull request the item is linked to.
 
 </td>
     </tr>
@@ -330,7 +423,7 @@ Map of internal field names to their values.
 ### `project.items.remove()`
 
 ```js
-await project.items.remove(nodeId);
+await project.items.remove(itemNodeId);
 ```
 
 Removes a single item. Resolves with `undefined`, no matter if item was found or not.
@@ -352,14 +445,53 @@ Removes a single item. Resolves with `undefined`, no matter if item was found or
   <tbody align=left valign=top>
     <tr>
       <th>
-        <code>nodeId</code>
+        <code>itemNodeId</code>
       </th>
       <td>
         <code>string</code>
       </td>
       <td>
 
-**Required**. The graphql node ID of the project item or issue/pull request.
+**Required**. The graphql node ID of the project item
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
+### `project.items.removeByContentId()`
+
+```js
+await project.items.removeByContentId(contentId);
+```
+
+Removes a single item based on the Node ID of its linked issue or pull request. Resolves with `undefined`, no matter if item was found or not.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>contentId</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The graphql node ID of the issue/pull request the item is linked to.
 
 </td>
     </tr>
