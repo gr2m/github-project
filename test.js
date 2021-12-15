@@ -476,6 +476,46 @@ test("project.items.add() adding existing item after project.items.list() does n
   assert.equal(queryCounter, 1);
 });
 
+test("project.items.add() adding existing item with fields after project.items.list() does not send query to add item again", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+
+  const octokit = new Octokit();
+  let queryCounter = 0;
+  octokit.hook.wrap("request", async (request, options) => {
+    queryCounter++;
+
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      return {
+        data: getProjectItemsQueryResultFixture,
+      };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      return { data: {} };
+    }
+
+    throw new Error(`Unexpected query: ${options.query}`);
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  await project.items.list();
+  const projectItem = await project.items.add("PR_kwDOGNkQys4tKgLV", {
+    status: "Done",
+  });
+  assert.equal(projectItem.fields.status, "Done");
+  assert.equal(queryCounter, 2);
+});
+
 test("project.items.get(contentId)", async () => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
