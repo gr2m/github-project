@@ -59,7 +59,9 @@ for (const item of items) {
     item.fields.title,
     item.fields.dueAt,
     item.fields.priority,
-    item.content?.assignees.map(({ login }) => login).join(",") || "_draft_"
+    item.isDraft
+      ? "_draft_"
+      : item.content.assignees.map(({ login }) => login).join(",")
   );
 }
 
