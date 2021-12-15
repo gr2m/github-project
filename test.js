@@ -680,7 +680,7 @@ test("project.items.getByContentId(contentId)", async () => {
   assert.equal(item, issueItemFixture);
 });
 
-test("project.items.getByRepositoryAndNumber(repositoryName, issueOrPullRequestNumber)", async () => {
+test("project.items.getByContentRepositoryAndNumber(repositoryName, issueOrPullRequestNumber)", async () => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
   );
@@ -711,7 +711,7 @@ test("project.items.getByRepositoryAndNumber(repositoryName, issueOrPullRequestN
     },
   });
 
-  const item = await project.items.getByRepositoryAndNumber(
+  const item = await project.items.getByContentRepositoryAndNumber(
     "example-product",
     2
   );
