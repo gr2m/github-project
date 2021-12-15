@@ -11,7 +11,7 @@ import { removeItemFromProjectMutation } from "./lib/queries.js";
  * @param {string} contentId
  * @returns {Promise<void>}
  */
-export default async function removeItemByContentId(project, state, contentId) {
+export async function removeItemByContentId(project, state, contentId) {
   const stateWithItems = await getStateWithProjectItems(project, state);
 
   const existingItem = stateWithItems.items.find(

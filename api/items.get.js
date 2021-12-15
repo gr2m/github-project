@@ -11,7 +11,7 @@ import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js"
  * @param {string} itemId
  * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
-export default async function getItem(project, state, itemId) {
+export async function getItem(project, state, itemId) {
   const stateWithItems = await getStateWithProjectItems(project, state);
   return stateWithItems.items.find((item) => item.id === itemId);
 }

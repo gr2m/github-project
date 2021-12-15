@@ -11,7 +11,7 @@ import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js"
  * @param {string} contentId
  * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
-export default async function getItemByContentId(project, state, contentId) {
+export async function getItemByContentId(project, state, contentId) {
   const stateWithItems = await getStateWithProjectItems(project, state);
 
   // @ts-expect-error - does not handle the conditional chaining operator

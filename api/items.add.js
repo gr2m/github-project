@@ -15,7 +15,7 @@ import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
  * @param {Record<string, string>} fields
  * @returns {Promise<import("..").GitHubProjectItem>}
  */
-export default async function addItem(project, state, contentNodeId, fields) {
+export async function addItem(project, state, contentNodeId, fields) {
   let newOrExistingItem;
   if (state.didLoadItems) {
     const existingItem = state.items.find(

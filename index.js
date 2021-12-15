@@ -2,14 +2,14 @@
 
 import { Octokit } from "@octokit/core";
 
-import listItems from "./api/items.list.js";
-import addItem from "./api/items.add.js";
-import getItem from "./api/items.get.js";
-import getItemByContentId from "./api/items.get-by-content-id.js";
-import updateItem from "./api/items.update.js";
-import updateItemByContentId from "./api/items.update-by-content-id.js";
-import removeItem from "./api/items.remove.js";
-import removeItemByContentId from "./api/items.remove-by-content-id.js";
+import { listItems } from "./api/items.list.js";
+import { addItem } from "./api/items.add.js";
+import { getItem } from "./api/items.get.js";
+import { getItemByContentId } from "./api/items.get-by-content-id.js";
+import { updateItem } from "./api/items.update.js";
+import { updateItemByContentId } from "./api/items.update-by-content-id.js";
+import { removeItem } from "./api/items.remove.js";
+import { removeItemByContentId } from "./api/items.remove-by-content-id.js";
 
 /** @type {import("./").BUILT_IN_FIELDS} */
 export const BUILT_IN_FIELDS = {

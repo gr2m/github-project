@@ -13,7 +13,7 @@ import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
  * @param {Record<string, string>} fields
  * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
-export default async function updateItem(
+export async function updateItemByContentId(
   project,
   state,
   contentNodeId,

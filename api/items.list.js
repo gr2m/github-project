@@ -9,7 +9,7 @@ import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js"
  * @param {import("..").GitHubProjectState} state
  * @returns {Promise<import("..").GitHubProjectItem[]>}
  */
-export default async function listItems(project, state) {
+export async function listItems(project, state) {
   const stateWithItems = await getStateWithProjectItems(project, state);
   return stateWithItems.items;
 }
