@@ -34,6 +34,10 @@ export default class GitHubProject<
       contentNodeId: string
     ): Promise<GitHubProjectItem<TFields> | undefined>;
     update(
+      itemNodeId: string,
+      fields: Partial<Record<keyof TFields, string>>
+    ): Promise<GitHubProjectItem<TFields> | undefined>;
+    updateByContentId(
       contentNodeId: string,
       fields: Partial<Record<keyof TFields, string>>
     ): Promise<GitHubProjectItem<TFields> | undefined>;

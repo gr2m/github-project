@@ -9,14 +9,22 @@ import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state
- * @param {string} itemNodeId
+ * @param {string} contentNodeId
  * @param {Record<string, string>} fields
  * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
-export default async function updateItem(project, state, itemNodeId, fields) {
+export default async function updateItem(
+  project,
+  state,
+  contentNodeId,
+  fields
+) {
   const stateWithItems = await getStateWithProjectItems(project, state);
 
-  const item = stateWithItems.items.find((item) => item.id === itemNodeId);
+  const item = stateWithItems.items.find(
+    // @ts-expect-error - does not handle the conditional chaining operator
+    (item) => item.content?.id === contentNodeId
+  );
 
   if (!item) return;
 

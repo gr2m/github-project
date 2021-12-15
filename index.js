@@ -7,6 +7,7 @@ import addItem from "./api/items.add.js";
 import getItem from "./api/items.get.js";
 import getItemByContentId from "./api/items.get-by-content-id.js";
 import updateItem from "./api/items.update.js";
+import updateItemByContentId from "./api/items.update-by-content-id.js";
 import removeItem from "./api/items.remove.js";
 
 /** @type {import("./").BUILT_IN_FIELDS} */
@@ -41,6 +42,7 @@ export default class GitHubProject {
       get: getItem.bind(null, this, state),
       getByContentId: getItemByContentId.bind(null, this, state),
       update: updateItem.bind(null, this, state),
+      updateByContentId: updateItemByContentId.bind(null, this, state),
       remove: removeItem.bind(null, this, state),
     };
     Object.defineProperties(this, {
