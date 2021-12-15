@@ -321,10 +321,10 @@ Resolves with `undefined` if item cannot be found.
   </tbody>
 </table>
 
-### `project.items.getByRepositoryAndNumber()`
+### `project.items.getByContentRepositoryAndNumber()`
 
 ```js
-const item = await project.items.getByRepositoryAndNumber(
+const item = await project.items.getByContentRepositoryAndNumber(
   repositoryName,
   issueOrPullRequestNumber
 );
