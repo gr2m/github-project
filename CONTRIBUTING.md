@@ -22,6 +22,12 @@ Node.js 16 or higher is required. Install it from https://nodejs.org/en/. [GitHu
    npm test
    ```
 
+Few notes
+
+- `npm test` runs all kind of tests. You can run the code tests in isolation with `npm run test:code`. Use `npm run` to see all available scripts.
+- If coverage drops, run `npm run coverage` to open a coverage report in your browser.
+- Make sure that update types in `index.d.ts` that reflect any features / fixes you might have implemented.
+
 ## Issues before pull requests
 
 Unless the change is trivial such as a type, please [open an issue first](https://github.com/gr2m/github-project/issues/new) before starting a pull request for a bug fix or a new feature.
