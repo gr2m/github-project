@@ -7,6 +7,7 @@
 ## Features
 
 - Use the new Projects as a database of issues and pull requests with custom fields.
+- Simple interaction with item fields and content (issue/pull request) properties.
 - Look up items by issue/pull request node IDs.
 - 100% test coverage and type definitions.
 
