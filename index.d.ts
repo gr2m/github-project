@@ -65,20 +65,20 @@ type NonDraftItem<TFields> = {
   id: string;
   fields: TFields;
   isDraft: false;
-  issueOrPullRequest: Issue | PullRequest;
+  content: Issue | PullRequest;
 };
 
-type Issue = IssueOrPullRequestCommon & {
+type Issue = contentCommon & {
   isIssue: true;
   isPullRequest: false;
 };
-type PullRequest = IssueOrPullRequestCommon & {
+type PullRequest = contentCommon & {
   isIssue: false;
   isPullRequest: true;
   merged: boolean;
 };
 
-type IssueOrPullRequestCommon = {
+type contentCommon = {
   id: string;
   number: number;
   createdAt: string;

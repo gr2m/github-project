@@ -20,7 +20,7 @@ export default async function addItem(project, state, contentNodeId, fields) {
   if (state.didLoadItems) {
     const existingItem = state.items.find(
       // @ts-expect-error - does not handle the conditional chaining operator
-      (item) => item.issueOrPullRequest?.id === contentNodeId
+      (item) => item.content?.id === contentNodeId
     );
 
     if (existingItem && !fields) existingItem;

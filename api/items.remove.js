@@ -16,7 +16,7 @@ export default async function removeItem(project, state, nodeId) {
 
   const existingItem = stateWithItems.items.find(
     // @ts-expect-error - does not handle the conditional chaining operator
-    (item) => item.id === nodeId || item.issueOrPullRequest?.id === nodeId
+    (item) => item.id === nodeId || item.content?.id === nodeId
   );
 
   if (!existingItem) return;

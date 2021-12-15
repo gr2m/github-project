@@ -34,7 +34,7 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
     repository: itemNode.content.repository.name,
     milestone: itemNode.content.milestone,
   };
-  const issueOrPullRequest =
+  const content =
     itemNode.content.__typename === "Issue"
       ? {
           isIssue: true,
@@ -53,6 +53,6 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
     fields,
     isDraft: false,
     // @ts-expect-error - complains about `.merged` property
-    issueOrPullRequest,
+    content,
   };
 }

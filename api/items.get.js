@@ -16,7 +16,7 @@ export default async function getItem(project, state, nodeId) {
 
   for (const item of stateWithItems.items) {
     // @ts-expect-error - does not handle the conditional chaining operator
-    if (item.id === nodeId || item.issueOrPullRequest?.id === nodeId) {
+    if (item.id === nodeId || item.content?.id === nodeId) {
       return item;
     }
   }

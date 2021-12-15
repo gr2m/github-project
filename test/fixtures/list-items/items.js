@@ -18,7 +18,7 @@ export const listItemsFixture = [
       suggestedChangelog: null,
     },
     isDraft: false,
-    issueOrPullRequest: {
+    content: {
       isIssue: false,
       isPullRequest: true,
       id: "PR_kwDOGNkQys4tKgLV",
@@ -42,7 +42,7 @@ export const listItemsFixture = [
       suggestedChangelog: null,
     },
     isDraft: false,
-    issueOrPullRequest: {
+    content: {
       isIssue: true,
       isPullRequest: false,
       id: "I_kwDOGNkQys49IizC",

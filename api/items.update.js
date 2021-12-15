@@ -18,7 +18,7 @@ export default async function updateItem(project, state, nodeId, fields) {
 
   const item = stateWithItems.items.find(
     // @ts-expect-error - does not handle the conditional chaining operator
-    (item) => item.id === nodeId || item.issueOrPullRequest?.id === nodeId
+    (item) => item.id === nodeId || item.content?.id === nodeId
   );
 
   if (!item) return;

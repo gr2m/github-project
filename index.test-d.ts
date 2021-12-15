@@ -79,13 +79,13 @@ export async function listItemsTest() {
     expectType<string>(item.id);
     expectType<"Title">(item.fields.title);
 
-    // @ts-expect-error - `.issueOrPullRequest` is not set if `.isDraft` is true
-    item.issueOrPullRequest;
+    // @ts-expect-error - `.content` is not set if `.isDraft` is true
+    item.content;
   } else {
     expectType<string>(item.id);
     expectType<"Title">(item.fields.title);
 
-    expectType<number>(item.issueOrPullRequest.number);
+    expectType<number>(item.content.number);
   }
 }
 
@@ -101,7 +101,7 @@ export async function addItemTest() {
   expectType<false>(item.isDraft);
   expectType<"Title">(item.fields.title);
 
-  expectType<number>(item.issueOrPullRequest.number);
+  expectType<number>(item.content.number);
 }
 
 export async function addItemWithFieldsTest() {
@@ -121,7 +121,7 @@ export async function addItemWithFieldsTest() {
   expectType<false>(item.isDraft);
   expectType<"Title">(item.fields.title);
 
-  expectType<number>(item.issueOrPullRequest.number);
+  expectType<number>(item.content.number);
 }
 
 export async function getItemTest() {
@@ -141,13 +141,13 @@ export async function getItemTest() {
     expectType<string>(item.id);
     expectType<"Title">(item.fields.title);
 
-    // @ts-expect-error - `.issueOrPullRequest` is not set if `.isDraft` is true
-    item.issueOrPullRequest;
+    // @ts-expect-error - `.content` is not set if `.isDraft` is true
+    item.content;
   } else {
     expectType<string>(item.id);
     expectType<"Title">(item.fields.title);
 
-    expectType<number>(item.issueOrPullRequest.number);
+    expectType<number>(item.content.number);
   }
 }
 
@@ -170,13 +170,13 @@ export async function updateItemTest() {
     expectType<string>(item.id);
     expectType<"Title">(item.fields.title);
 
-    // @ts-expect-error - `.issueOrPullRequest` is not set if `.isDraft` is true
-    item.issueOrPullRequest;
+    // @ts-expect-error - `.content` is not set if `.isDraft` is true
+    item.content;
   } else {
     expectType<string>(item.id);
     expectType<"Title">(item.fields.title);
 
-    expectType<number>(item.issueOrPullRequest.number);
+    expectType<number>(item.content.number);
   }
 }
 
