@@ -110,7 +110,7 @@ export const addIssueToProjectMutation = `
 
 export const removeItemFromProjectMutation = `
   mutation deleteProjectNextItem($projectId:ID!,$itemId:ID!) {
-    addProjectNextItem(input:{
+    deleteProjectNextItem(input:{
       projectId:$projectId,
       itemId:$itemId
     }) {
