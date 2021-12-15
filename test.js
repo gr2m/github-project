@@ -680,6 +680,44 @@ test("project.items.getByContentId(contentId)", async () => {
   assert.equal(item, issueItemFixture);
 });
 
+test("project.items.getByRepositoryAndNumber(repositoryName, issueOrPullRequestNumber)", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+  const { issueItemFixture } = await import(
+    "./test/fixtures/get-item/issue-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+    assert.equal(options.variables, {
+      org: "org",
+      number: 1,
+    });
+
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  const item = await project.items.getByRepositoryAndNumber(
+    "example-product",
+    2
+  );
+  assert.equal(item, issueItemFixture);
+});
+
 test("project.items.update(itemNodeId, fields)", async () => {
   const { getProjectFieldsQueryResultFixture } = await import(
     "./test/fixtures/get-project-fields/query-result.js"
