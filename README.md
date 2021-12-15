@@ -53,7 +53,7 @@ const project = new GitHubProject({
 const items = await project.items.list();
 for (const item of items) {
   // every item has a `.fields` property for the custome fields
-  // and an `.issueOrPullRequest` property which is unless the item is a draft
+  // and an `.issueOrPullRequest` property which is set unless the item is a draft
   console.log(
     "%s is due on %s (Priority: %d, Assignees: %j)",
     item.fields.title,
