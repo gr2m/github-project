@@ -320,3 +320,17 @@ export async function removeItemByContentIdTest() {
 
   expectType<void>(result);
 }
+
+export async function removeItemByContentRepositoryAndNameTest() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const result = await project.items.removeByContentRepositoryAndNumber(
+    "repository-name",
+    1
+  );
+
+  expectType<void>(result);
+}

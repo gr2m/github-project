@@ -1743,7 +1743,7 @@ test("project.items.removeByContentId(contentId)", async () => {
   assert.equal(item, undefined);
 });
 
-test("project.items.removeByContentId(unknownId)", async () => {
+test("project.items.removeByContentId(unknownId) not found", async () => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
   );
@@ -1793,6 +1793,113 @@ test("project.items.removeByContentId(unknownId)", async () => {
   });
 
   await project.items.removeByContentId("<unknown id>");
+});
+
+test("project.items.removeByContentRepositoryAndNumber(contentId)", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+
+  const octokit = new Octokit();
+
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectItemsQueryResultFixture,
+      };
+    }
+    if (/mutation deleteProjectNextItem\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        projectId: "PN_kwDOBYMIeM0lfA",
+        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
+      });
+
+      return {
+        data: {},
+      };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  await project.items.removeByContentRepositoryAndNumber("example-product", 2);
+
+  const item = await project.items.getByContentId("I_kwDOGNkQys49IizC");
+  assert.equal(item, undefined);
+});
+
+test("project.items.removeByContentRepositoryAndNumber(unknownId) not found", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+
+  const octokit = new Octokit();
+
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectItemsQueryResultFixture,
+      };
+    }
+    if (/mutation deleteProjectNextItem\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        projectId: "PN_kwDOBYMIeM0lfA",
+        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
+      });
+
+      return {
+        data: {},
+      };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  await project.items.removeByContentRepositoryAndNumber("repository-name", -1);
 });
 
 test.run();
