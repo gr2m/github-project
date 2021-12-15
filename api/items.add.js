@@ -4,6 +4,7 @@ import { addIssueToProjectMutation } from "./lib/queries.js";
 import { projectItemNodeToGitHubProjectItem } from "./lib/project-item-node-to-github-project-item.js";
 import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
 import { getFieldsUpdateQuery } from "./lib/get-fields-update-query.js";
+import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
 
 /**
  * Adds new item to project. Loads project fields and caches them unless already loaded.
@@ -59,7 +60,7 @@ export default async function addItem(project, state, contentNodeId, fields) {
     ...newOrExistingItem,
     fields: {
       ...newOrExistingItem.fields,
-      ...fields,
+      ...removeUndefinedValues(fields),
     },
   };
 }

@@ -2,8 +2,8 @@ export const newIssueItemFixture = {
   id: "PNI_lADOBYMIeM0lfM4ADfm9",
   fields: {
     title: "Enforce setting project via github actions",
-    status: undefined,
-    relevantToUsers: undefined,
+    status: null,
+    relevantToUsers: null,
     suggestedChangelog: null,
   },
   isDraft: false,

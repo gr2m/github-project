@@ -12,7 +12,7 @@ export function itemFieldsNodesToFieldsMap(state, nodes) {
 
       const value =
         "optionsById" in projectField
-          ? projectField.optionsById[rawValue]
+          ? projectField.optionsById[rawValue] || null
           : rawValue;
 
       return {

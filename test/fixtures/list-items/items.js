@@ -3,7 +3,7 @@ export const listItemsFixture = [
     id: "PNI_lADOBYMIeM0lfM4AAzDD",
     fields: {
       title: "Manual entry",
-      status: undefined,
+      status: null,
       relevantToUsers: "Yes",
       suggestedChangelog: null,
     },
@@ -14,7 +14,7 @@ export const listItemsFixture = [
     fields: {
       title: "Update README.md",
       status: "In Progress",
-      relevantToUsers: undefined,
+      relevantToUsers: null,
       suggestedChangelog: null,
     },
     isDraft: false,
@@ -37,8 +37,8 @@ export const listItemsFixture = [
     id: "PNI_lADOBYMIeM0lfM4ADfm9",
     fields: {
       title: "Enforce setting project via github actions",
-      status: undefined,
-      relevantToUsers: undefined,
+      status: null,
+      relevantToUsers: null,
       suggestedChangelog: null,
     },
     isDraft: false,

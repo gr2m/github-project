@@ -2,6 +2,7 @@
 
 import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
 import { getFieldsUpdateQuery } from "./lib/get-fields-update-query.js";
+import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
 
 /**
  * Updates item fields if the item can be found.
@@ -31,7 +32,7 @@ export default async function updateItem(project, state, nodeId, fields) {
   // mutate item in cache
   item.fields = {
     ...item.fields,
-    ...fields,
+    ...removeUndefinedValues(fields),
   };
 
   return item;

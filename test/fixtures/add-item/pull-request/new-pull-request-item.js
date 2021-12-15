@@ -3,7 +3,7 @@ export const newPullRequestItemFixture = {
   fields: {
     title: "Update README.md",
     status: "In Progress",
-    relevantToUsers: undefined,
+    relevantToUsers: null,
     suggestedChangelog: null,
   },
   isDraft: false,
