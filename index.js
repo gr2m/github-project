@@ -12,6 +12,7 @@ import { updateItemByContentId } from "./api/items.update-by-content-id.js";
 import { updateItemByContentRepositoryAndNumber } from "./api/items.update-by-content-repository-and-number.js";
 import { removeItem } from "./api/items.remove.js";
 import { removeItemByContentId } from "./api/items.remove-by-content-id.js";
+import { removeItemByContentRepositoryAndNumber } from "./api/items.remove-by-content-repository-and-name.js";
 
 /** @type {import("./").BUILT_IN_FIELDS} */
 export const BUILT_IN_FIELDS = {
@@ -55,6 +56,8 @@ export default class GitHubProject {
         updateItemByContentRepositoryAndNumber.bind(null, this, state),
       remove: removeItem.bind(null, this, state),
       removeByContentId: removeItemByContentId.bind(null, this, state),
+      removeByContentRepositoryAndNumber:
+        removeItemByContentRepositoryAndNumber.bind(null, this, state),
     };
     Object.defineProperties(this, {
       org: { get: () => org },

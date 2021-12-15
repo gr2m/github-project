@@ -52,6 +52,10 @@ export default class GitHubProject<
     ): Promise<GitHubProjectItem<TFields> | undefined>;
     remove(itemNodeId: string): Promise<void>;
     removeByContentId(contentNodeId: string): Promise<void>;
+    removeByContentRepositoryAndNumber(
+      repositoryName: string,
+      issueOrPullRequestNumber: number
+    ): Promise<void>;
   };
 }
 
