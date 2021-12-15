@@ -179,3 +179,14 @@ export async function updateItemTest() {
     expectType<number>(item.issueOrPullRequest.number);
   }
 }
+
+export async function removeItemTest() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const result = await project.items.remove("issue node_id");
+
+  expectType<void>(result);
+}
