@@ -7,9 +7,10 @@
 const READ_ONLY_FIELDS = [
   "Assignees",
   "Labels",
-  "Repository",
-  "Milestone",
   "Linked Pull Requests",
+  "Milestone",
+  "Repository",
+  "Reviewers",
 ];
 
 /**
