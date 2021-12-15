@@ -29,7 +29,10 @@ export default class GitHubProject<
       contentNodeId: string,
       fields?: Partial<Record<keyof TFields, string>>
     ): Promise<NonDraftItem<TFields>>;
-    get(contentNodeId: string): Promise<GitHubProjectItem<TFields> | undefined>;
+    get(itemNodeId: string): Promise<GitHubProjectItem<TFields> | undefined>;
+    getByContentId(
+      contentNodeId: string
+    ): Promise<GitHubProjectItem<TFields> | undefined>;
     update(
       contentNodeId: string,
       fields: Partial<Record<keyof TFields, string>>
