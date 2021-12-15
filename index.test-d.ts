@@ -242,7 +242,18 @@ export async function removeItemTest() {
     number: 1,
     token: "gpg_secret123",
   });
-  const result = await project.items.remove("issue node_id");
+  const result = await project.items.remove("item node id");
+
+  expectType<void>(result);
+}
+
+export async function removeItemByContentIdTest() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const result = await project.items.removeByContentId("content node id");
 
   expectType<void>(result);
 }
