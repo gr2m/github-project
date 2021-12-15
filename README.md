@@ -321,6 +321,62 @@ Resolves with `undefined` if item cannot be found.
   </tbody>
 </table>
 
+### `project.items.getByRepositoryAndNumber()`
+
+```js
+const item = await project.items.getByRepositoryAndNumber(
+  repositoryName,
+  issueOrPullRequestNumber
+);
+```
+
+Retrieve a single item based on its issue or pull request node ID.
+Resolves with `undefined` if item cannot be found.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>repositoryName</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The repository name, without the `owner/`.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>issueOrPullRequestNumber</code>
+      </th>
+      <td>
+        <code>number</code>
+      </td>
+      <td>
+
+**Required**. The number of the issue or pull request.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
 ### `project.items.update()`
 
 ```js
