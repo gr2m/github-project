@@ -31,7 +31,7 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
     closedAt: itemNode.content.closedAt,
     assignees: itemNode.content.assignees.nodes.map((node) => node.login),
     labels: itemNode.content.labels.nodes.map((node) => node.name),
-    repository: itemNode.content.repository.nameWithOwner,
+    repository: itemNode.content.repository.name,
     milestone: itemNode.content.milestone,
   };
   const issueOrPullRequest =

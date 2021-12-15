@@ -100,8 +100,7 @@ export const getProjectItemsQueryResultFixture = {
                 closedAt: null,
                 milestone: null,
                 repository: {
-                  nameWithOwner:
-                    "gr2m-issues-automation-sandbox/example-product",
+                  name: "example-product",
                 },
                 merged: false,
               },
@@ -142,8 +141,7 @@ export const getProjectItemsQueryResultFixture = {
                 closedAt: null,
                 milestone: null,
                 repository: {
-                  nameWithOwner:
-                    "gr2m-issues-automation-sandbox/example-product",
+                  name: "example-product",
                 },
               },
               fieldValues: {

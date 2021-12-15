@@ -17,7 +17,7 @@ export const issueItemFixture = {
     closedAt: null,
     assignees: [],
     labels: [],
-    repository: "gr2m-issues-automation-sandbox/example-product",
+    repository: "example-product",
     milestone: null,
   },
 };
