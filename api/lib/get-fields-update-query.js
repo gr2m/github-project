@@ -22,7 +22,11 @@ export function getFieldsUpdateQuery(state, fields) {
       if (value === undefined) return;
       const field = state.fields[key];
       const valueOrOption =
-        "optionsByValue" in field ? field.optionsByValue[value] : value;
+        value === null
+          ? ""
+          : "optionsByValue" in field
+          ? field.optionsByValue[value]
+          : value;
 
       const queryNodes =
         mustLoadItemProperties && index === 0
