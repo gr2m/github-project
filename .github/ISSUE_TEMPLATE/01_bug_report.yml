@@ -16,8 +16,6 @@ body:
       label: Reproducible test case
       description: |
         If possible, please create a minimal test case that reproduces your problem. For TypeScript-only problems, you can create TypeScript playground ([example](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAbzgeQMYwga2PAvnAMyghDgCIABCdLHAelWgFMyAoAgVwDt1gIu4wAM4BlGFGBcA5gAoA7gAsAhjABccIeMlSAlIlytWjLprjUM2eAF44XJnJQ1LMnYeOmkAExVK4+G0pySjhmTjgAdFBMAI4cTJoyZADiAKIAKnB0ZK6sdHRwFDBCALRMAB5gTOilUMRQcABWHKa+nkwgEKzCYhLSMt4wSuGeEPEA+lwQMGPlwjA6QA)). For code-related issues, please create a RunKit Notebook ([example](https://runkit.com/gr2m/octokit-auth-oauth-app-js-178/1.0.0)).
-    validations:
-      required: true
   - type: checkboxes
     id: environment
     attributes:
