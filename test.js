@@ -718,6 +718,72 @@ test("project.items.getByContentRepositoryAndNumber(repositoryName, issueOrPullR
   assert.equal(item, issueItemFixture);
 });
 
+test("project.items.update(itemNodeId, fields) unsetting a field (#10)", async () => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        projectId: "PN_kwDOBYMIeM0lfA",
+        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
+      });
+      assert.match(
+        options.query,
+        /fieldId: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyMw==", value: ""/
+      );
+
+      return {
+        data: {
+          data: {
+            relevantToUsers: {
+              projectNextItem: {
+                fieldValues: {
+                  nodes: [],
+                },
+              },
+            },
+            suggestedChangelog: {},
+          },
+        },
+      };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+    },
+  });
+
+  await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
+    relevantToUsers: null,
+  });
+});
+
 test("project.items.update(itemNodeId, fields)", async () => {
   const { getProjectFieldsQueryResultFixture } = await import(
     "./test/fixtures/get-project-fields/query-result.js"
