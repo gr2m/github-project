@@ -110,7 +110,7 @@ test("project.items.list()", async () => {
   assert.equal(items, listItemsFixture);
 });
 
-test("project.items.list() with unknown column", async () => {
+test("project.items.list() without configuring custom fields", async () => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
   );
@@ -131,12 +131,56 @@ test("project.items.list() with unknown column", async () => {
     fields: {},
   });
 
-  try {
-    await project.items.list();
-    assert.fail("should throw");
-  } catch (error) {
-    assert.equal(error.message, "Unknown column name: Relevant to users?");
-  }
+  const result = await project.items.list();
+
+  // does not return custom fields
+  assert.equal(result, [
+    {
+      id: "PNI_lADOBYMIeM0lfM4AAzDD",
+      fields: { title: "Manual entry", status: null },
+      isDraft: true,
+    },
+    {
+      id: "PNI_lADOBYMIeM0lfM4AAzDx",
+      fields: { title: "Update README.md", status: "In Progress" },
+      isDraft: false,
+      content: {
+        isIssue: false,
+        isPullRequest: true,
+        id: "PR_kwDOGNkQys4tKgLV",
+        number: 1,
+        createdAt: "2021-10-13T19:58:16Z",
+        closed: false,
+        closedAt: null,
+        assignees: [],
+        labels: [],
+        repository: "example-product",
+        milestone: null,
+        merged: false,
+      },
+    },
+    {
+      id: "PNI_lADOBYMIeM0lfM4ADfm9",
+      fields: {
+        title: "Enforce setting project via github actions",
+        status: null,
+      },
+      isDraft: false,
+      content: {
+        isIssue: true,
+        isPullRequest: false,
+        id: "I_kwDOGNkQys49IizC",
+        number: 2,
+        createdAt: "2021-10-13T20:07:02Z",
+        closed: false,
+        closedAt: null,
+        assignees: [],
+        labels: [],
+        repository: "example-product",
+        milestone: null,
+      },
+    },
+  ]);
 });
 
 test("project.items.list() multiple calls only send query once", async () => {
@@ -328,7 +372,7 @@ test("project.items.add() pull request", async () => {
   assert.equal(newItem, newPullRequestItemFixture);
 });
 
-test("project.items.add() with unknown column", async () => {
+test("project.items.add() without configuring custom fields", async () => {
   const { getProjectFieldsQueryResultFixture } = await import(
     "./test/fixtures/get-project-fields/query-result.js"
   );
@@ -366,12 +410,30 @@ test("project.items.add() with unknown column", async () => {
     fields: {},
   });
 
-  try {
-    await project.items.add("issue node_id");
-    assert.fail("should throw");
-  } catch (error) {
-    assert.equal(error.message, "Unknown column name: Relevant to users?");
-  }
+  const item = await project.items.add("issue node_id");
+
+  // does not include custom fields
+  assert.equal(item, {
+    id: "PNI_lADOBYMIeM0lfM4ADfm9",
+    fields: {
+      title: "Enforce setting project via github actions",
+      status: null,
+    },
+    isDraft: false,
+    content: {
+      isIssue: true,
+      isPullRequest: false,
+      id: "I_kwDOGNkQys49IizC",
+      number: 2,
+      createdAt: "2021-10-13T20:07:02Z",
+      closed: false,
+      closedAt: null,
+      assignees: [],
+      labels: [],
+      repository: "example-product",
+      milestone: null,
+    },
+  });
 });
 
 test("project.items.add() multiple calls sends query to load fields only once", async () => {
@@ -1966,6 +2028,74 @@ test("project.items.removeByContentRepositoryAndNumber(unknownId) not found", as
   });
 
   await project.items.removeByContentRepositoryAndNumber("repository-name", -1);
+});
+
+test("project.items.updateByContentRepositoryAndNumber(contentNodeId, { status }) with unused custom field", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+  const { issueItemFixture } = await import(
+    "./test/fixtures/get-item/issue-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectItemsQueryResultFixture,
+      };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        projectId: "PN_kwDOBYMIeM0lfA",
+        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
+      });
+
+      assert.match(options.query, /status: updateProjectNextItemField\(/);
+
+      return { data: {} };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+  });
+
+  const updatedItem = await project.items.updateByContentRepositoryAndNumber(
+    "example-product",
+    2,
+    {
+      status: "Ready",
+    }
+  );
+
+  const { relevantToUsers, suggestedChangelog, ...itemFields } =
+    issueItemFixture.fields;
+
+  assert.equal(updatedItem, {
+    ...issueItemFixture,
+    fields: {
+      ...itemFields,
+      status: "Ready",
+    },
+  });
 });
 
 test.run();
