@@ -66,6 +66,8 @@ export function projectFieldsNodesToFieldsMap(project, nodes) {
     }
 
     const key = fieldNameToInternalName(project, node.name);
+    if (!key) return acc;
+
     acc[key] = {
       id: node.id,
       name: node.name,
@@ -98,16 +100,14 @@ export function projectFieldsNodesToFieldsMap(project, nodes) {
  *
  * @param {import('../..').default} project
  * @param {string} name
- * @returns string
+ * @returns string | undefined
  */
 function fieldNameToInternalName(project, name) {
   const result = Object.entries(project.fields).find(
     ([, value]) => value === name
   );
 
-  if (!result) {
-    throw new Error(`Unknown column name: ${name}`);
-  }
+  if (!result) return;
 
   return result[0];
 }
