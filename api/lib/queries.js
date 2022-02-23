@@ -34,7 +34,7 @@ const queryProjectNodes = `
   title
   description
   url
-  fields(first: 20) {
+  fields(first: 50) {
     nodes {
       id
       name
