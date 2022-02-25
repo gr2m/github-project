@@ -607,6 +607,52 @@ test("project.items.add() adding existing item with fields after project.items.l
   assert.equal(queryCounter, 2);
 });
 
+test('project.items.add() with " in value', async () => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+  const { addIssueItemQueryResultFixture } = await import(
+    "./test/fixtures/add-item/issue/query-result.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+
+    if (/mutation addIssueToProject\(/.test(options.query)) {
+      return { data: addIssueItemQueryResultFixture };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      assert.match(options.query, /value: "Is \\"it\\"?"/);
+
+      return { data: {} };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      title: "Title",
+    },
+  });
+
+  await project.items.add("PR_kwDOGNkQys4tKgLV", {
+    title: 'Is "it"?',
+  });
+});
+
 test("project.items.get(itemId)", async () => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
