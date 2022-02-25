@@ -34,7 +34,9 @@ export function getFieldsUpdateQuery(state, fields) {
           : "clientMutationId";
 
       return `
-        ${key}: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: "${field.id}", value: "${valueOrOption}"}) {
+        ${key}: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: "${
+        field.id
+      }", value: "${escapeQuotes(valueOrOption)}"}) {
           ${queryNodes}
         }
       `;
@@ -47,4 +49,8 @@ export function getFieldsUpdateQuery(state, fields) {
       ${parts}
     }
   `;
+}
+
+function escapeQuotes(str) {
+  return typeof str === "string" ? str.replace(/\"/g, '\\"') : str;
 }
