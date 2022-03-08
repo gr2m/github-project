@@ -113,6 +113,8 @@ type contentCommon = {
     number: number;
     state: "OPEN" | "CLOSED";
   };
+  title: string;
+  url: string;
 };
 
 export type ProjectFieldNode = {
