@@ -33,6 +33,8 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
     labels: itemNode.content.labels.nodes.map((node) => node.name),
     repository: itemNode.content.repository.name,
     milestone: itemNode.content.milestone,
+    title: itemNode.content.title,
+    url: itemNode.content.url,
   };
   const content =
     itemNode.content.__typename === "Issue"

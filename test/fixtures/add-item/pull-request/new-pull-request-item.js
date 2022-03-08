@@ -12,6 +12,8 @@ export const newPullRequestItemFixture = {
     isPullRequest: true,
     id: "PR_kwDOGNkQys4tKgLV",
     number: 1,
+    title: "Update README.md",
+    url: "https://github.com/gr2m-issues-automation-sandbox/example-product/pulls/1",
     createdAt: "2021-10-13T19:58:16Z",
     closed: false,
     closedAt: null,

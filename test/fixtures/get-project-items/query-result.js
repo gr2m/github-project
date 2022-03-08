@@ -88,6 +88,7 @@ export const getProjectItemsQueryResultFixture = {
                 id: "PR_kwDOGNkQys4tKgLV",
                 number: 1,
                 title: "Update README.md",
+                url: "https://github.com/gr2m-issues-automation-sandbox/example-product/pulls/1",
                 createdAt: "2021-10-13T19:58:16Z",
                 databaseId: 757727957,
                 assignees: {
@@ -129,6 +130,7 @@ export const getProjectItemsQueryResultFixture = {
                 id: "I_kwDOGNkQys49IizC",
                 number: 2,
                 title: "Enforce setting project via github actions",
+                url: "https://github.com/gr2m-issues-automation-sandbox/example-product/issues/2",
                 createdAt: "2021-10-13T20:07:02Z",
                 databaseId: 1025649858,
                 assignees: {

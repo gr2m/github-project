@@ -4,6 +4,7 @@ const queryIssuesAndPullRequestNodes = `
   id
   number
   title
+  url
   createdAt
   databaseId
   assignees(first:10) {
