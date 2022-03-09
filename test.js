@@ -1,5 +1,5 @@
-import { test } from "uvu";
-import * as assert from "uvu/assert";
+import { test } from "ava";
+import * as assert from "ava/assert";
 import { Octokit } from "@octokit/core";
 import prettier from "prettier";
 
