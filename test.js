@@ -219,6 +219,38 @@ test("project.items.list() multiple calls only send query once", async () => {
   assert.equal(queryCounter, 1);
 });
 
+test("project.items.list() with field using different capitalization", async () => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+  const { listItemsFixture } = await import(
+    "./test/fixtures/list-items/items.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "RELEVANT TO USERS?",
+      suggestedChangelog: "suggested changelog",
+    },
+  });
+
+  const items = await project.items.list();
+
+  assert.equal(items, listItemsFixture);
+});
+
 test("project.items.add() issue", async () => {
   const { getProjectFieldsQueryResultFixture } = await import(
     "./test/fixtures/get-project-fields/query-result.js"
