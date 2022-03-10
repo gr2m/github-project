@@ -104,7 +104,7 @@ export function projectFieldsNodesToFieldsMap(project, nodes) {
  */
 function fieldNameToInternalName(project, name) {
   const result = Object.entries(project.fields).find(
-    ([, value]) => value === name
+    ([, value]) => value.toLowerCase() === name.toLowerCase()
   );
 
   if (!result) return;
