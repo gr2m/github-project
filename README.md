@@ -43,7 +43,7 @@ import GitHubProject from "github-project";
 
 A project always belongs to an organization and has a number. For authentication you can pass [a personal access token with the `write:org` scope](https://github.com/settings/tokens/new?scopes=write:org&description=github-project). For read-only access the `read:org` scope is sufficient.
 
-`fields` is map of internal field names to the project's column labels.
+`fields` is map of internal field names to the project's column labels. The comparision is case-insensitive. `"Priority"` will match both a field with the label `"Priority"` and one with the label `"priority"`.
 
 ```js
 const project = new GitHubProject({
