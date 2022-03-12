@@ -3,6 +3,19 @@
 import { queryItemFieldNodes } from "./queries.js";
 
 /**
+ * List of field names that are returned by the GraphQL API as project fields
+ * but are in fact properties of issue/pull request objects instead.
+ */
+const READ_ONLY_FIELDS = [
+  "assignees",
+  "labels",
+  "linked pull requests",
+  "milestone",
+  "repository",
+  "reviewers",
+];
+
+/**
  * Project item fields can only updated one at a time, so this methods sends
  * a single query including one mutation for each field that is updated.
  *
@@ -16,6 +29,18 @@ import { queryItemFieldNodes } from "./queries.js";
  * @returns {string}
  */
 export function getFieldsUpdateQuery(state, fields) {
+  const readOnlyFields = Object.keys(fields)
+    .map((key) => [key, state.fields[key].name])
+    .filter(([, value]) => READ_ONLY_FIELDS.includes(value.toLowerCase()));
+
+  if (readOnlyFields.length > 0) {
+    throw new Error(
+      `[github-project] Cannot update read-only fields: ${readOnlyFields
+        .map(([key, value]) => `"${value}" (.${key})`)
+        .join(", ")}`
+    );
+  }
+
   const mustLoadItemProperties = !state.didLoadItems;
   const parts = Object.entries(fields)
     .map(([key, value], index) => {

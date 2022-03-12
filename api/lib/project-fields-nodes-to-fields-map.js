@@ -1,20 +1,7 @@
 // @ts-check
 
 /**
- * List of field names that are returned by the GraphQL API as project fields
- * but are in fact properties of issue/pull request objects instead.
- */
-const READ_ONLY_FIELDS = [
-  "Assignees",
-  "Labels",
-  "Linked Pull Requests",
-  "Milestone",
-  "Repository",
-  "Reviewers",
-];
-
-/**
- * Takes the list of fields nodes from the GraphQL query result:
+ * Takes `project.fields` and the list of fields nodes from the GraphQL query result:
  *
  * ```
  * fields(...) {
@@ -60,54 +47,53 @@ const READ_ONLY_FIELDS = [
  * @returns {import("../..").ProjectFieldMap}
  */
 export function projectFieldsNodesToFieldsMap(project, nodes) {
-  return nodes.reduce((acc, node) => {
-    if (READ_ONLY_FIELDS.includes(node.name)) {
+  return Object.entries(project.fields).reduce(
+    (acc, [userInternalFieldName, userFieldName]) => {
+      const node = nodes.find(
+        (node) => userFieldName.toLowerCase() === node.name.toLowerCase()
+      );
+
+      if (!node) {
+        const projectFieldNames = nodes.map((node) => `"${node.name}"`);
+        throw new Error(
+          `[github-project] "${userFieldName}" could not be matched with any of the existing field names: ${projectFieldNames.join(
+            ", "
+          )}`
+        );
+      }
+
+      acc[userInternalFieldName] = {
+        id: node.id,
+        name: node.name,
+        userName: userFieldName,
+      };
+
+      // Settings is a JSON string. It contains view information such as column width.
+      // If the field is of type "Single select", then the `options` property will be set.
+      const settings = JSON.parse(node.settings);
+      if (settings?.options) {
+        acc[userInternalFieldName].optionsById = settings.options.reduce(
+          (acc, option) => {
+            return {
+              ...acc,
+              [option.id]: option.name,
+            };
+          },
+          {}
+        );
+        acc[userInternalFieldName].optionsByValue = settings.options.reduce(
+          (acc, option) => {
+            return {
+              ...acc,
+              [option.name]: option.id,
+            };
+          },
+          {}
+        );
+      }
+
       return acc;
-    }
-
-    const key = fieldNameToInternalName(project, node.name);
-    if (!key) return acc;
-
-    acc[key] = {
-      id: node.id,
-      name: node.name,
-    };
-
-    // Settings is a JSON string. It contains view information such as column width.
-    // If the field is of type "Single select", then the `options` property will be set.
-    const settings = JSON.parse(node.settings);
-    if (settings?.options) {
-      acc[key].optionsById = settings.options.reduce((acc, option) => {
-        return {
-          ...acc,
-          [option.id]: option.name,
-        };
-      }, {});
-      acc[key].optionsByValue = settings.options.reduce((acc, option) => {
-        return {
-          ...acc,
-          [option.name]: option.id,
-        };
-      }, {});
-    }
-
-    return acc;
-  }, {});
-}
-
-/**
- * Returns internal name for a project field
- *
- * @param {import('../..').default} project
- * @param {string} name
- * @returns string | undefined
- */
-function fieldNameToInternalName(project, name) {
-  const result = Object.entries(project.fields).find(
-    ([, value]) => value.toLowerCase() === name.toLowerCase()
+    },
+    {}
   );
-
-  if (!result) return;
-
-  return result[0];
 }
