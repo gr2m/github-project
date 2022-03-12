@@ -1330,6 +1330,109 @@ test("project.items.update(itemNodeId, fields) with non GraphQL error", async ()
   }
 });
 
+test("project.items.update(itemNodeId, fields) where fields include a built-in read-only project field", async () => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      assignees: "Assignees",
+    },
+  });
+
+  try {
+    await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
+      assignees: "something",
+    });
+    assert.unreachable("Should have thrown");
+  } catch (error) {
+    assert.equal(
+      error.message,
+      '[github-project] Cannot update read-only fields: "Assignees" (.assignees)'
+    );
+  }
+});
+
+test("project.items.update(itemNodeId, fields) where a field is unknown", async () => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    assert.equal(options.method, "POST");
+    assert.equal(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      assert.equal(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+      unknown: "What is that?",
+    },
+  });
+
+  try {
+    await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
+      relevantToUsers: "yes",
+      unknown: "something",
+    });
+    assert.unreachable("Should have thrown");
+  } catch (error) {
+    assert.equal(
+      error.message,
+      '[github-project] "What is that?" could not be matched with any of the existing field names: "Title", "Assignees", "Status", "Labels", "Repository", "Milestone", "Relevant to users?", "Suggested Changelog", "Linked Pull Requests"'
+    );
+  }
+});
+
 test("project.items.updateByContentId(contentNodeId, fields)", async () => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
