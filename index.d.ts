@@ -60,8 +60,8 @@ export default class GitHubProject<
 }
 
 export type MatchFieldNameFn = (
-  fieldOptionValue: string,
-  userValue: string
+  projectFieldName: string,
+  userFieldName: string
 ) => boolean;
 
 export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
