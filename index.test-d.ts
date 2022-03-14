@@ -334,3 +334,14 @@ export async function removeItemByContentRepositoryAndNameTest() {
 
   expectType<void>(result);
 }
+
+export async function matchFieldNameOption() {
+  new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+    matchFieldName(projectFieldName, userFieldName) {
+      return projectFieldName === userFieldName;
+    },
+  });
+}

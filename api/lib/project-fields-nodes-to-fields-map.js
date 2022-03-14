@@ -42,15 +42,19 @@
  * }
  * ```
  *
+ * @param {import("../..").GitHubProjectState} state
  * @param {import("../..").default} project
  * @param {import("../..").ProjectFieldNode[]} nodes
  * @returns {import("../..").ProjectFieldMap}
  */
-export function projectFieldsNodesToFieldsMap(project, nodes) {
+export function projectFieldsNodesToFieldsMap(state, project, nodes) {
   return Object.entries(project.fields).reduce(
     (acc, [userInternalFieldName, userFieldName]) => {
-      const node = nodes.find(
-        (node) => userFieldName.toLowerCase() === node.name.toLowerCase()
+      const node = nodes.find((node) =>
+        state.matchFieldName(
+          node.name.toLowerCase(),
+          userFieldName.toLowerCase()
+        )
       );
 
       if (!node) {

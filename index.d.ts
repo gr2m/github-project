@@ -59,18 +59,25 @@ export default class GitHubProject<
   };
 }
 
+export type MatchFieldNameFn = (
+  fieldOptionValue: string,
+  userValue: string
+) => boolean;
+
 export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
   | {
       org: string;
       number: number;
       token: string;
       fields?: TFields;
+      matchFieldName?: MatchFieldNameFn;
     }
   | {
       org: string;
       number: number;
       octokit: Octokit;
       fields?: TFields;
+      matchFieldName?: MatchFieldNameFn;
     };
 
 export type GitHubProjectItem<
@@ -153,12 +160,15 @@ export type GitHubProjectState =
   | GitHubProjectStateWithFields
   | GitHubProjectStateWithItems;
 
-type GitHubProjectStateInit = {
+type GitHubProjectStateCommon = {
+  matchFieldName: (projectFieldName: string, userFieldName: string) => boolean;
+};
+type GitHubProjectStateInit = GitHubProjectStateCommon & {
   didLoadFields: false;
   didLoadItems: false;
 };
 
-export type GitHubProjectStateWithFields = {
+export type GitHubProjectStateWithFields = GitHubProjectStateCommon & {
   didLoadFields: true;
   didLoadItems: false;
   id: string;
@@ -168,7 +178,7 @@ export type GitHubProjectStateWithFields = {
   fields: ProjectFieldMap;
 };
 
-export type GitHubProjectStateWithItems = {
+export type GitHubProjectStateWithItems = GitHubProjectStateCommon & {
   didLoadFields: true;
   didLoadItems: true;
   id: string;
