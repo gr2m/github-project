@@ -60,9 +60,6 @@ test("`matchFieldName` constructor option", async (t) => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
   );
-  const { listItemsFixture } = await import(
-    "./test/fixtures/list-items/items.js"
-  );
 
   const octokit = new Octokit();
   octokit.hook.wrap("request", async (request, options) => {
