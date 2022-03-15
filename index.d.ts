@@ -63,6 +63,10 @@ export type MatchFieldNameFn = (
   projectFieldName: string,
   userFieldName: string
 ) => boolean;
+export type MatchFieldOptionValueFn = (
+  fieldOptionValue: string,
+  userValue: string
+) => boolean;
 
 export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
   | {
@@ -71,6 +75,7 @@ export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
       token: string;
       fields?: TFields;
       matchFieldName?: MatchFieldNameFn;
+      matchFieldOptionValue?: MatchFieldOptionValueFn;
     }
   | {
       org: string;
@@ -78,6 +83,7 @@ export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
       octokit: Octokit;
       fields?: TFields;
       matchFieldName?: MatchFieldNameFn;
+      matchFieldOptionValue?: MatchFieldOptionValueFn;
     };
 
 export type GitHubProjectItem<
@@ -161,7 +167,8 @@ export type GitHubProjectState =
   | GitHubProjectStateWithItems;
 
 type GitHubProjectStateCommon = {
-  matchFieldName: (projectFieldName: string, userFieldName: string) => boolean;
+  matchFieldName: MatchFieldNameFn;
+  matchFieldOptionValue: MatchFieldOptionValueFn;
 };
 type GitHubProjectStateInit = GitHubProjectStateCommon & {
   didLoadFields: false;

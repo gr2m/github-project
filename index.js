@@ -40,6 +40,8 @@ export default class GitHubProject {
       didLoadFields: false,
       didLoadItems: false,
       matchFieldName: options.matchFieldName || defaultMatchFunction,
+      matchFieldOptionValue:
+        options.matchFieldOptionValue || defaultMatchFunction,
     };
 
     // set API

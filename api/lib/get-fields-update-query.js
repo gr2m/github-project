@@ -54,7 +54,7 @@ export function getFieldsUpdateQuery(state, fields) {
         value === null
           ? ""
           : "optionsByValue" in field
-          ? field.optionsByValue[value]
+          ? findFieldOptionId(state, field.optionsByValue, value)
           : value;
 
       const queryNodes =
@@ -82,4 +82,19 @@ export function getFieldsUpdateQuery(state, fields) {
 
 function escapeQuotes(str) {
   return typeof str === "string" ? str.replace(/\"/g, '\\"') : str;
+}
+
+/**
+ * @param {import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithItems} state
+ * @param {Record<string, string>} optionsByValue
+ * @param {string} value
+ *
+ * @returns {string | undefined}
+ */
+function findFieldOptionId(state, optionsByValue, value) {
+  const [optionId] =
+    Object.entries(optionsByValue).find(([optionValue]) =>
+      state.matchFieldOptionValue(optionValue, value)
+    ) || [];
+  return optionId;
 }
