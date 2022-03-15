@@ -14,6 +14,8 @@ import { removeItem } from "./api/items.remove.js";
 import { removeItemByContentId } from "./api/items.remove-by-content-id.js";
 import { removeItemByContentRepositoryAndNumber } from "./api/items.remove-by-content-repository-and-name.js";
 
+import { defaultMatchFunction } from "./api/lib/default-match-function.js";
+
 /** @type {import("./").BUILT_IN_FIELDS} */
 export const BUILT_IN_FIELDS = {
   title: "Title",
@@ -37,6 +39,9 @@ export default class GitHubProject {
     const state = {
       didLoadFields: false,
       didLoadItems: false,
+      matchFieldName: options.matchFieldName || defaultMatchFunction,
+      matchFieldOptionValue:
+        options.matchFieldOptionValue || defaultMatchFunction,
     };
 
     // set API

@@ -7,12 +7,12 @@ import { queryItemFieldNodes } from "./queries.js";
  * but are in fact properties of issue/pull request objects instead.
  */
 const READ_ONLY_FIELDS = [
-  "assignees",
-  "labels",
-  "linked pull requests",
-  "milestone",
-  "repository",
-  "reviewers",
+  "Assignees",
+  "Labels",
+  "Linked Pull Requests",
+  "Milestone",
+  "Repository",
+  "Reviewers",
 ];
 
 /**
@@ -31,7 +31,14 @@ const READ_ONLY_FIELDS = [
 export function getFieldsUpdateQuery(state, fields) {
   const readOnlyFields = Object.keys(fields)
     .map((key) => [key, state.fields[key].name])
-    .filter(([, value]) => READ_ONLY_FIELDS.includes(value.toLowerCase()));
+    .filter(([, value]) =>
+      READ_ONLY_FIELDS.some((readOnlyField) =>
+        state.matchFieldName(
+          readOnlyField.toLowerCase(),
+          value.toLowerCase().trim()
+        )
+      )
+    );
 
   if (readOnlyFields.length > 0) {
     throw new Error(
@@ -50,7 +57,7 @@ export function getFieldsUpdateQuery(state, fields) {
         value === null
           ? ""
           : "optionsByValue" in field
-          ? field.optionsByValue[value]
+          ? findFieldOptionId(state, field.optionsByValue, value)
           : value;
 
       const queryNodes =
@@ -78,4 +85,19 @@ export function getFieldsUpdateQuery(state, fields) {
 
 function escapeQuotes(str) {
   return typeof str === "string" ? str.replace(/\"/g, '\\"') : str;
+}
+
+/**
+ * @param {import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithItems} state
+ * @param {Record<string, string>} optionsByValue
+ * @param {string} value
+ *
+ * @returns {string | undefined}
+ */
+function findFieldOptionId(state, optionsByValue, value) {
+  const [optionId] =
+    Object.entries(optionsByValue).find(([optionValue]) =>
+      state.matchFieldOptionValue(optionValue, value.trim())
+    ) || [];
+  return optionId;
 }

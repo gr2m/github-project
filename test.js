@@ -56,6 +56,146 @@ test("constructor with token", (t) => {
   t.true(project.octokit instanceof Octokit);
 });
 
+test("`matchFieldName` constructor option", async (t) => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    t.deepEqual(options.method, "POST");
+    t.deepEqual(options.url, "/graphql");
+
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
+  });
+  const matchFieldNameArguments = [];
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Something totally different!",
+    },
+    matchFieldName(projectFieldName, userFieldName) {
+      matchFieldNameArguments.push({ projectFieldName, userFieldName });
+      return projectFieldName === "relevant to users?";
+    },
+  });
+
+  const items = await project.items.list();
+
+  t.snapshot(matchFieldNameArguments, "matchFieldNameArguments");
+  t.snapshot(items, "items");
+});
+
+test("`matchFieldOptionValue` constructor option", async (t) => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    t.deepEqual(options.method, "POST");
+    t.deepEqual(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      t.deepEqual(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      t.deepEqual(options.variables, {
+        projectId: "PN_kwDOBYMIeM0lfA",
+        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
+      });
+      t.regex(options.query, /relevantToUsers: updateProjectNextItemField\(/);
+
+      return {
+        data: {
+          data: {
+            relevantToUsers: {
+              projectNextItem: {
+                id: "PNI_lADOBYMIeM0lfM4ADfm9",
+                title: "Enforce setting project via github actions",
+                content: {
+                  __typename: "Issue",
+                  id: "I_kwDOGNkQys49IizC",
+                  number: 2,
+                  url: "https://github.com/gr2m-issues-automation-sandbox/example-product/issues/2",
+                  title: "Enforce setting project via github actions",
+                  createdAt: "2021-10-13T20:07:02Z",
+                  databaseId: 1025649858,
+                  assignees: {
+                    nodes: [],
+                  },
+                  labels: {
+                    nodes: [],
+                  },
+                  closed: false,
+                  closedAt: null,
+                  milestone: null,
+                  repository: {
+                    name: "example-product",
+                  },
+                },
+                fieldValues: {
+                  nodes: [
+                    {
+                      // Yes
+                      value: "c9823470",
+                      projectField: {
+                        // relevantToUsers
+                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyMw==",
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+            suggestedChangelog: {},
+          },
+        },
+      };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const matchFieldOptionValueArguments = [];
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+    },
+    matchFieldOptionValue(fieldOptionValue, userValue) {
+      matchFieldOptionValueArguments.push({ fieldOptionValue, userValue });
+
+      return fieldOptionValue === "Yes";
+    },
+  });
+
+  const updatedItem = await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
+    relevantToUsers: "yep",
+  });
+
+  t.snapshot(matchFieldOptionValueArguments, "matchFieldOptionValueArguments");
+  t.snapshot(updatedItem, "updatedItem");
+});
+
 test("getters", (t) => {
   const project = new GitHubProject({
     org: "org",

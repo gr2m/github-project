@@ -172,7 +172,59 @@ const project = new GitHubProject(options);
       </td>
       <td>
 
-A map of internal names for fields to the column names. By default, the colum names for all custom fields are used for both keys and values. The `title` key will always be set to `"Title"` and `status` to `"Status"` to account for the built-in fields. The other built-in columns `Assignees`, `Labels`, `Milestone`, and `Repository` cannot be set through the project and are not considered fields. You have to set them on the issue or pull request, and you can access them by `item.content.assignees`, `item.content.labels` etc (for both issues and pull requests).
+**Required**. A map of internal names for fields to the column names. The `title` key will always be set to `"Title"` and `status` to `"Status"` to account for the built-in fields. The other built-in columns `Assignees`, `Labels`, `Linked Pull Requests`, `Milestone`, `Repository`, and `Reviewers` cannot be set through the project and are not considered fields. You have to set them on the issue or pull request, and you can access them by `item.content.assignees`, `item.content.labels` etc (for both issues and pull requests).
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>options.matchFieldName</code>
+      </th>
+      <td>
+        <code>Function</code>
+      </td>
+      <td>
+
+Customize how field names are matched with the values provided in `options.fields`. The function accepts two arguments:
+
+1. `projectFieldName`
+2. `userFieldName`
+
+Both are strings. Both arguments are lower-cased and trimmed before passed to the function. The function must return `true` or `false`.
+
+Defaults to
+
+```js
+function (projectFieldName, userFieldName) {
+  return projectFieldName === userFieldName
+}
+```
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>options.matchFieldOptionValue</code>
+      </th>
+      <td>
+        <code>Function</code>
+      </td>
+      <td>
+
+Customize how field names are matched with the values provided in `options.fields`. The function accepts two arguments:
+
+1. `fieldOptionValue`
+2. `userValue`
+
+Both are strings. Both arguments are trimmed before passed to the function. The function must return `true` or `false`.
+
+Defaults to
+
+```js
+function (fieldOptionValue, userValue) {
+  return fieldOptionValue === userValue
+}
+```
 
 </td>
     </tr>

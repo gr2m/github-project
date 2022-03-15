@@ -25,6 +25,7 @@ export async function getStateWithProjectItems(project, state) {
   });
 
   const fields = projectFieldsNodesToFieldsMap(
+    state,
     project,
     projectNext.fields.nodes
   );
