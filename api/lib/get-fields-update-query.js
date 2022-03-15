@@ -95,7 +95,7 @@ function escapeQuotes(str) {
  * @returns {string | undefined}
  */
 function findFieldOptionId(state, optionsByValue, value) {
-  const [optionId] =
+  const [_optionValue, optionId] =
     Object.entries(optionsByValue).find(([optionValue]) =>
       state.matchFieldOptionValue(optionValue, value.trim())
     ) || [];
