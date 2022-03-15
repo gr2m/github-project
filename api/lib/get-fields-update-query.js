@@ -33,7 +33,10 @@ export function getFieldsUpdateQuery(state, fields) {
     .map((key) => [key, state.fields[key].name])
     .filter(([, value]) =>
       READ_ONLY_FIELDS.some((readOnlyField) =>
-        state.matchFieldName(readOnlyField.toLowerCase(), value.toLowerCase())
+        state.matchFieldName(
+          readOnlyField.toLowerCase(),
+          value.toLowerCase().trim()
+        )
       )
     );
 
@@ -94,7 +97,7 @@ function escapeQuotes(str) {
 function findFieldOptionId(state, optionsByValue, value) {
   const [optionId] =
     Object.entries(optionsByValue).find(([optionValue]) =>
-      state.matchFieldOptionValue(optionValue, value)
+      state.matchFieldOptionValue(optionValue, value.trim())
     ) || [];
   return optionId;
 }

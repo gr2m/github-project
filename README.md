@@ -216,7 +216,7 @@ Customize how field names are matched with the values provided in `options.field
 1. `fieldOptionValue`
 2. `userValue`
 
-Both are strings. The function must return `true` or `false`.
+Both are strings. Both arguments are trimmed before passed to the function. The function must return `true` or `false`.
 
 Defaults to
 

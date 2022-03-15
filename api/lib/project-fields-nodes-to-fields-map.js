@@ -53,7 +53,7 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
       const node = nodes.find((node) =>
         state.matchFieldName(
           node.name.toLowerCase(),
-          userFieldName.toLowerCase()
+          userFieldName.toLowerCase().trim()
         )
       );
 
