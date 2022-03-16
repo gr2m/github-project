@@ -1,7 +1,5 @@
 import { Octokit } from "@octokit/core";
 
-type NullableValues<T extends {}> = { [K in keyof T]: T[K] | null };
-
 export type BUILT_IN_FIELDS = {
   title: "Title";
   status: "Status";
@@ -9,8 +7,8 @@ export type BUILT_IN_FIELDS = {
 
 export default class GitHubProject<
   TCustomFields extends Record<string, string> = {},
-  TFields extends {} = TCustomFields & BUILT_IN_FIELDS,
-  TItemFields = Record<keyof TFields, string>
+  TFields extends BUILT_IN_FIELDS = TCustomFields & BUILT_IN_FIELDS,
+  TItemFields = Record<keyof TFields, string | null>,
 > {
   /** GitHub organization login */
   get org(): string;
@@ -41,15 +39,15 @@ export default class GitHubProject<
     getByContentRepositoryAndNumber(
       repositoryName: string,
       issueOrPullRequestNumber: number
-    ): Promise<GitHubProjectItem<TFields> | undefined>;
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     update(
       itemNodeId: string,
       fields: Partial<TItemFields>
-    ): Promise<GitHubProjectItem<TFields> | undefined>;
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     updateByContentId(
       contentNodeId: string,
       fields: Partial<TItemFields>
-    ): Promise<GitHubProjectItem<TFields> | undefined>;
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     updateByContentRepositoryAndNumber(
       repositoryName: string,
       issueOrPullRequestNumber: number,
@@ -78,18 +76,18 @@ export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
       fields?: TFields;
     };
 
-export type GitHubProjectItem<TFields extends Record<string, string> = {}> =
+export type GitHubProjectItem<TFields extends BUILT_IN_FIELDS, FieldKeys extends {} = Record<keyof TFields, string | null>> =
   | DraftItem<TFields>
   | NonDraftItem<TFields>;
 
 type DraftItem<TFields> = {
   id: string;
-  fields: NullableValues<TFields>;
+  fields: TFields;
   isDraft: true;
 };
 type NonDraftItem<TFields> = {
   id: string;
-  fields: NullableValues<TFields>;
+  fields: TFields;
   isDraft: false;
   content: Issue | PullRequest;
 };

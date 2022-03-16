@@ -122,6 +122,9 @@ export async function addItemWithFieldsTest() {
   expectType<string | null>(item.fields.title);
   expectType<string | null>(item.fields.myField);
 
+  // @ts-expect-error - Property 'otherField' does not exist on type '{ myField: string | null; title: string | null; status: string | null; }'
+  item.fields.otherField;
+
   expectType<number>(item.content.number);
 }
 
