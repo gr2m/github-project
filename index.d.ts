@@ -1,5 +1,7 @@
 import { Octokit } from "@octokit/core";
 
+type NullableValues<T extends {}> = { [K in keyof T]: T[K] | null };
+
 export type BUILT_IN_FIELDS = {
   title: "Title";
   status: "Status";
@@ -7,7 +9,8 @@ export type BUILT_IN_FIELDS = {
 
 export default class GitHubProject<
   TCustomFields extends Record<string, string> = {},
-  TFields extends BUILT_IN_FIELDS = TCustomFields & BUILT_IN_FIELDS
+  TFields extends {} = TCustomFields & BUILT_IN_FIELDS,
+  TItemFields = Record<keyof TFields, string>
 > {
   /** GitHub organization login */
   get org(): string;
@@ -24,32 +27,34 @@ export default class GitHubProject<
   constructor(options: GitHubProjectOptions<TCustomFields>);
 
   items: {
-    list(): Promise<GitHubProjectItem<TFields>[]>;
+    list(): Promise<GitHubProjectItem<TItemFields>[]>;
     add(
       contentNodeId: string,
-      fields?: Partial<Record<keyof TFields, string>>
-    ): Promise<NonDraftItem<TFields>>;
-    get(itemNodeId: string): Promise<GitHubProjectItem<TFields> | undefined>;
+      fields?: Partial<TItemFields>
+    ): Promise<NonDraftItem<TItemFields>>;
+    get(
+      itemNodeId: string
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     getByContentId(
       contentNodeId: string
-    ): Promise<GitHubProjectItem<TFields> | undefined>;
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     getByContentRepositoryAndNumber(
       repositoryName: string,
       issueOrPullRequestNumber: number
     ): Promise<GitHubProjectItem<TFields> | undefined>;
     update(
       itemNodeId: string,
-      fields: Partial<Record<keyof TFields, string>>
+      fields: Partial<TItemFields>
     ): Promise<GitHubProjectItem<TFields> | undefined>;
     updateByContentId(
       contentNodeId: string,
-      fields: Partial<Record<keyof TFields, string>>
+      fields: Partial<TItemFields>
     ): Promise<GitHubProjectItem<TFields> | undefined>;
     updateByContentRepositoryAndNumber(
       repositoryName: string,
       issueOrPullRequestNumber: number,
-      fields: Partial<Record<keyof TFields, string>>
-    ): Promise<GitHubProjectItem<TFields> | undefined>;
+      fields: Partial<TItemFields>
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     remove(itemNodeId: string): Promise<void>;
     removeByContentId(contentNodeId: string): Promise<void>;
     removeByContentRepositoryAndNumber(
@@ -73,18 +78,18 @@ export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
       fields?: TFields;
     };
 
-export type GitHubProjectItem<
-  TFields extends BUILT_IN_FIELDS = BUILT_IN_FIELDS & Record<string, string>
-> = DraftItem<TFields> | NonDraftItem<TFields>;
+export type GitHubProjectItem<TFields extends Record<string, string> = {}> =
+  | DraftItem<TFields>
+  | NonDraftItem<TFields>;
 
 type DraftItem<TFields> = {
   id: string;
-  fields: TFields;
+  fields: NullableValues<TFields>;
   isDraft: true;
 };
 type NonDraftItem<TFields> = {
   id: string;
-  fields: TFields;
+  fields: NullableValues<TFields>;
   isDraft: false;
   content: Issue | PullRequest;
 };

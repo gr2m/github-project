@@ -1,7 +1,7 @@
 /**
  * @param {import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithItems} state
  * @param {import("../..").ProjectFieldValueNode[]} nodes
- * @returns {import("../..").BUILT_IN_FIELDS & Record<string, string>}
+ * @returns {Record<keyof import("../..").BUILT_IN_FIELDS, string> & Record<string, string>}
  */
 export function itemFieldsNodesToFieldsMap(state, nodes) {
   return Object.entries(state.fields).reduce(
