@@ -1,4 +1,4 @@
-import { expectType } from "tsd";
+import { expectType, expectNotType } from "tsd";
 import { Octokit } from "@octokit/core";
 import GitHubProject from "./index";
 
@@ -78,12 +78,14 @@ export async function listItemsTest() {
   if (item.isDraft === true) {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     // @ts-expect-error - `.content` is not set if `.isDraft` is true
     item.content;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     expectType<number>(item.content.number);
   }
@@ -100,6 +102,7 @@ export async function addItemTest() {
   expectType<string>(item.id);
   expectType<false>(item.isDraft);
   expectType<string | null>(item.fields.title);
+  expectNotType<"Title">(item.fields.title)
 
   expectType<number>(item.content.number);
 }
@@ -120,6 +123,7 @@ export async function addItemWithFieldsTest() {
   expectType<string>(item.id);
   expectType<false>(item.isDraft);
   expectType<string | null>(item.fields.title);
+  expectNotType<"Title">(item.fields.title)
   expectType<string | null>(item.fields.myField);
 
   // @ts-expect-error - Property 'otherField' does not exist on type '{ myField: string | null; title: string | null; status: string | null; }'
@@ -144,12 +148,14 @@ export async function getItemTest() {
   if (item.isDraft === true) {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     // @ts-expect-error - `.content` is not set if `.isDraft` is true
     item.content;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     expectType<number>(item.content.number);
   }
@@ -171,12 +177,14 @@ export async function getItemByContentIdTest() {
   if (item.isDraft === true) {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     // @ts-expect-error - `.content` is not set if `.isDraft` is true
     item.content;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     expectType<number>(item.content.number);
   }
@@ -201,12 +209,14 @@ export async function getItemByRepositoryAndNumberTest() {
   if (item.isDraft === true) {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     // @ts-expect-error - `.content` is not set if `.isDraft` is true
     item.content;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     expectType<number>(item.content.number);
   }
@@ -230,12 +240,14 @@ export async function updateItemTest() {
   if (item.isDraft === true) {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     // @ts-expect-error - `.content` is not set if `.isDraft` is true
     item.content;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     expectType<number>(item.content.number);
   }
@@ -259,12 +271,14 @@ export async function updateItemByContentIdTest() {
   if (item.isDraft === true) {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     // @ts-expect-error - `.content` is not set if `.isDraft` is true
     item.content;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     expectType<number>(item.content.number);
   }
@@ -292,12 +306,14 @@ export async function updateItemByContentRepositoryAndNumberTest() {
   if (item.isDraft === true) {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     // @ts-expect-error - `.content` is not set if `.isDraft` is true
     item.content;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title)
 
     expectType<number>(item.content.number);
   }

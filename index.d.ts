@@ -76,7 +76,7 @@ export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
       fields?: TFields;
     };
 
-export type GitHubProjectItem<TFields extends BUILT_IN_FIELDS, FieldKeys extends {} = Record<keyof TFields, string | null>> =
+export type GitHubProjectItem<TFields extends BUILT_IN_FIELDS = Record<keyof TFields, string | null>> =
   | DraftItem<TFields>
   | NonDraftItem<TFields>;
 
