@@ -8,7 +8,7 @@ export type BUILT_IN_FIELDS = {
 export default class GitHubProject<
   TCustomFields extends Record<string, string> = {},
   TFields extends BUILT_IN_FIELDS = TCustomFields & BUILT_IN_FIELDS,
-  TItemFields = Record<keyof TFields, string | null>,
+  TItemFields = Record<keyof TFields, string | null>
 > {
   /** GitHub organization login */
   get org(): string;
@@ -76,9 +76,13 @@ export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
       fields?: TFields;
     };
 
-export type GitHubProjectItem<TFields extends BUILT_IN_FIELDS = Record<keyof TFields, string | null>> =
-  | DraftItem<TFields>
-  | NonDraftItem<TFields>;
+export type GitHubProjectItem<
+  TFields extends {} = {},
+  TItemFields extends {} = Record<
+    keyof TFields & keyof BUILT_IN_FIELDS,
+    string | null
+  >
+> = DraftItem<TItemFields> | NonDraftItem<TItemFields>;
 
 type DraftItem<TFields> = {
   id: string;
