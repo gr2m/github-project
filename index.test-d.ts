@@ -152,7 +152,7 @@ export async function getItemTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
-    expectNotType<string | null>(item.fields.myField);
+    expectType<string | null>(item.fields.myField);
 
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
@@ -189,7 +189,7 @@ export async function getItemByContentIdTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
-    expectNotType<string | null>(item.fields.myField);
+    expectType<string | null>(item.fields.myField);
 
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
@@ -229,7 +229,7 @@ export async function getItemByRepositoryAndNumberTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
-    expectNotType<string | null>(item.fields.myField);
+    expectType<string | null>(item.fields.myField);
 
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
@@ -268,7 +268,7 @@ export async function updateItemTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
-    expectNotType<string | null>(item.fields.myField);
+    expectType<string | null>(item.fields.myField);
 
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
@@ -279,7 +279,7 @@ export async function updateItemTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
-    expectNotType<string | null>(item.fields.myField);
+    expectType<string | null>(item.fields.myField);
 
     expectType<number>(item.content.number);
   }
@@ -307,7 +307,7 @@ export async function updateItemByContentIdTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
-    expectNotType<string | null>(item.fields.myField);
+    expectType<string | null>(item.fields.myField);
 
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
@@ -318,7 +318,7 @@ export async function updateItemByContentIdTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
-    expectNotType<string | null>(item.fields.myField);
+    expectType<string | null>(item.fields.myField);
 
     expectType<number>(item.content.number);
   }
@@ -350,7 +350,7 @@ export async function updateItemByContentRepositoryAndNumberTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
-    expectNotType<string | null>(item.fields.myField);
+    expectType<string | null>(item.fields.myField);
 
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
@@ -361,7 +361,7 @@ export async function updateItemByContentRepositoryAndNumberTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
-    expectNotType<string | null>(item.fields.myField);
+    expectType<string | null>(item.fields.myField);
 
     expectType<number>(item.content.number);
   }
