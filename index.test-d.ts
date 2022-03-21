@@ -138,8 +138,8 @@ export async function getItemTest() {
     number: 1,
     token: "gpg_secret123",
     fields: {
-      myField: "My Field"
-    }
+      myField: "My Field",
+    },
   });
   const item = await project.items.get("item node id");
 
@@ -175,8 +175,8 @@ export async function getItemByContentIdTest() {
     number: 1,
     token: "gpg_secret123",
     fields: {
-      myField: "My Field"
-    }
+      myField: "My Field",
+    },
   });
   const item = await project.items.getByContentId("content node id");
 
@@ -212,8 +212,8 @@ export async function getItemByRepositoryAndNumberTest() {
     number: 1,
     token: "gpg_secret123",
     fields: {
-      myField: "My Field"
-    }
+      myField: "My Field",
+    },
   });
   const item = await project.items.getByContentRepositoryAndNumber(
     "repository-name",
@@ -252,8 +252,8 @@ export async function updateItemTest() {
     number: 1,
     token: "gpg_secret123",
     fields: {
-      myField: "My Field"
-    }
+      myField: "My Field",
+    },
   });
   const item = await project.items.update("item node it", {
     status: "new status",
@@ -291,8 +291,8 @@ export async function updateItemByContentIdTest() {
     number: 1,
     token: "gpg_secret123",
     fields: {
-      myField: "My Field"
-    }
+      myField: "My Field",
+    },
   });
   const item = await project.items.updateByContentId("issue node id", {
     status: "new status",
@@ -330,8 +330,8 @@ export async function updateItemByContentRepositoryAndNumberTest() {
     number: 1,
     token: "gpg_secret123",
     fields: {
-      myField: "My Field"
-    }
+      myField: "My Field",
+    },
   });
   const item = await project.items.updateByContentRepositoryAndNumber(
     "repository-name",
