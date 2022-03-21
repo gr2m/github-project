@@ -90,11 +90,7 @@ export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
     };
 
 export type GitHubProjectItem<
-  TFields extends {} = {},
-  TItemFields extends {} = Record<
-    keyof TFields & keyof BUILT_IN_FIELDS,
-    string | null
-  >
+  TItemFields extends {} = Record<keyof BUILT_IN_FIELDS, string | null>
 > = DraftItem<TItemFields> | NonDraftItem<TItemFields>;
 
 type DraftItem<TFields> = {
