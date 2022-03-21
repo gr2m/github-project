@@ -137,6 +137,9 @@ export async function getItemTest() {
     org: "org",
     number: 1,
     token: "gpg_secret123",
+    fields: {
+      myField: "My Field"
+    }
   });
   const item = await project.items.get("item node id");
 
@@ -149,6 +152,10 @@ export async function getItemTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
+    expectNotType<string | null>(item.fields.myField);
+
+    // @ts-expect-error any Property 'notField' does not exist on type
+    item.fields.notField;
 
     // @ts-expect-error - `.content` is not set if `.isDraft` is true
     item.content;
@@ -156,6 +163,7 @@ export async function getItemTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
+    expectType<string | null>(item.fields.myField);
 
     expectType<number>(item.content.number);
   }
@@ -166,6 +174,9 @@ export async function getItemByContentIdTest() {
     org: "org",
     number: 1,
     token: "gpg_secret123",
+    fields: {
+      myField: "My Field"
+    }
   });
   const item = await project.items.getByContentId("content node id");
 
@@ -178,6 +189,10 @@ export async function getItemByContentIdTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
+    expectNotType<string | null>(item.fields.myField);
+
+    // @ts-expect-error any Property 'notField' does not exist on type
+    item.fields.notField;
 
     // @ts-expect-error - `.content` is not set if `.isDraft` is true
     item.content;
@@ -185,6 +200,7 @@ export async function getItemByContentIdTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
+    expectType<string | null>(item.fields.myField);
 
     expectType<number>(item.content.number);
   }
@@ -195,6 +211,9 @@ export async function getItemByRepositoryAndNumberTest() {
     org: "org",
     number: 1,
     token: "gpg_secret123",
+    fields: {
+      myField: "My Field"
+    }
   });
   const item = await project.items.getByContentRepositoryAndNumber(
     "repository-name",
@@ -210,6 +229,10 @@ export async function getItemByRepositoryAndNumberTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
+    expectNotType<string | null>(item.fields.myField);
+
+    // @ts-expect-error any Property 'notField' does not exist on type
+    item.fields.notField;
 
     // @ts-expect-error - `.content` is not set if `.isDraft` is true
     item.content;
@@ -217,6 +240,7 @@ export async function getItemByRepositoryAndNumberTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
+    expectType<string | null>(item.fields.myField);
 
     expectType<number>(item.content.number);
   }
@@ -227,6 +251,9 @@ export async function updateItemTest() {
     org: "org",
     number: 1,
     token: "gpg_secret123",
+    fields: {
+      myField: "My Field"
+    }
   });
   const item = await project.items.update("item node it", {
     status: "new status",
@@ -241,6 +268,10 @@ export async function updateItemTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
+    expectNotType<string | null>(item.fields.myField);
+
+    // @ts-expect-error any Property 'notField' does not exist on type
+    item.fields.notField;
 
     // @ts-expect-error - `.content` is not set if `.isDraft` is true
     item.content;
@@ -248,6 +279,7 @@ export async function updateItemTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
+    expectNotType<string | null>(item.fields.myField);
 
     expectType<number>(item.content.number);
   }
@@ -258,6 +290,9 @@ export async function updateItemByContentIdTest() {
     org: "org",
     number: 1,
     token: "gpg_secret123",
+    fields: {
+      myField: "My Field"
+    }
   });
   const item = await project.items.updateByContentId("issue node id", {
     status: "new status",
@@ -272,6 +307,10 @@ export async function updateItemByContentIdTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
+    expectNotType<string | null>(item.fields.myField);
+
+    // @ts-expect-error any Property 'notField' does not exist on type
+    item.fields.notField;
 
     // @ts-expect-error - `.content` is not set if `.isDraft` is true
     item.content;
@@ -279,6 +318,7 @@ export async function updateItemByContentIdTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
+    expectNotType<string | null>(item.fields.myField);
 
     expectType<number>(item.content.number);
   }
@@ -289,6 +329,9 @@ export async function updateItemByContentRepositoryAndNumberTest() {
     org: "org",
     number: 1,
     token: "gpg_secret123",
+    fields: {
+      myField: "My Field"
+    }
   });
   const item = await project.items.updateByContentRepositoryAndNumber(
     "repository-name",
@@ -307,6 +350,10 @@ export async function updateItemByContentRepositoryAndNumberTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
+    expectNotType<string | null>(item.fields.myField);
+
+    // @ts-expect-error any Property 'notField' does not exist on type
+    item.fields.notField;
 
     // @ts-expect-error - `.content` is not set if `.isDraft` is true
     item.content;
@@ -314,6 +361,7 @@ export async function updateItemByContentRepositoryAndNumberTest() {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
+    expectNotType<string | null>(item.fields.myField);
 
     expectType<number>(item.content.number);
   }
