@@ -14,7 +14,7 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
   const fields = itemFieldsNodesToFieldsMap(state, itemNode.fieldValues.nodes);
 
   // item is draft
-  if (!itemNode.content) {
+  if (itemNode.type === 'DRAFT_ISSUE') {
     return {
       id: itemNode.id,
       fields,
@@ -25,6 +25,7 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
   // item is issue or pull request
   const common = {
     id: itemNode.content.id,
+    type: itemNode.content.type,
     number: itemNode.content.number,
     createdAt: itemNode.content.createdAt,
     closed: itemNode.content.closed,
@@ -37,7 +38,7 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
     url: itemNode.content.url,
   };
   const content =
-    itemNode.content.__typename === "Issue"
+    itemNode.content.type === "ISSUE"
       ? {
           isIssue: true,
           isPullRequest: false,

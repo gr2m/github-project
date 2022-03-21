@@ -47,6 +47,7 @@ const queryProjectNodes = `
 const queryContentNode = `
   content {
     __typename
+    type
     ... on Issue {
       ${queryIssuesAndPullRequestNodes}
     }
