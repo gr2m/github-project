@@ -14,7 +14,7 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
   const fields = itemFieldsNodesToFieldsMap(state, itemNode.fieldValues.nodes);
 
   // item is draft
-  if (itemNode.type === 'DRAFT_ISSUE') {
+  if (!itemNode.content || itemNode.type === 'DRAFT_ISSUE') {
     return {
       id: itemNode.id,
       type: itemNode.type,

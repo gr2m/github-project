@@ -1,6 +1,7 @@
 export const listItemsFixture = [
   {
     id: "PNI_lADOBYMIeM0lfM4AAzDD",
+    type: "DRAFT_ISSUE",
     fields: {
       title: "Manual entry",
       status: null,
@@ -11,6 +12,7 @@ export const listItemsFixture = [
   },
   {
     id: "PNI_lADOBYMIeM0lfM4AAzDx",
+    type: "PULL_REQUEST",
     fields: {
       title: "Update README.md",
       status: "In Progress",
@@ -37,6 +39,7 @@ export const listItemsFixture = [
   },
   {
     id: "PNI_lADOBYMIeM0lfM4ADfm9",
+    type: "ISSUE",
     fields: {
       title: "Enforce setting project via github actions",
       status: null,

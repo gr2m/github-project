@@ -124,6 +124,7 @@ test("`matchFieldOptionValue` constructor option", async (t) => {
             relevantToUsers: {
               projectNextItem: {
                 id: "PNI_lADOBYMIeM0lfM4ADfm9",
+                type: "ISSUE",
                 title: "Enforce setting project via github actions",
                 content: {
                   __typename: "Issue",
@@ -293,10 +294,12 @@ test("project.items.list() without configuring custom fields", async (t) => {
     {
       id: "PNI_lADOBYMIeM0lfM4AAzDD",
       fields: { title: "Manual entry", status: null },
+      type: "DRAFT_ISSUE",
       isDraft: true,
     },
     {
       id: "PNI_lADOBYMIeM0lfM4AAzDx",
+      type: "PULL_REQUEST",
       fields: { title: "Update README.md", status: "In Progress" },
       isDraft: false,
       content: {
@@ -318,6 +321,7 @@ test("project.items.list() without configuring custom fields", async (t) => {
     },
     {
       id: "PNI_lADOBYMIeM0lfM4ADfm9",
+      type: "ISSUE",
       fields: {
         title: "Enforce setting project via github actions",
         status: null,
@@ -606,6 +610,7 @@ test("project.items.add() without configuring custom fields", async (t) => {
   // does not include custom fields
   t.deepEqual(item, {
     id: "PNI_lADOBYMIeM0lfM4ADfm9",
+    type: "ISSUE",
     fields: {
       title: "Enforce setting project via github actions",
       status: null,
@@ -1122,6 +1127,7 @@ test("project.items.update(itemNodeId, fields)", async (t) => {
             relevantToUsers: {
               projectNextItem: {
                 id: "PNI_lADOBYMIeM0lfM4ADfm9",
+                type: "ISSUE",
                 title: "Enforce setting project via github actions",
                 content: {
                   __typename: "Issue",
