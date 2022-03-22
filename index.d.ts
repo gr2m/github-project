@@ -99,7 +99,7 @@ export type GitHubProjectItem<
 
 type DraftItem<TFields> = {
   id: string;
-  type: "DRAFT_ISSUE"
+  type: "DRAFT_ISSUE";
   fields: TFields;
   isDraft: true;
 };
