@@ -1,5 +1,6 @@
 export const newPullRequestItemFixture = {
   id: "PNI_lADOBYMIeM0lfM4AAzDx",
+  type: "PULL_REQUEST",
   fields: {
     title: "Update README.md",
     status: "In Progress",

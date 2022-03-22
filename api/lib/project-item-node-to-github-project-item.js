@@ -14,9 +14,10 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
   const fields = itemFieldsNodesToFieldsMap(state, itemNode.fieldValues.nodes);
 
   // item is draft
-  if (!itemNode.content) {
+  if (!itemNode.content || itemNode.type === 'DRAFT_ISSUE') {
     return {
       id: itemNode.id,
+      type: itemNode.type,
       fields,
       isDraft: true,
     };
@@ -37,7 +38,7 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
     url: itemNode.content.url,
   };
   const content =
-    itemNode.content.__typename === "Issue"
+    itemNode.type === "ISSUE"
       ? {
           isIssue: true,
           isPullRequest: false,
@@ -52,6 +53,7 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
 
   return {
     id: itemNode.id,
+    type: itemNode.type,
     fields,
     isDraft: false,
     // @ts-expect-error - complains about `.merged` property

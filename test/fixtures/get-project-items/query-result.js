@@ -62,7 +62,7 @@ export const getProjectItemsQueryResultFixture = {
             {
               id: "PNI_lADOBYMIeM0lfM4AAzDD",
               title: "Manual entry",
-              content: null,
+              type: "DRAFT_ISSUE",
               fieldValues: {
                 nodes: [
                   {
@@ -83,6 +83,7 @@ export const getProjectItemsQueryResultFixture = {
             {
               id: "PNI_lADOBYMIeM0lfM4AAzDx",
               title: "Update README.md",
+              type: "PULL_REQUEST",
               content: {
                 __typename: "PullRequest",
                 id: "PR_kwDOGNkQys4tKgLV",
@@ -125,6 +126,7 @@ export const getProjectItemsQueryResultFixture = {
             {
               id: "PNI_lADOBYMIeM0lfM4ADfm9",
               title: "Enforce setting project via github actions",
+              type: "ISSUE",
               content: {
                 __typename: "Issue",
                 id: "I_kwDOGNkQys49IizC",

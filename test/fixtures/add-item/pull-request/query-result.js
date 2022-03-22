@@ -3,6 +3,7 @@ export const addPullRequestItemQueryResultFixture = {
     addProjectNextItem: {
       projectNextItem: {
         id: "PNI_lADOBYMIeM0lfM4AAzDx",
+        type: "PULL_REQUEST",
         title: "Update README.md",
         content: {
           __typename: "PullRequest",

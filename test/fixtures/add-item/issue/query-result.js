@@ -3,6 +3,7 @@ export const addIssueItemQueryResultFixture = {
     addProjectNextItem: {
       projectNextItem: {
         id: "PNI_lADOBYMIeM0lfM4ADfm9",
+        type: "ISSUE",
         title: "Enforce setting project via github actions",
         content: {
           __typename: "Issue",
