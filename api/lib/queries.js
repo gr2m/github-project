@@ -47,7 +47,6 @@ const queryProjectNodes = `
 const queryContentNode = `
   content {
     __typename
-    type
     ... on Issue {
       ${queryIssuesAndPullRequestNodes}
     }
@@ -59,6 +58,7 @@ const queryContentNode = `
 `;
 export const queryItemFieldNodes = `
   id
+  type
   ${queryContentNode}
   fieldValues(first: 20) {
     nodes {
