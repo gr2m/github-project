@@ -22,7 +22,7 @@ export async function removeItemByContentRepositoryAndNumber(
   const stateWithItems = await getStateWithProjectItems(project, state);
 
   const existingItem = stateWithItems.items.find((item) => {
-    if (item.isDraft === true) return;
+    if (item.type === "DRAFT_ISSUE") return;
 
     return (
       item.content.repository === repositoryName &&

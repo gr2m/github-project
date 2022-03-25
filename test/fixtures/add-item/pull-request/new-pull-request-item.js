@@ -7,7 +7,6 @@ export const newPullRequestItemFixture = {
     relevantToUsers: null,
     suggestedChangelog: null,
   },
-  isDraft: false,
   content: {
     isIssue: false,
     isPullRequest: true,
