@@ -7,7 +7,6 @@ export const issueItemFixture = {
     relevantToUsers: null,
     suggestedChangelog: null,
   },
-  isDraft: false,
   content: {
     isIssue: true,
     isPullRequest: false,

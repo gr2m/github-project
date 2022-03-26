@@ -19,10 +19,10 @@
 Browsers
 </th><td width=100%>
 Load <code>github-project</code> directly from <a href="https://cdn.skypack.dev">cdn.skypack.dev</a>
-        
+
 ```html
 <script type="module">
-import GitHubProject from "https://cdn.skypack.dev/github-project";
+  import GitHubProject from "https://cdn.skypack.dev/github-project";
 </script>
 ```
 
@@ -66,7 +66,7 @@ for (const item of items) {
     item.fields.title,
     item.fields.dueAt,
     item.fields.priority,
-    item.isDraft
+    item.type === "DRAFT_ISSUE"
       ? "_draft_"
       : item.content.assignees.map(({ login }) => login).join(",")
   );

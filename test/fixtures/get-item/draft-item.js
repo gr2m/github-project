@@ -7,5 +7,4 @@ export const draftItemFixture = {
     relevantToUsers: "Yes",
     suggestedChangelog: null,
   },
-  isDraft: true,
 };

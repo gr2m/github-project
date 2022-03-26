@@ -295,13 +295,11 @@ test("project.items.list() without configuring custom fields", async (t) => {
       id: "PNI_lADOBYMIeM0lfM4AAzDD",
       fields: { title: "Manual entry", status: null },
       type: "DRAFT_ISSUE",
-      isDraft: true,
     },
     {
       id: "PNI_lADOBYMIeM0lfM4AAzDx",
       type: "PULL_REQUEST",
       fields: { title: "Update README.md", status: "In Progress" },
-      isDraft: false,
       content: {
         isIssue: false,
         isPullRequest: true,
@@ -326,7 +324,6 @@ test("project.items.list() without configuring custom fields", async (t) => {
         title: "Enforce setting project via github actions",
         status: null,
       },
-      isDraft: false,
       content: {
         isIssue: true,
         isPullRequest: false,
@@ -615,7 +612,6 @@ test("project.items.add() without configuring custom fields", async (t) => {
       title: "Enforce setting project via github actions",
       status: null,
     },
-    isDraft: false,
     content: {
       isIssue: true,
       isPullRequest: false,

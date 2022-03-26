@@ -8,7 +8,6 @@ export const listItemsFixture = [
       relevantToUsers: "Yes",
       suggestedChangelog: null,
     },
-    isDraft: true,
   },
   {
     id: "PNI_lADOBYMIeM0lfM4AAzDx",
@@ -19,7 +18,6 @@ export const listItemsFixture = [
       relevantToUsers: null,
       suggestedChangelog: null,
     },
-    isDraft: false,
     content: {
       isIssue: false,
       isPullRequest: true,
@@ -46,7 +44,6 @@ export const listItemsFixture = [
       relevantToUsers: null,
       suggestedChangelog: null,
     },
-    isDraft: false,
     content: {
       isIssue: true,
       isPullRequest: false,
