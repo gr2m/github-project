@@ -211,7 +211,7 @@ function (projectFieldName, userFieldName) {
       </td>
       <td>
 
-Customize how field names are matched with the values provided in `options.fields`. The function accepts two arguments:
+Customize how field options are matched with the field values set in `project.items.add()` or `project.items.update*()` methods. The function accepts two arguments:
 
 1. `fieldOptionValue`
 2. `userValue`
