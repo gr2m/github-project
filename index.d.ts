@@ -29,7 +29,9 @@ export default class GitHubProject<
     add(
       contentNodeId: string,
       fields?: Partial<TItemFields>
-    ): Promise<NonDraftItem<TItemFields>>;
+    ): Promise<
+      ProjectItem_PullRequest<TItemFields> | ProjectItem_Issue<TItemFields>
+    >;
     get(
       itemNodeId: string
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
@@ -90,19 +92,37 @@ export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
     };
 
 export type GitHubProjectItem<
-  TItemFields extends {} = Record<keyof BUILT_IN_FIELDS, string | null>
-> = DraftItem<TItemFields> | NonDraftItem<TItemFields>;
+  TFields extends {} = Record<keyof BUILT_IN_FIELDS, string | null>
+> =
+  | ProjectItem_Redacted<TFields>
+  | ProjectItem_DraftIssue<TFields>
+  | ProjectItem_PullRequest<TFields>
+  | ProjectItem_Issue<TFields>;
 
-type DraftItem<TFields> = {
+type ProjectItem_Redacted<TFields> = {
+  id: string;
+  type: "REDACTED";
+  fields: TFields;
+};
+
+type ProjectItem_DraftIssue<TFields> = {
   id: string;
   type: "DRAFT_ISSUE";
   fields: TFields;
 };
-type NonDraftItem<TFields> = {
+
+type ProjectItem_PullRequest<TFields> = {
   id: string;
-  type: "ISSUE" | "PULL_REQUEST" | "REDACTED";
+  type: "PULL_REQUEST";
   fields: TFields;
-  content: Issue | PullRequest;
+  content: PullRequest;
+};
+
+type ProjectItem_Issue<TFields> = {
+  id: string;
+  type: "ISSUE";
+  fields: TFields;
+  content: Issue;
 };
 
 type Issue = contentCommon & {
