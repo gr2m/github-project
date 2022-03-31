@@ -21,7 +21,7 @@ export async function getItemByContentRepositoryAndNumber(
   const stateWithItems = await getStateWithProjectItems(project, state);
 
   return stateWithItems.items.find((item) => {
-    if (item.type === "DRAFT_ISSUE") return;
+    if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") return;
 
     return (
       item.content.repository === repositoryName &&

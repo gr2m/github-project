@@ -75,12 +75,12 @@ export async function listItemsTest() {
   });
   const [item] = await project.items.list();
 
-  if (item.type === "DRAFT_ISSUE") {
+  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE"
+    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
     item.content;
   } else {
     expectType<string>(item.id);
@@ -148,7 +148,7 @@ export async function getItemTest() {
     return;
   }
 
-  if (item.type === "DRAFT_ISSUE") {
+  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
@@ -157,7 +157,7 @@ export async function getItemTest() {
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE"
+    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
     item.content;
   } else {
     expectType<string>(item.id);
@@ -185,7 +185,7 @@ export async function getItemByContentIdTest() {
     return;
   }
 
-  if (item.type === "DRAFT_ISSUE") {
+  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
@@ -194,7 +194,7 @@ export async function getItemByContentIdTest() {
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE"
+    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
     item.content;
   } else {
     expectType<string>(item.id);
@@ -225,7 +225,7 @@ export async function getItemByRepositoryAndNumberTest() {
     return;
   }
 
-  if (item.type === "DRAFT_ISSUE") {
+  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
@@ -234,7 +234,7 @@ export async function getItemByRepositoryAndNumberTest() {
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE"
+    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
     item.content;
   } else {
     expectType<string>(item.id);
@@ -264,7 +264,7 @@ export async function updateItemTest() {
     return;
   }
 
-  if (item.type === "DRAFT_ISSUE") {
+  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
@@ -273,7 +273,7 @@ export async function updateItemTest() {
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE"
+    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
     item.content;
   } else {
     expectType<string>(item.id);
@@ -303,7 +303,7 @@ export async function updateItemByContentIdTest() {
     return;
   }
 
-  if (item.type === "DRAFT_ISSUE") {
+  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
@@ -312,7 +312,7 @@ export async function updateItemByContentIdTest() {
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE"
+    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
     item.content;
   } else {
     expectType<string>(item.id);
@@ -346,7 +346,7 @@ export async function updateItemByContentRepositoryAndNumberTest() {
     return;
   }
 
-  if (item.type === "DRAFT_ISSUE") {
+  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
@@ -355,7 +355,7 @@ export async function updateItemByContentRepositoryAndNumberTest() {
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE"
+    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
     item.content;
   } else {
     expectType<string>(item.id);
