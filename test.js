@@ -1578,7 +1578,7 @@ test("project.items.update(itemNodeId, fields) where a field is unknown", async 
   }
 });
 
-test.only("project.items.update(itemNodeId, fields) with custom status field", async (t) => {
+test("project.items.update(itemNodeId, fields) with custom status field", async (t) => {
   const { getProjectFieldsQueryResultFixture } = await import(
     "./test/fixtures/get-project-fields/query-result.js"
   );
