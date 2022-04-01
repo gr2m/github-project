@@ -67,7 +67,7 @@ export default class GitHubProject {
     Object.defineProperties(this, {
       org: { get: () => org },
       number: { get: () => number },
-      fields: { get: () => ({ ...fields, ...BUILT_IN_FIELDS }) },
+      fields: { get: () => ({ ...BUILT_IN_FIELDS, ...fields }) },
       octokit: { get: () => octokit },
       items: { get: () => itemsApi },
     });
