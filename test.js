@@ -1578,6 +1578,128 @@ test("project.items.update(itemNodeId, fields) where a field is unknown", async 
   }
 });
 
+test.only("project.items.update(itemNodeId, fields) with custom status field", async (t) => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+  const { issueItemFixture } = await import(
+    "./test/fixtures/get-item/issue-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    t.deepEqual(options.method, "POST");
+    t.deepEqual(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      t.deepEqual(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      t.deepEqual(options.variables, {
+        projectId: "PN_kwDOBYMIeM0lfA",
+        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
+      });
+      t.regex(options.query, /status: updateProjectNextItemField\(/);
+
+      return {
+        data: {
+          data: {
+            status: {
+              projectNextItem: {
+                id: "PNI_lADOBYMIeM0lfM4ADfm9",
+                type: "ISSUE",
+                title: "Enforce setting project via github actions",
+                content: {
+                  __typename: "Issue",
+                  id: "I_kwDOGNkQys49IizC",
+                  number: 2,
+                  url: "https://github.com/gr2m-issues-automation-sandbox/example-product/issues/2",
+                  title: "Enforce setting project via github actions",
+                  createdAt: "2021-10-13T20:07:02Z",
+                  databaseId: 1025649858,
+                  assignees: {
+                    nodes: [],
+                  },
+                  labels: {
+                    nodes: [],
+                  },
+                  closed: false,
+                  closedAt: null,
+                  milestone: null,
+                  repository: {
+                    name: "example-product",
+                  },
+                },
+                fieldValues: {
+                  nodes: [
+                    {
+                      value: "Enforce setting project via github actions",
+                      projectField: {
+                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTI5NA==",
+                      },
+                    },
+                    {
+                      // Yes
+                      value: "c9823470",
+                      projectField: {
+                        // relevantToUsers
+                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyMw==",
+                      },
+                    },
+                    {
+                      value: "this and that",
+                      projectField: {
+                        // suggestedChangelog
+                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyNA==",
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+            suggestedChangelog: {},
+          },
+        },
+      };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      status: "Relevant to users?",
+    },
+  });
+
+  const updatedItem = await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
+    status: "Yes",
+  });
+
+  t.deepEqual(updatedItem, {
+    ...issueItemFixture,
+    fields: {
+      title: issueItemFixture.fields.title,
+      status: "Yes",
+    },
+  });
+});
+
 test("project.items.updateByContentId(contentNodeId, fields)", async (t) => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
