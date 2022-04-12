@@ -57,7 +57,7 @@ export function getFieldsUpdateQuery(state, fields) {
         value === null
           ? ""
           : "optionsByValue" in field
-          ? findFieldOptionId(state, field.optionsByValue, value)
+          ? findFieldOptionId(state, field, value)
           : value;
 
       const queryNodes =
@@ -84,20 +84,41 @@ export function getFieldsUpdateQuery(state, fields) {
 }
 
 function escapeQuotes(str) {
+  // TODO: add test for when `str` is not a "string"
+  /* c8 ignore next */
   return typeof str === "string" ? str.replace(/\"/g, '\\"') : str;
 }
 
 /**
  * @param {import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithItems} state
- * @param {Record<string, string>} optionsByValue
+ * @param {import("../..").ProjectFieldWithOptions} field
  * @param {string} value
  *
- * @returns {string | undefined}
+ * @returns {string}
  */
-function findFieldOptionId(state, optionsByValue, value) {
+function findFieldOptionId(state, field, value) {
   const [_optionValue, optionId] =
-    Object.entries(optionsByValue).find(([optionValue]) =>
+    Object.entries(field.optionsByValue).find(([optionValue]) =>
       state.matchFieldOptionValue(optionValue, value.trim())
     ) || [];
+
+  if (!optionId) {
+    const knownOptions = Object.keys(field.optionsByValue);
+    const existingOptionsString = knownOptions
+      .map((value) => `- ${value}`)
+      .join("\n");
+
+    throw Object.assign(
+      new Error(
+        `[github-project] "${value}" is an invalid option for "${field.name}".\n\nKnown options are:\n${existingOptionsString}`
+      ),
+      {
+        code: "E_GITHUB_PROJECT_UNKNOWN_FIELD_OPTION",
+        knownOptions,
+        userOption: value,
+      }
+    );
+  }
+
   return optionId;
 }
