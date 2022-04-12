@@ -1350,7 +1350,7 @@ test("project.items.update(itemNodeId, fields) not found", async (t) => {
   });
 
   const updatedItem = await project.items.update("<unknown id>", {
-    relevantToUsers: "yes",
+    relevantToUsers: "Yes",
   });
 
   t.deepEqual(updatedItem, undefined);
@@ -1415,7 +1415,7 @@ test("project.items.update(itemNodeId, fields) unforeseen GraphQL error", async 
 
   try {
     await project.items.update("<unknown id>", {
-      relevantToUsers: "yes",
+      relevantToUsers: "Yes",
     });
     t.fail("Should have thrown");
   } catch (error) {
@@ -1467,7 +1467,7 @@ test("project.items.update(itemNodeId, fields) with non GraphQL error", async (t
 
   try {
     await project.items.update("<unknown id>", {
-      relevantToUsers: "yes",
+      relevantToUsers: "Yes",
     });
     t.fail("should have thrown");
   } catch (error) {
@@ -1754,7 +1754,7 @@ test("project.items.updateByContentId(contentNodeId, fields)", async (t) => {
   const updatedItem = await project.items.updateByContentId(
     "I_kwDOGNkQys49IizC",
     {
-      relevantToUsers: "yes",
+      relevantToUsers: "Yes",
     }
   );
 
@@ -1762,7 +1762,7 @@ test("project.items.updateByContentId(contentNodeId, fields)", async (t) => {
     ...issueItemFixture,
     fields: {
       ...issueItemFixture.fields,
-      relevantToUsers: "yes",
+      relevantToUsers: "Yes",
     },
   });
 });
@@ -1816,7 +1816,7 @@ test("project.items.updateByContentId(contentNodeId, fields) not found", async (
   });
 
   const updatedItem = await project.items.updateByContentId("<unknown id>", {
-    relevantToUsers: "yes",
+    relevantToUsers: "Yes",
   });
 
   t.deepEqual(updatedItem, undefined);
@@ -1877,7 +1877,7 @@ test("project.items.updateByContentRepositoryAndNumber(contentNodeId, fields)", 
     "example-product",
     2,
     {
-      relevantToUsers: "yes",
+      relevantToUsers: "Yes",
     }
   );
 
@@ -1885,7 +1885,7 @@ test("project.items.updateByContentRepositoryAndNumber(contentNodeId, fields)", 
     ...issueItemFixture,
     fields: {
       ...issueItemFixture.fields,
-      relevantToUsers: "yes",
+      relevantToUsers: "Yes",
     },
   });
 });
