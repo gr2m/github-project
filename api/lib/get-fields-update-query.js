@@ -84,6 +84,8 @@ export function getFieldsUpdateQuery(state, fields) {
 }
 
 function escapeQuotes(str) {
+  // TODO: add test for when `str` is not a "string"
+  /* c8 ignore next */
   return typeof str === "string" ? str.replace(/\"/g, '\\"') : str;
 }
 
