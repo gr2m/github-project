@@ -1741,17 +1741,17 @@ test("project.items.update(itemNodeId, fields) with invalid field option", async
   });
 
   try {
-    const updatedItem = await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
-      status: "Unknown options",
+    await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
+      status: "Unknown option",
     });
     t.fail("Should not resolve");
   } catch (error) {
     t.is(error.code, "E_GITHUB_PROJECT_UNKNOWN_FIELD_OPTION");
     t.deepEqual(error.knownOptions, ["Yes", "No"]);
-    t.is(error.userOption, "Unknown options");
+    t.is(error.userOption, "Unknown option");
     t.is(
       error.message,
-      `[github-project] "Unknown options" is an invalid option for "Relevant to users?".
+      `[github-project] "Unknown option" is an invalid option for "Relevant to users?".
 
 Known options are:
 - Yes
