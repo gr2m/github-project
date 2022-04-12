@@ -1700,6 +1700,66 @@ test("project.items.update(itemNodeId, fields) with custom status field", async 
   });
 });
 
+test("project.items.update(itemNodeId, fields) with invalid field option", async (t) => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+  const { issueItemFixture } = await import(
+    "./test/fixtures/get-item/issue-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    t.deepEqual(options.method, "POST");
+    t.deepEqual(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      t.deepEqual(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      status: "Relevant to users?",
+    },
+  });
+
+  try {
+    const updatedItem = await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
+      status: "Unknown options",
+    });
+    t.fail("Should not resolve");
+  } catch (error) {
+    t.is(error.code, "E_GITHUB_PROJECT_UNKNOWN_FIELD_OPTION");
+    t.deepEqual(error.knownOptions, ["Yes", "No"]);
+    t.is(error.userOption, "Unknown options");
+    t.is(
+      error.message,
+      `[github-project] "Unknown options" is an invalid option for "Relevant to users?".
+
+Known options are:
+- Yes
+- No`
+    );
+  }
+});
+
 test("project.items.updateByContentId(contentNodeId, fields)", async (t) => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
