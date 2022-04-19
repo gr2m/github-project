@@ -38,8 +38,9 @@ export async function getStateWithProjectItems(project, state) {
     return projectItemNodeToGitHubProjectItem({ fields }, node);
   })
 
+  // Recursively fetch all additional items for this project
   if (projectNext.items.pageInfo.hasNextPage) {
-    await fetchProjectItems(project, fields, { cursor: projectNext.items.pageInfo.endCursor, results: items, });
+    await fetchProjectItems(project, fields, { cursor: projectNext.items.pageInfo.endCursor, results: items });
   }
 
   const { id, title, description, url } = projectNext;
@@ -60,9 +61,11 @@ export async function getStateWithProjectItems(project, state) {
 
 /**
  * This method recursively executes a paginated query to gather all project items for a project
+ * It collects the items into options.results, and can start from an arbitrary GraphQL cursor
  *
  * @param {import("../..").default} project
  * @param {import("../..").ProjectFieldMap} fields
+ * @param {{ cursor?: string | undefined, results?: Array<import("../..").GitHubProjectItem> }} options
  * @returns {Promise<import("../..").GitHubProjectItem[]>}
  */
 async function fetchProjectItems(
