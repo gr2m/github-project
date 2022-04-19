@@ -48,7 +48,6 @@ export async function getStateWithProjectItems(project, state) {
   });
 }
 
-
 /**
  * This method recursively executes a paginated query to gather all project items for a project
  *

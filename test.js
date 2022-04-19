@@ -496,6 +496,64 @@ test("project.items.list() with field using different capitalization", async (t)
   t.deepEqual(items, listItemsFixture);
 });
 
+test("project.items.list() with pagination", async (t) => {
+  const { listItemsFixture } = await import(
+    "./test/fixtures/list-items/items.js"
+  );
+  const { getProjectQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-project.js"
+  );
+  const { getProjectItemsPage1QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-1.js"
+  );
+  const { getProjectItemsPage2QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-2.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    t.deepEqual(options.method, "POST");
+    t.deepEqual(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      return {
+        data: getProjectQueryResultFixture,
+      };
+    }
+
+    if (/query getProjectItems\(/.test(options.query)) {
+      if (options.variables.after === undefined) {
+        return {
+          data: getProjectItemsPage1QueryResultFixture,
+        };
+      } else {
+        return {
+          data: getProjectItemsPage2QueryResultFixture,
+        };
+      }
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "RELEVANT TO USERS?",
+      suggestedChangelog: "suggested changelog",
+    },
+  });
+
+  const items = await project.items.list();
+
+  t.deepEqual(items, listItemsFixture);
+});
+
 test("project.items.add() issue", async (t) => {
   const { getProjectFieldsQueryResultFixture } = await import(
     "./test/fixtures/get-project-fields/query-result.js"
