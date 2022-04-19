@@ -57,11 +57,8 @@ test("constructor with token", (t) => {
 });
 
 test("`matchFieldName` constructor option", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -69,23 +66,9 @@ test("`matchFieldName` constructor option", async (t) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-
-    if (/query getProjectItems\(/.test(options.query)) {
-      return {
-        data: getProjectItemsQueryResultFixture,
-      };
-    }
-
-    throw new Error(
-      `Unexpected query:\n${prettier.format(options.query, {
-        parser: "graphql",
-      })}`
-    );
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
   });
   const matchFieldNameArguments = [];
   const project = new GitHubProject({
@@ -252,14 +235,11 @@ test("getters", (t) => {
 });
 
 test("project.items.list()", async (t) => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
   const { listItemsFixture } = await import(
     "./test/fixtures/list-items/items.js"
-  );
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
-  const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
   );
 
   const octokit = new Octokit();
@@ -267,25 +247,10 @@ test("project.items.list()", async (t) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-
-    if (/query getProjectItems\(/.test(options.query)) {
-      return {
-        data: getProjectItemsQueryResultFixture,
-      };
-    }
-
-    throw new Error(
-      `Unexpected query:\n${prettier.format(options.query, {
-        parser: "graphql",
-      })}`
-    );
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
   });
-
   const project = new GitHubProject({
     org: "org",
     number: 1,
@@ -302,11 +267,8 @@ test("project.items.list()", async (t) => {
 });
 
 test("project.items.list() without configuring custom fields", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -314,23 +276,9 @@ test("project.items.list() without configuring custom fields", async (t) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-
-    if (/query getProjectItems\(/.test(options.query)) {
-      return {
-        data: getProjectItemsQueryResultFixture,
-      };
-    }
-
-    throw new Error(
-      `Unexpected query:\n${prettier.format(options.query, {
-        parser: "graphql",
-      })}`
-    );
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
   });
   const project = new GitHubProject({
     org: "org",
@@ -396,39 +344,20 @@ test("project.items.list() without configuring custom fields", async (t) => {
 });
 
 test("project.items.list() multiple calls only send query once", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
-  let queryCounterCoreData = 0;
-  let queryCounterProjectItems = 0;
+  let queryCounter = 0;
   octokit.hook.wrap("request", async (request, options) => {
+    queryCounter++;
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      queryCounterCoreData++;
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-
-    if (/query getProjectItems\(/.test(options.query)) {
-      queryCounterProjectItems++;
-      return {
-        data: getProjectItemsQueryResultFixture,
-      };
-    }
-
-    throw new Error(
-      `Unexpected query:\n${prettier.format(options.query, {
-        parser: "graphql",
-      })}`
-    );
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
   });
   const project = new GitHubProject({
     org: "org",
@@ -443,19 +372,15 @@ test("project.items.list() multiple calls only send query once", async (t) => {
   await project.items.list();
   await project.items.list();
 
-  t.deepEqual(queryCounterCoreData, 1);
-  t.deepEqual(queryCounterProjectItems, 1);
+  t.deepEqual(queryCounter, 1);
 });
 
 test("project.items.list() with field using different capitalization", async (t) => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
   const { listItemsFixture } = await import(
     "./test/fixtures/list-items/items.js"
-  );
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
-  const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
   );
 
   const octokit = new Octokit();
@@ -463,23 +388,9 @@ test("project.items.list() with field using different capitalization", async (t)
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-
-    if (/query getProjectItems\(/.test(options.query)) {
-      return {
-        data: getProjectItemsQueryResultFixture,
-      };
-    }
-
-    throw new Error(
-      `Unexpected query:\n${prettier.format(options.query, {
-        parser: "graphql",
-      })}`
-    );
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
   });
   const project = new GitHubProject({
     org: "org",
@@ -500,14 +411,14 @@ test("project.items.list() with pagination", async (t) => {
   const { listItemsFixture } = await import(
     "./test/fixtures/list-items/items.js"
   );
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsPage1QueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result-items-page-1.js"
   );
   const { getProjectItemsPage2QueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result-items-page-2.js"
+  );
+  const { getProjectItemsPage3QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-3.js"
   );
 
   const octokit = new Octokit();
@@ -515,22 +426,22 @@ test("project.items.list() with pagination", async (t) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       return {
-        data: getProjectQueryResultFixture,
+        data: getProjectItemsPage1QueryResultFixture,
       };
     }
 
     if (/query getProjectItems\(/.test(options.query)) {
-      if (options.variables.after === undefined) {
-        return {
-          data: getProjectItemsPage1QueryResultFixture,
-        };
-      } else {
+      if (options.variables.after === "PNI_lADOBYMIeM0lfM4AAzDD") {
         return {
           data: getProjectItemsPage2QueryResultFixture,
         };
       }
+
+      return {
+        data: getProjectItemsPage3QueryResultFixture,
+      };
     }
 
     throw new Error(
@@ -828,11 +739,8 @@ test("project.items.add() multiple calls sends query to load fields only once", 
 });
 
 test("project.items.add() after project.items.list() does not send getProjectCoreData query", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
   const { addIssueItemQueryResultFixture } = await import(
     "./test/fixtures/add-item/issue/query-result.js"
@@ -843,12 +751,7 @@ test("project.items.add() after project.items.list() does not send getProjectCor
   octokit.hook.wrap("request", async (request, options) => {
     queryCounter++;
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       return {
         data: getProjectItemsQueryResultFixture,
       };
@@ -878,15 +781,12 @@ test("project.items.add() after project.items.list() does not send getProjectCor
 
   await project.items.list();
   await project.items.add("issue node_id");
-  t.deepEqual(queryCounter, 3);
+  t.deepEqual(queryCounter, 2);
 });
 
 test("project.items.add() adding existing item after project.items.list() does not send query to add item again", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -894,22 +794,11 @@ test("project.items.add() adding existing item after project.items.list() does n
   octokit.hook.wrap("request", async (request, options) => {
     queryCounter++;
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      return {
-        data: getProjectItemsQueryResultFixture,
-      };
-    }
+    t.regex(options.query, /query getProjectWithItems\(/);
 
-    throw new Error(
-      `Unexpected query:\n${prettier.format(options.query, {
-        parser: "graphql",
-      })}`
-    );
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
   });
   const project = new GitHubProject({
     org: "org",
@@ -923,15 +812,12 @@ test("project.items.add() adding existing item after project.items.list() does n
 
   await project.items.list();
   await project.items.add("PR_kwDOGNkQys4tKgLV");
-  t.deepEqual(queryCounter, 2);
+  t.deepEqual(queryCounter, 1);
 });
 
 test("project.items.add() adding existing item with fields after project.items.list() does not send query to add item again", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -939,12 +825,7 @@ test("project.items.add() adding existing item with fields after project.items.l
   octokit.hook.wrap("request", async (request, options) => {
     queryCounter++;
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       return {
         data: getProjectItemsQueryResultFixture,
       };
@@ -975,7 +856,7 @@ test("project.items.add() adding existing item with fields after project.items.l
     status: "Done",
   });
   t.deepEqual(projectItem.fields.status, "Done");
-  t.deepEqual(queryCounter, 3);
+  t.deepEqual(queryCounter, 2);
 });
 
 test('project.items.add() with " in value', async (t) => {
@@ -1025,11 +906,8 @@ test('project.items.add() with " in value', async (t) => {
 });
 
 test("project.items.get(itemId)", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
   const { draftItemFixture } = await import(
     "./test/fixtures/get-item/draft-item.js"
@@ -1039,34 +917,14 @@ test("project.items.get(itemId)", async (t) => {
   octokit.hook.wrap("request", async (request, options) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
+    t.deepEqual(options.variables, {
+      org: "org",
+      number: 1,
+    });
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
-      });
-
-      return {
-        data: getProjectItemsQueryResultFixture,
-      };
-    }
-
-    throw new Error(
-      `Unexpected query:\n${prettier.format(options.query, {
-        parser: "graphql",
-      })}`
-    );
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
   });
   const project = new GitHubProject({
     org: "org",
@@ -1084,39 +942,22 @@ test("project.items.get(itemId)", async (t) => {
 });
 
 test("project.items.get() not found", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
   octokit.hook.wrap("request", async (request, options) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
+    t.deepEqual(options.variables, {
+      org: "org",
+      number: 1,
+    });
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
-      });
-
-      return {
-        data: getProjectItemsQueryResultFixture,
-      };
-    }
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
   });
   const project = new GitHubProject({
     org: "org",
@@ -1134,43 +975,21 @@ test("project.items.get() not found", async (t) => {
 });
 
 test("project.items.get(contentId)", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
   const octokit = new Octokit();
   octokit.hook.wrap("request", async (request, options) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
-      });
+    t.deepEqual(options.variables, {
+      org: "org",
+      number: 1,
+    });
 
-      return {
-        data: getProjectItemsQueryResultFixture,
-      };
-    }
-
-    throw new Error(
-      `Unexpected query:\n${prettier.format(options.query, {
-        parser: "graphql",
-      })}`
-    );
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
   });
   const project = new GitHubProject({
     org: "org",
@@ -1187,11 +1006,8 @@ test("project.items.get(contentId)", async (t) => {
 });
 
 test("project.items.getByContentId(contentId)", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
   const { issueItemFixture } = await import(
     "./test/fixtures/get-item/issue-item.js"
@@ -1201,33 +1017,14 @@ test("project.items.getByContentId(contentId)", async (t) => {
   octokit.hook.wrap("request", async (request, options) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
-      });
+    t.deepEqual(options.variables, {
+      org: "org",
+      number: 1,
+    });
 
-      return {
-        data: getProjectItemsQueryResultFixture,
-      };
-    }
-
-    throw new Error(
-      `Unexpected query:\n${prettier.format(options.query, {
-        parser: "graphql",
-      })}`
-    );
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
   });
   const project = new GitHubProject({
     org: "org",
@@ -1244,11 +1041,8 @@ test("project.items.getByContentId(contentId)", async (t) => {
 });
 
 test("project.items.getByContentRepositoryAndNumber(repositoryName, issueOrPullRequestNumber)", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
   const { issueItemFixture } = await import(
     "./test/fixtures/get-item/issue-item.js"
@@ -1258,32 +1052,14 @@ test("project.items.getByContentRepositoryAndNumber(repositoryName, issueOrPullR
   octokit.hook.wrap("request", async (request, options) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
-      });
+    t.deepEqual(options.variables, {
+      org: "org",
+      number: 1,
+    });
 
-      return {
-        data: getProjectItemsQueryResultFixture,
-      };
-    }
-    throw new Error(
-      `Unexpected query:\n${prettier.format(options.query, {
-        parser: "graphql",
-      })}`
-    );
+    return {
+      data: getProjectItemsQueryResultFixture,
+    };
   });
   const project = new GitHubProject({
     org: "org",
@@ -1496,13 +1272,9 @@ test("project.items.update(itemNodeId, fields)", async (t) => {
 });
 
 test("project.items.list() then project.items.update(itemNodeId, fields)", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
-
   const { issueItemFixture } = await import(
     "./test/fixtures/get-item/issue-item.js"
   );
@@ -1512,21 +1284,10 @@ test("project.items.list() then project.items.update(itemNodeId, fields)", async
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         org: "org",
         number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
       });
 
       return {
@@ -1876,11 +1637,8 @@ test("project.items.update(itemNodeId, fields) where a field is unknown", async 
 });
 
 test("project.items.update(itemNodeId, fields) with custom status field", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
-  const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
   );
   const { issueItemFixture } = await import(
     "./test/fixtures/get-item/issue-item.js"
@@ -1896,20 +1654,9 @@ test("project.items.update(itemNodeId, fields) with custom status field", async 
         org: "org",
         number: 1,
       });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
-      });
 
       return {
-        data: getProjectItemsQueryResultFixture,
+        data: getProjectFieldsQueryResultFixture,
       };
     }
 
@@ -2012,11 +1759,11 @@ test("project.items.update(itemNodeId, fields) with custom status field", async 
 });
 
 test("project.items.update(itemNodeId, fields) with invalid field option", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
   );
-  const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+  const { issueItemFixture } = await import(
+    "./test/fixtures/get-item/issue-item.js"
   );
 
   const octokit = new Octokit();
@@ -2029,20 +1776,9 @@ test("project.items.update(itemNodeId, fields) with invalid field option", async
         org: "org",
         number: 1,
       });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
-      });
 
       return {
-        data: getProjectItemsQueryResultFixture,
+        data: getProjectFieldsQueryResultFixture,
       };
     }
 
@@ -2083,11 +1819,8 @@ Known options are:
 });
 
 test("project.items.updateByContentId(contentNodeId, fields)", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
   const { issueItemFixture } = await import(
     "./test/fixtures/get-item/issue-item.js"
@@ -2098,21 +1831,10 @@ test("project.items.updateByContentId(contentNodeId, fields)", async (t) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         org: "org",
         number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
       });
 
       return {
@@ -2164,11 +1886,8 @@ test("project.items.updateByContentId(contentNodeId, fields)", async (t) => {
 });
 
 test("project.items.updateByContentId(contentNodeId, fields) not found", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -2176,21 +1895,10 @@ test("project.items.updateByContentId(contentNodeId, fields) not found", async (
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         org: "org",
         number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
       });
 
       return {
@@ -2233,11 +1941,8 @@ test("project.items.updateByContentId(contentNodeId, fields) not found", async (
 });
 
 test("project.items.updateByContentRepositoryAndNumber(contentNodeId, fields)", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
   const { issueItemFixture } = await import(
     "./test/fixtures/get-item/issue-item.js"
@@ -2248,21 +1953,10 @@ test("project.items.updateByContentRepositoryAndNumber(contentNodeId, fields)", 
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         org: "org",
         number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
       });
 
       return {
@@ -2315,11 +2009,8 @@ test("project.items.updateByContentRepositoryAndNumber(contentNodeId, fields)", 
 });
 
 test("project.items.updateByContentRepositoryAndNumber(contentNodeId, fields) not found", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -2327,21 +2018,10 @@ test("project.items.updateByContentRepositoryAndNumber(contentNodeId, fields) no
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         org: "org",
         number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
       });
 
       return {
@@ -2539,11 +2219,8 @@ test("project.items.remove() with non-GraphQL error", async (t) => {
 });
 
 test("project.items.remove() with unforeseen GraphQL error", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
-  const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -2557,20 +2234,9 @@ test("project.items.remove() with unforeseen GraphQL error", async (t) => {
         org: "org",
         number: 1,
       });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
-      });
 
       return {
-        data: getProjectItemsQueryResultFixture,
+        data: getProjectFieldsQueryResultFixture,
       };
     }
     if (/mutation deleteProjectNextItem\(/.test(options.query)) {
@@ -2617,11 +2283,8 @@ test("project.items.remove() with unforeseen GraphQL error", async (t) => {
 });
 
 test("project.items.list() then project.items.remove(itemId) clears cache", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -2630,21 +2293,10 @@ test("project.items.list() then project.items.remove(itemId) clears cache", asyn
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         org: "org",
         number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
       });
 
       return {
@@ -2686,11 +2338,8 @@ test("project.items.list() then project.items.remove(itemId) clears cache", asyn
 });
 
 test("project.items.list() then project.items.remove() does not send mutation request", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -2699,21 +2348,10 @@ test("project.items.list() then project.items.remove() does not send mutation re
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         org: "org",
         number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
       });
 
       return {
@@ -2743,11 +2381,8 @@ test("project.items.list() then project.items.remove() does not send mutation re
 });
 
 test("project.items.removeByContentId(contentId)", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -2756,21 +2391,10 @@ test("project.items.removeByContentId(contentId)", async (t) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         org: "org",
         number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
       });
 
       return {
@@ -2812,11 +2436,8 @@ test("project.items.removeByContentId(contentId)", async (t) => {
 });
 
 test("project.items.removeByContentId(unknownId) not found", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -2825,21 +2446,10 @@ test("project.items.removeByContentId(unknownId) not found", async (t) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         org: "org",
         number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
       });
 
       return {
@@ -2878,11 +2488,8 @@ test("project.items.removeByContentId(unknownId) not found", async (t) => {
 });
 
 test("project.items.removeByContentRepositoryAndNumber(contentId)", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -2891,21 +2498,10 @@ test("project.items.removeByContentRepositoryAndNumber(contentId)", async (t) =>
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         org: "org",
         number: 1,
-      });
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
       });
 
       return {
@@ -2947,11 +2543,8 @@ test("project.items.removeByContentRepositoryAndNumber(contentId)", async (t) =>
 });
 
 test("project.items.removeByContentRepositoryAndNumber(unknownId) not found", async (t) => {
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -2960,23 +2553,10 @@ test("project.items.removeByContentRepositoryAndNumber(unknownId) not found", as
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         org: "org",
         number: 1,
-      });
-
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        first: 100,
-        after: undefined,
       });
 
       return {
@@ -3015,14 +2595,11 @@ test("project.items.removeByContentRepositoryAndNumber(unknownId) not found", as
 });
 
 test("project.items.updateByContentRepositoryAndNumber(contentNodeId, { status }) with unused custom field", async (t) => {
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
+  );
   const { issueItemFixture } = await import(
     "./test/fixtures/get-item/issue-item.js"
-  );
-  const { getProjectQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-project.js"
-  );
-  const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result-items.js"
   );
 
   const octokit = new Octokit();
@@ -3030,23 +2607,10 @@ test("project.items.updateByContentRepositoryAndNumber(contentNodeId, { status }
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
+    if (/query getProjectWithItems\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         org: "org",
         number: 1,
-      });
-
-      return {
-        data: getProjectQueryResultFixture,
-      };
-    }
-
-    if (/query getProjectItems\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-        after: undefined,
-        first: 100,
       });
 
       return {

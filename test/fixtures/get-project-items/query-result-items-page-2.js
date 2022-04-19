@@ -4,22 +4,22 @@ export const getProjectItemsPage2QueryResultFixture = {
       projectNext: {
         items: {
           pageInfo: {
-            hasNextPage: false,
-            endCursor: 'PNI_lADOBYMIeM0lfM4ADfm9'
+            hasNextPage: true,
+            endCursor: 'PNI_lADOBYMIeM0lfM4AAzDx'
           },
           nodes: [
             {
-              id: "PNI_lADOBYMIeM0lfM4ADfm9",
-              title: "Enforce setting project via github actions",
-              type: "ISSUE",
+              id: "PNI_lADOBYMIeM0lfM4AAzDx",
+              title: "Update README.md",
+              type: "PULL_REQUEST",
               content: {
-                __typename: "Issue",
-                id: "I_kwDOGNkQys49IizC",
-                number: 2,
-                title: "Enforce setting project via github actions",
-                url: "https://github.com/gr2m-issues-automation-sandbox/example-product/issues/2",
-                createdAt: "2021-10-13T20:07:02Z",
-                databaseId: 1025649858,
+                __typename: "PullRequest",
+                id: "PR_kwDOGNkQys4tKgLV",
+                number: 1,
+                title: "Update README.md",
+                url: "https://github.com/gr2m-issues-automation-sandbox/example-product/pulls/1",
+                createdAt: "2021-10-13T19:58:16Z",
+                databaseId: 757727957,
                 assignees: {
                   nodes: [],
                 },
@@ -32,13 +32,20 @@ export const getProjectItemsPage2QueryResultFixture = {
                 repository: {
                   name: "example-product",
                 },
+                merged: false,
               },
               fieldValues: {
                 nodes: [
                   {
-                    value: "Enforce setting project via github actions",
+                    value: "Update README.md",
                     projectField: {
                       id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTI5NA==",
+                    },
+                  },
+                  {
+                    value: "f75ad846",
+                    projectField: {
+                      id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTI5Ng==",
                     },
                   },
                 ],

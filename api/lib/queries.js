@@ -70,6 +70,25 @@ export const queryItemFieldNodes = `
   }
 `;
 
+export const getProjectWithItems = `
+  query getProjectWithItems($org: String!, $number: Int!) {
+    organization(login: $org) {
+      projectNext(number: $number) {
+        ${queryProjectNodes}
+        items(first: 100) {
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
+          nodes {
+            ${queryItemFieldNodes}
+          }
+        }
+      }
+    }
+  }
+`
+
 export const getProjectItemsPaginatedQuery = `
   query getProjectItems($org: String!, $number: Int!, $first: Int, $after: String) {
     organization(login: $org) {

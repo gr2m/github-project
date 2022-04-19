@@ -1,7 +1,7 @@
 // @ts-check
 
 import {
-  getProjectCoreDataQuery,
+  getProjectWithItems,
   getProjectItemsPaginatedQuery,
 } from "./queries.js";
 import { projectFieldsNodesToFieldsMap } from "./project-fields-nodes-to-fields-map.js";
@@ -22,7 +22,7 @@ export async function getStateWithProjectItems(project, state) {
 
   const {
     organization: { projectNext },
-  } = await project.octokit.graphql(getProjectCoreDataQuery, {
+  } = await project.octokit.graphql(getProjectWithItems, {
     org: project.org,
     number: project.number,
   });
@@ -33,7 +33,14 @@ export async function getStateWithProjectItems(project, state) {
     projectNext.fields.nodes
   );
 
-  const items = await fetchProjectItems(project, fields);
+  const items = projectNext.items.nodes.map((node) => {
+    // @ts-expect-error - for simplicity only pass fields instead of a full state
+    return projectItemNodeToGitHubProjectItem({ fields }, node);
+  })
+
+  if (projectNext.items.pageInfo.hasNextPage) {
+    await fetchProjectItems(project, fields, { cursor: projectNext.items.pageInfo.endCursor, results: items, });
+  }
 
   const { id, title, description, url } = projectNext;
 
