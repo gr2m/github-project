@@ -1,6 +1,9 @@
 // @ts-check
 
-import { getProjectCoreDataQuery, getProjectItemsPaginatedQuery } from "./queries.js";
+import {
+  getProjectCoreDataQuery,
+  getProjectItemsPaginatedQuery,
+} from "./queries.js";
 import { projectFieldsNodesToFieldsMap } from "./project-fields-nodes-to-fields-map.js";
 import { projectItemNodeToGitHubProjectItem } from "./project-item-node-to-github-project-item.js";
 
@@ -30,7 +33,7 @@ export async function getStateWithProjectItems(project, state) {
     projectNext.fields.nodes
   );
 
-  const items = await fetchProjectItems(project, fields)
+  const items = await fetchProjectItems(project, fields);
 
   const { id, title, description, url } = projectNext;
 
@@ -55,21 +58,34 @@ export async function getStateWithProjectItems(project, state) {
  * @param {import("../..").ProjectFieldMap} fields
  * @returns {Promise<import("../..").GitHubProjectItem[]>}
  */
-async function fetchProjectItems(project, fields, { cursor = undefined, results = [] } = {}) {
-  const { organization: { projectNext: { items } } } = await project.octokit.graphql(getProjectItemsPaginatedQuery, {
+async function fetchProjectItems(
+  project,
+  fields,
+  { cursor = undefined, results = [] } = {}
+) {
+  const {
+    organization: {
+      projectNext: { items },
+    },
+  } = await project.octokit.graphql(getProjectItemsPaginatedQuery, {
     org: project.org,
     number: project.number,
     first: 100,
     after: cursor,
   });
 
-  results.push(...items.nodes.map((node) => {
-    // @ts-expect-error - for simplicity only pass fields instead of a full state
-    return projectItemNodeToGitHubProjectItem({ fields }, node);
-  }));
+  results.push(
+    ...items.nodes.map((node) => {
+      // @ts-expect-error - for simplicity only pass fields instead of a full state
+      return projectItemNodeToGitHubProjectItem({ fields }, node);
+    })
+  );
 
   if (items.pageInfo.hasNextPage) {
-    await fetchProjectItems(project, fields, { results, cursor: items.pageInfo.endCursor })
+    await fetchProjectItems(project, fields, {
+      results,
+      cursor: items.pageInfo.endCursor,
+    });
   }
 
   return results;
