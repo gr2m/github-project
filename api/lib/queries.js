@@ -70,7 +70,7 @@ export const queryItemFieldNodes = `
   }
 `;
 
-export const getProjectWithItems = `
+export const getProjectWithItemsQuery = `
   query getProjectWithItems($org: String!, $number: Int!) {
     organization(login: $org) {
       projectNext(number: $number) {

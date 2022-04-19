@@ -1,7 +1,7 @@
 // @ts-check
 
 import {
-  getProjectWithItems,
+  getProjectWithItemsQuery,
   getProjectItemsPaginatedQuery,
 } from "./queries.js";
 import { projectFieldsNodesToFieldsMap } from "./project-fields-nodes-to-fields-map.js";
@@ -22,7 +22,7 @@ export async function getStateWithProjectItems(project, state) {
 
   const {
     organization: { projectNext },
-  } = await project.octokit.graphql(getProjectWithItems, {
+  } = await project.octokit.graphql(getProjectWithItemsQuery, {
     org: project.org,
     number: project.number,
   });
