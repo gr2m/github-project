@@ -71,11 +71,33 @@ export const queryItemFieldNodes = `
 `;
 
 export const getProjectWithItemsQuery = `
-  query getProjectWithItems($org: String!,$number: Int!) {
+  query getProjectWithItems($org: String!, $number: Int!) {
     organization(login: $org) {
       projectNext(number: $number) {
         ${queryProjectNodes}
         items(first: 100) {
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
+          nodes {
+            ${queryItemFieldNodes}
+          }
+        }
+      }
+    }
+  }
+`
+
+export const getProjectItemsPaginatedQuery = `
+  query getProjectItems($org: String!, $number: Int!, $first: Int, $after: String) {
+    organization(login: $org) {
+      projectNext(number: $number) {
+        items(first: $first, after: $after) {
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
           nodes {
             ${queryItemFieldNodes}
           }
@@ -86,7 +108,7 @@ export const getProjectWithItemsQuery = `
 `;
 
 export const getProjectCoreDataQuery = `
-  query getProjectCoreData($org: String!,$number: Int!) {
+  query getProjectCoreData($org: String!, $number: Int!) {
     organization(login: $org) {
       projectNext(number: $number) {
         ${queryProjectNodes}
@@ -96,7 +118,7 @@ export const getProjectCoreDataQuery = `
 `;
 
 export const addIssueToProjectMutation = `
-  mutation addIssueToProject($projectId:ID!,$contentId:ID!) {
+  mutation addIssueToProject($projectId:ID!, $contentId:ID!) {
     addProjectNextItem(input:{
       projectId:$projectId,
       contentId:$contentId
@@ -109,7 +131,7 @@ export const addIssueToProjectMutation = `
 `;
 
 export const removeItemFromProjectMutation = `
-  mutation deleteProjectNextItem($projectId:ID!,$itemId:ID!) {
+  mutation deleteProjectNextItem($projectId:ID!, $itemId:ID!) {
     deleteProjectNextItem(input:{
       projectId:$projectId,
       itemId:$itemId

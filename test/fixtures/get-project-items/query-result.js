@@ -58,6 +58,10 @@ export const getProjectItemsQueryResultFixture = {
           ],
         },
         items: {
+          pageInfo: {
+            hasNextPage: false,
+            endCursor: "PNI_lADOBYMIeM0lfM4ADfm9",
+          },
           nodes: [
             {
               id: "PNI_lADOBYMIeM0lfM4AAzDD",
