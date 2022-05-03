@@ -55,6 +55,11 @@ export const getProjectItemsQueryResultFixture = {
               name: "Linked Pull Requests",
               settings: "null",
             },
+            {
+              id: "MDE2OlByb2plY3ROZXh0RmllbGQ0MTCyKaz=",
+              name: "Ready For Work",
+              settings: "null",
+            },
           ],
         },
         items: {

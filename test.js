@@ -1033,6 +1033,7 @@ test("project.items.getByContentId(contentId)", async (t) => {
     fields: {
       relevantToUsers: "Relevant to users?",
       suggestedChangelog: "Suggested Changelog",
+      "Ready For Work": "Ready For Work",
     },
   });
 
@@ -1068,6 +1069,7 @@ test("project.items.getByContentRepositoryAndNumber(repositoryName, issueOrPullR
     fields: {
       relevantToUsers: "Relevant to users?",
       suggestedChangelog: "Suggested Changelog",
+      "Ready For Work": "Ready For Work",
     },
   });
 
@@ -1251,6 +1253,7 @@ test("project.items.update(itemNodeId, fields)", async (t) => {
     fields: {
       relevantToUsers: "Relevant to users?",
       suggestedChangelog: "Suggested Changelog",
+      "Ready For Work": "Ready For Work",
     },
   });
 
@@ -1319,6 +1322,7 @@ test("project.items.list() then project.items.update(itemNodeId, fields)", async
     fields: {
       relevantToUsers: "Relevant to users?",
       suggestedChangelog: "Suggested Changelog",
+      "Ready For Work": "Ready For Work",
     },
   });
 
@@ -1631,7 +1635,7 @@ test("project.items.update(itemNodeId, fields) where a field is unknown", async 
   } catch (error) {
     t.deepEqual(
       error.message,
-      '[github-project] "What is that?" could not be matched with any of the existing field names: "Title", "Assignees", "Status", "Labels", "Repository", "Milestone", "Relevant to users?", "Suggested Changelog", "Linked Pull Requests"'
+      '[github-project] "What is that?" could not be matched with any of the existing field names: "Title", "Assignees", "Status", "Labels", "Repository", "Milestone", "Relevant to users?", "Suggested Changelog", "Linked Pull Requests", "Ready For Work"'
     );
   }
 });
@@ -1866,6 +1870,7 @@ test("project.items.updateByContentId(contentNodeId, fields)", async (t) => {
     fields: {
       relevantToUsers: "Relevant to users?",
       suggestedChangelog: "Suggested Changelog",
+      "Ready For Work": "Ready For Work",
     },
   });
 
@@ -1988,6 +1993,7 @@ test("project.items.updateByContentRepositoryAndNumber(contentNodeId, fields)", 
     fields: {
       relevantToUsers: "Relevant to users?",
       suggestedChangelog: "Suggested Changelog",
+      "Ready For Work": "Ready For Work",
     },
   });
 
@@ -2650,14 +2656,151 @@ test("project.items.updateByContentRepositoryAndNumber(contentNodeId, { status }
     }
   );
 
-  const { relevantToUsers, suggestedChangelog, ...itemFields } =
-    issueItemFixture.fields;
+  const {
+    relevantToUsers,
+    suggestedChangelog,
+    "Ready For Work": readyForwork,
+    ...itemFields
+  } = issueItemFixture.fields;
 
   t.deepEqual(updatedItem, {
     ...issueItemFixture,
     fields: {
       ...itemFields,
       status: "Ready",
+    },
+  });
+});
+
+test("project.items.update(itemNodeId, fields) with field name containing whitespace", async (t) => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+  const { issueItemFixture } = await import(
+    "./test/fixtures/get-item/issue-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    t.deepEqual(options.method, "POST");
+    t.deepEqual(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      t.deepEqual(options.variables, {
+        org: "org",
+        number: 1,
+      });
+
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      t.deepEqual(options.variables, {
+        projectId: "PN_kwDOBYMIeM0lfA",
+        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
+      });
+      t.regex(options.query, /ReadyForWork: updateProjectNextItemField\(/);
+
+      return {
+        data: {
+          data: {
+            ReadyForWork: {
+              projectNextItem: {
+                id: "PNI_lADOBYMIeM0lfM4ADfm9",
+                type: "ISSUE",
+                title: "Enforce setting project via github actions",
+                content: {
+                  __typename: "Issue",
+                  id: "I_kwDOGNkQys49IizC",
+                  number: 2,
+                  url: "https://github.com/gr2m-issues-automation-sandbox/example-product/issues/2",
+                  title: "Enforce setting project via github actions",
+                  createdAt: "2021-10-13T20:07:02Z",
+                  databaseId: 1025649858,
+                  assignees: {
+                    nodes: [],
+                  },
+                  labels: {
+                    nodes: [],
+                  },
+                  closed: false,
+                  closedAt: null,
+                  milestone: null,
+                  repository: {
+                    name: "example-product",
+                  },
+                },
+                fieldValues: {
+                  nodes: [
+                    {
+                      value: "Yes",
+                      projectField: {
+                        // Ready For Work
+                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ0MTCyKaz=",
+                      },
+                    },
+                    {
+                      value: "Enforce setting project via github actions",
+                      projectField: {
+                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTI5NA==",
+                      },
+                    },
+                    {
+                      // Yes
+                      value: "c9823470",
+                      projectField: {
+                        // relevantToUsers
+                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyMw==",
+                      },
+                    },
+                    {
+                      value: "this and that",
+                      projectField: {
+                        // suggestedChangelog
+                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyNA==",
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+            suggestedChangelog: {},
+          },
+        },
+      };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: "Suggested Changelog",
+      "Ready For Work": "Ready For Work",
+    },
+  });
+
+  const updatedItem = await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
+    "Ready For Work": "Yes",
+  });
+
+  t.deepEqual(updatedItem, {
+    ...issueItemFixture,
+    fields: {
+      ...issueItemFixture.fields,
+      "Ready For Work": "Yes",
+      relevantToUsers: "Yes",
+      suggestedChangelog: "this and that",
     },
   });
 });
