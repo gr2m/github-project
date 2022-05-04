@@ -6,6 +6,7 @@ export const issueItemFixture = {
     status: null,
     relevantToUsers: null,
     suggestedChangelog: null,
+    "Ready For Work": null,
   },
   content: {
     isIssue: true,

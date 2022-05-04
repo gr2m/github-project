@@ -39,8 +39,7 @@ export async function updateItem(project, state, itemNodeId, fields) {
     }
 
     // otherwise read all information from the first query response key
-    const firstKey = Object.keys(fields)[0];
-    const { projectNextItem } = result[firstKey];
+    const { projectNextItem } = result[Object.keys(result)[0]];
     return projectItemNodeToGitHubProjectItem(stateWithFields, projectNextItem);
   } catch (error) {
     if (!error.errors) throw error;
