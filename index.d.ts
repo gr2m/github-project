@@ -5,8 +5,15 @@ export type BUILT_IN_FIELDS = {
   status: "Status";
 };
 
+export type CustomFieldOption =
+  | string
+  | {
+      name: string;
+      optional?: boolean;
+    };
+
 export default class GitHubProject<
-  TCustomFields extends Record<string, string> = {},
+  TCustomFields extends Record<string, CustomFieldOption> = {},
   TFields extends BUILT_IN_FIELDS = TCustomFields & BUILT_IN_FIELDS,
   TItemFields = Record<keyof TFields, string | null>
 > {
@@ -73,7 +80,9 @@ export type MatchFieldOptionValueFn = (
   userValue: string
 ) => boolean;
 
-export type GitHubProjectOptions<TFields extends Record<string, string> = {}> =
+export type GitHubProjectOptions<
+  TFields extends Record<string, CustomFieldOption> = {}
+> =
   | {
       org: string;
       number: number;

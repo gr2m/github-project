@@ -2831,8 +2831,9 @@ test("project.items.getByContentId(contentId) with optional user fields", async 
     number: 1,
     octokit,
     fields: {
-      relevantToUsers: { name: "Field that DNE in project", optional: true },
-      relevantToUsers: { name: "Suggested Changelog", optional: false },
+      unrealField: { name: "Field that DNE in project", optional: true },
+      relevantToUsers: "Relevant to users?",
+      suggestedChangelog: { name: "Suggested Changelog", optional: false },
       "Ready For Work": "Ready For Work",
     },
   });
@@ -2844,9 +2845,6 @@ test("project.items.getByContentId(contentId) with optional user fields", async 
 test("project.items.getByContentId(contentId) when non-optional user fields not found in project", async (t) => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
-  );
-  const { issueItemFixture } = await import(
-    "./test/fixtures/get-item/issue-item.js"
   );
 
   const octokit = new Octokit();
@@ -2872,10 +2870,13 @@ test("project.items.getByContentId(contentId) when non-optional user fields not 
     },
   });
 
-  const item = await project.items.getByContentId("I_kwDOGNkQys49IizC");
-  t.deepEqual(item, issueItemFixture);
+  try {
+    await project.items.getByContentId("I_kwDOGNkQys49IizC");
+    t.fail("Should have thrown");
+  } catch (error) {
+    t.deepEqual(
+      error.message,
+      '[github-project] "Field that DNE in project" could not be matched with any of the existing field names: "Title", "Assignees", "Status", "Labels", "Repository", "Milestone", "Relevant to users?", "Suggested Changelog", "Linked Pull Requests", "Ready For Work"'
+    );
+  }
 });
-
-
-
-

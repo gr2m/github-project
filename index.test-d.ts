@@ -45,6 +45,7 @@ export function constructorWithCustomOptionalFieldsTest() {
     octokit: new Octokit(),
     fields: {
       priority: { name: "Priority", optional: true },
+      targetDate: "Target Date",
     },
   });
 
@@ -53,7 +54,9 @@ export function constructorWithCustomOptionalFieldsTest() {
   expectType<Octokit>(project.octokit);
   expectType<"Title">(project.fields.title);
   expectType<"Status">(project.fields.status);
-  expectType<{ name: string; optional: boolean; }>(project.fields.priority);
+  expectType<string>(project.fields.priority.name);
+  expectType<true>(project.fields.priority.optional);
+  expectType<string>(project.fields.targetDate);
 }
 
 export function constructorWithTokenTest() {

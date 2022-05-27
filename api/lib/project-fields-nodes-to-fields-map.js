@@ -1,5 +1,7 @@
 // @ts-check
 
+import { Octokit } from "@octokit/core";
+
 /**
  * Takes `project.fields` and the list of fields nodes from the GraphQL query result:
  *
@@ -49,7 +51,13 @@
  */
 export function projectFieldsNodesToFieldsMap(state, project, nodes) {
   return Object.entries(project.fields).reduce(
-    (acc, [userInternalFieldName, userFieldName]) => {
+    (acc, [userInternalFieldName, userFieldNameOrConfig]) => {
+      const fieldOptional =
+        typeof userFieldNameOrConfig === "object" &&
+        userFieldNameOrConfig.optional;
+      const userFieldName =
+        userFieldNameOrConfig?.name || userFieldNameOrConfig;
+
       const node = nodes.find((node) =>
         state.matchFieldName(
           node.name.toLowerCase(),
@@ -58,12 +66,18 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
       );
 
       if (!node) {
-        const projectFieldNames = nodes.map((node) => `"${node.name}"`);
-        throw new Error(
-          `[github-project] "${userFieldName}" could not be matched with any of the existing field names: ${projectFieldNames.join(
-            ", "
-          )}`
+        const projectFieldNames = nodes
+          .map((node) => `"${node.name}"`)
+          .join(", ");
+        if (!fieldOptional) {
+          throw new Error(
+            `[github-project] "${userFieldName}" could not be matched with any of the existing field names: ${projectFieldNames}`
+          );
+        }
+        project.octokit.log.info(
+          `[github-project] optional field "${userFieldName}" was not matched with any existing field names: ${projectFieldNames}`
         );
+        return acc;
       }
 
       acc[userInternalFieldName] = {
