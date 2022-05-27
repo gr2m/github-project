@@ -50,11 +50,12 @@
 export function projectFieldsNodesToFieldsMap(state, project, nodes) {
   return Object.entries(project.fields).reduce(
     (acc, [userInternalFieldName, userFieldNameOrConfig]) => {
-      const fieldOptional =
-        typeof userFieldNameOrConfig === "object" &&
-        userFieldNameOrConfig.optional;
-      const userFieldName =
-        userFieldNameOrConfig?.name || userFieldNameOrConfig;
+      let fieldOptional = false;
+      let userFieldName = userFieldNameOrConfig;
+      if (typeof userFieldNameOrConfig === "object") {
+        fieldOptional = userFieldNameOrConfig.optional;
+        userFieldName = userFieldNameOrConfig.name;
+      }
 
       const node = nodes.find((node) =>
         state.matchFieldName(
