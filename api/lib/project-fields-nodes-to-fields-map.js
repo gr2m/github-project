@@ -1,7 +1,5 @@
 // @ts-check
 
-import { Octokit } from "@octokit/core";
-
 /**
  * Takes `project.fields` and the list of fields nodes from the GraphQL query result:
  *
