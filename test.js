@@ -1635,7 +1635,7 @@ test("project.items.update(itemNodeId, fields) where a field is unknown", async 
   } catch (error) {
     t.deepEqual(
       error.message,
-      '[github-project] "What is that?" could not be matched with any of the existing field names: "Title", "Assignees", "Status", "Labels", "Repository", "Milestone", "Relevant to users?", "Suggested Changelog", "Linked Pull Requests", "Ready For Work"'
+      '[github-project] "What is that?" could not be matched with any of the existing field names: "Title", "Assignees", "Status", "Labels", "Repository", "Milestone", "Relevant to users?", "Suggested Changelog", "Linked Pull Requests", "Ready For Work". If the field should be considered optional, then set it to "unknown: { name: "What is that?", optional: true}'
     );
   }
 });
@@ -2876,7 +2876,7 @@ test("project.items.getByContentId(contentId) when non-optional user fields not 
   } catch (error) {
     t.deepEqual(
       error.message,
-      '[github-project] "Field that DNE in project" could not be matched with any of the existing field names: "Title", "Assignees", "Status", "Labels", "Repository", "Milestone", "Relevant to users?", "Suggested Changelog", "Linked Pull Requests", "Ready For Work"'
+      '[github-project] "Field that DNE in project" could not be matched with any of the existing field names: "Title", "Assignees", "Status", "Labels", "Repository", "Milestone", "Relevant to users?", "Suggested Changelog", "Linked Pull Requests", "Ready For Work". If the field should be considered optional, then set it to "relevantToUsers: { name: "Field that DNE in project", optional: true}'
     );
   }
 });

@@ -70,7 +70,7 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
           .join(", ");
         if (!fieldOptional) {
           throw new Error(
-            `[github-project] "${userFieldName}" could not be matched with any of the existing field names: ${projectFieldNames}`. If the field should be considered optional, then set it to "${userInternalFieldName}: { name: "${userFieldName}", optional: true}"
+            `[github-project] "${userFieldName}" could not be matched with any of the existing field names: ${projectFieldNames}. If the field should be considered optional, then set it to "${userInternalFieldName}: { name: "${userFieldName}", optional: true}`
           );
         }
         project.octokit.log.info(
