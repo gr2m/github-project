@@ -49,7 +49,14 @@
  */
 export function projectFieldsNodesToFieldsMap(state, project, nodes) {
   return Object.entries(project.fields).reduce(
-    (acc, [userInternalFieldName, userFieldName]) => {
+    (acc, [userInternalFieldName, userFieldNameOrConfig]) => {
+      let fieldOptional = false;
+      let userFieldName = userFieldNameOrConfig;
+      if (typeof userFieldNameOrConfig === "object") {
+        fieldOptional = userFieldNameOrConfig.optional;
+        userFieldName = userFieldNameOrConfig.name;
+      }
+
       const node = nodes.find((node) =>
         state.matchFieldName(
           node.name.toLowerCase(),
@@ -58,12 +65,18 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
       );
 
       if (!node) {
-        const projectFieldNames = nodes.map((node) => `"${node.name}"`);
-        throw new Error(
-          `[github-project] "${userFieldName}" could not be matched with any of the existing field names: ${projectFieldNames.join(
-            ", "
-          )}`
+        const projectFieldNames = nodes
+          .map((node) => `"${node.name}"`)
+          .join(", ");
+        if (!fieldOptional) {
+          throw new Error(
+            `[github-project] "${userFieldName}" could not be matched with any of the existing field names: ${projectFieldNames}. If the field should be considered optional, then set it to "${userInternalFieldName}: { name: "${userFieldName}", optional: true}`
+          );
+        }
+        project.octokit.log.info(
+          `[github-project] optional field "${userFieldName}" was not matched with any existing field names: ${projectFieldNames}`
         );
+        return acc;
       }
 
       acc[userInternalFieldName] = {

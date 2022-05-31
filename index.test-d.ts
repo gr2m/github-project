@@ -38,6 +38,27 @@ export function constructorWithCustomFieldsTest() {
   expectType<string>(project.fields.priority);
 }
 
+export function constructorWithCustomOptionalFieldsTest() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit: new Octokit(),
+    fields: {
+      priority: { name: "Priority", optional: true },
+      targetDate: "Target Date",
+    },
+  });
+
+  expectType<string>(project.org);
+  expectType<number>(project.number);
+  expectType<Octokit>(project.octokit);
+  expectType<"Title">(project.fields.title);
+  expectType<"Status">(project.fields.status);
+  expectType<string>(project.fields.priority.name);
+  expectType<true>(project.fields.priority.optional);
+  expectType<string>(project.fields.targetDate);
+}
+
 export function constructorWithTokenTest() {
   const project = new GitHubProject({
     org: "org",

@@ -43,7 +43,7 @@ import GitHubProject from "github-project";
 
 A project always belongs to an organization and has a number. For authentication you can pass [a personal access token with the `write:org` scope](https://github.com/settings/tokens/new?scopes=write:org&description=github-project). For read-only access the `read:org` scope is sufficient.
 
-`fields` is map of internal field names to the project's column labels. The comparision is case-insensitive. `"Priority"` will match both a field with the label `"Priority"` and one with the label `"priority"`.
+`fields` is map of internal field names to the project's column labels. The comparison is case-insensitive. `"Priority"` will match both a field with the label `"Priority"` and one with the label `"priority"`. An error will be thrown if a project field isn't found, unless the field is set to `optional: true`.
 
 ```js
 const project = new GitHubProject({
@@ -53,13 +53,14 @@ const project = new GitHubProject({
   fields: {
     priority: "Priority",
     dueAt: "Due",
+    lastUpdate: { name: "Last Update", optional: true },
   },
 });
 
 // log out all items
 const items = await project.items.list();
 for (const item of items) {
-  // every item has a `.fields` property for the custome fields
+  // every item has a `.fields` property for the custom fields
   // and an `.content` property which is set unless the item is a draft
   console.log(
     "%s is due on %s (Priority: %d, Assignees: %j)",
@@ -73,7 +74,7 @@ for (const item of items) {
 }
 
 // add a new item using an existing issue
-// You would usually retriev the issue node ID from an event payload, such as `event.issue.node_id`
+// You would usually retrieve the issue node ID from an event payload, such as `event.issue.node_id`
 const newItem = await project.items.add(issue.node_id, { priority: 1 });
 
 // retrieve a single item using the issue node ID (passing item node ID as string works, too)
@@ -172,7 +173,11 @@ const project = new GitHubProject(options);
       </td>
       <td>
 
-**Required**. A map of internal names for fields to the column names. The `title` key will always be set to `"Title"` and `status` to `"Status"` to account for the built-in fields. The other built-in columns `Assignees`, `Labels`, `Linked Pull Requests`, `Milestone`, `Repository`, and `Reviewers` cannot be set through the project and are not considered fields. You have to set them on the issue or pull request, and you can access them by `item.content.assignees`, `item.content.labels` etc (for both issues and pull requests).
+**Required**. A map of internal names for fields to the column names or field option objects. The `title` key will always be set to `"Title"` and `status` to `"Status"` to account for the built-in fields. The other built-in columns `Assignees`, `Labels`, `Linked Pull Requests`, `Milestone`, `Repository`, and `Reviewers` cannot be set through the project and are not considered fields. You have to set them on the issue or pull request, and you can access them by `item.content.assignees`, `item.content.labels` etc (for both issues and pull requests).
+
+A field option object must include a `name` key and can include an `optional` key.
+
+When `optional` is `false` or omitted, an error will be thrown if the field is not found in the project. When `optional` is `true`, the error will be replaced by an `info` log via the [Octokit Logger](https://octokit.github.io/rest.js/v18#logging).
 
 </td>
     </tr>
