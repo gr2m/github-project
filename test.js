@@ -905,6 +905,76 @@ test('project.items.add() with " in value', async (t) => {
   });
 });
 
+test("project.items.add() with optional, non-existing fields", async (t) => {
+  const { getProjectFieldsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-fields/query-result.js"
+  );
+  const { addIssueItemQueryResultFixture } = await import(
+    "./test/fixtures/add-item/issue/query-result.js"
+  );
+  const { newIssueItemFixture } = await import(
+    "./test/fixtures/add-item/issue/new-issue-item.js"
+  );
+
+  const octokit = new Octokit();
+  octokit.hook.wrap("request", async (request, options) => {
+    t.deepEqual(options.method, "POST");
+    t.deepEqual(options.url, "/graphql");
+
+    if (/query getProjectCoreData\(/.test(options.query)) {
+      return {
+        data: getProjectFieldsQueryResultFixture,
+      };
+    }
+
+    if (/mutation addIssueToProject\(/.test(options.query)) {
+      return {
+        data: addIssueItemQueryResultFixture,
+      };
+    }
+
+    if (/mutation setItemProperties\(/.test(options.query)) {
+      t.is(
+        options.query.includes("optionalField: updateProjectNextItemField"),
+        false,
+        "mutation query does not set non-existing field"
+      );
+
+      return { data: {} };
+    }
+
+    throw new Error(
+      `Unexpected query:\n${prettier.format(options.query, {
+        parser: "graphql",
+      })}`
+    );
+  });
+
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    octokit,
+    fields: {
+      optionalField: {
+        name: "Optional Field",
+        optional: true,
+      },
+    },
+  });
+
+  const newItem = await project.items.add("issue node_id", {
+    optionalField: "nope",
+  });
+
+  t.deepEqual(newItem, {
+    ...newIssueItemFixture,
+    fields: {
+      title: "Enforce setting project via github actions",
+      status: null,
+    },
+  });
+});
+
 test("project.items.get(itemId)", async (t) => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
