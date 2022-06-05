@@ -66,7 +66,10 @@ export function getFieldsUpdateQuery(state, fields) {
           : "clientMutationId";
 
       return `
-        ${key.replace(/\s+/g, '')}: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: "${
+        ${key.replace(
+          /\s+/g,
+          ""
+        )}: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: "${
         field.id
       }", value: "${escapeQuotes(valueOrOption)}"}) {
           ${queryNodes}
