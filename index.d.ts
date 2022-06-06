@@ -174,15 +174,29 @@ export type ProjectFieldNode = {
 
 export type ProjectFieldMap = Record<
   string,
-  ProjectField | ProjectFieldWithOptions
+  ProjectField | ProjectFieldWithOptions | OptionalNonExistingField
 >;
 
-type ProjectField = { id: string; name: string };
+type ProjectField = {
+  id: string;
+  name: string;
+  userName: string;
+  optional: boolean;
+  existsInProject: true;
+};
 type ProjectFieldWithOptions = {
   id: string;
   name: string;
+  userName: string;
   optionsById: Record<string, string>;
   optionsByValue: Record<string, string>;
+  optional: boolean;
+  existsInProject: true;
+};
+type OptionalNonExistingField = {
+  userName: string;
+  optional: true;
+  existsInProject: false;
 };
 
 export type ProjectFieldValueNode = {
