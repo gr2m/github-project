@@ -94,6 +94,15 @@ test("`matchFieldOptionValue` constructor option", async (t) => {
   const { getProjectFieldsQueryResultFixture } = await import(
     "./test/fixtures/get-project-fields/query-result.js"
   );
+  const { getProjectItemsPage1QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-1.js"
+  );
+  const { getProjectItemsPage2QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-2.js"
+  );
+  const { getProjectItemsPage3QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-3.js"
+  );
 
   const octokit = new Octokit();
   octokit.hook.wrap("request", async (request, options) => {
@@ -111,6 +120,24 @@ test("`matchFieldOptionValue` constructor option", async (t) => {
       };
     }
 
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      return {
+        data: getProjectItemsPage1QueryResultFixture,
+      };
+    }
+
+    if (/query getProjectItems\(/.test(options.query)) {
+      if (options.variables.after === "PNI_lADOBYMIeM0lfM4AAzDD") {
+        return {
+          data: getProjectItemsPage2QueryResultFixture,
+        };
+      }
+
+      return {
+        data: getProjectItemsPage3QueryResultFixture,
+      };
+    }
+
     if (/mutation setItemProperties\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         projectId: "PN_kwDOBYMIeM0lfA",
@@ -119,51 +146,7 @@ test("`matchFieldOptionValue` constructor option", async (t) => {
       t.regex(options.query, /relevantToUsers: updateProjectNextItemField\(/);
 
       return {
-        data: {
-          data: {
-            relevantToUsers: {
-              projectNextItem: {
-                id: "PNI_lADOBYMIeM0lfM4ADfm9",
-                type: "ISSUE",
-                title: "Enforce setting project via github actions",
-                content: {
-                  __typename: "Issue",
-                  id: "I_kwDOGNkQys49IizC",
-                  number: 2,
-                  url: "https://github.com/gr2m-issues-automation-sandbox/example-product/issues/2",
-                  title: "Enforce setting project via github actions",
-                  createdAt: "2021-10-13T20:07:02Z",
-                  databaseId: 1025649858,
-                  assignees: {
-                    nodes: [],
-                  },
-                  labels: {
-                    nodes: [],
-                  },
-                  closed: false,
-                  closedAt: null,
-                  milestone: null,
-                  repository: {
-                    name: "example-product",
-                  },
-                },
-                fieldValues: {
-                  nodes: [
-                    {
-                      // Yes
-                      value: "c9823470",
-                      projectField: {
-                        // relevantToUsers
-                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyMw==",
-                      },
-                    },
-                  ],
-                },
-              },
-            },
-            suggestedChangelog: {},
-          },
-        },
+        data: {},
       };
     }
 
@@ -1151,20 +1134,15 @@ test("project.items.getByContentRepositoryAndNumber(repositoryName, issueOrPullR
 });
 
 test("project.items.update(itemNodeId, fields) unsetting a field (#10)", async (t) => {
-  const { getProjectFieldsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-fields/query-result.js"
+  const { getProjectItemsQueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
   octokit.hook.wrap("request", async (request, options) => {
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
-
+    if (/query getProjectWithItems\(/.test(options.query)) {
       return {
-        data: getProjectFieldsQueryResultFixture,
+        data: getProjectItemsQueryResultFixture,
       };
     }
 
@@ -1179,18 +1157,7 @@ test("project.items.update(itemNodeId, fields) unsetting a field (#10)", async (
       );
 
       return {
-        data: {
-          data: {
-            relevantToUsers: {
-              projectNextItem: {
-                fieldValues: {
-                  nodes: [],
-                },
-              },
-            },
-            suggestedChangelog: {},
-          },
-        },
+        data: {},
       };
     }
 
@@ -1217,9 +1184,16 @@ test("project.items.update(itemNodeId, fields) unsetting a field (#10)", async (
 });
 
 test("project.items.update(itemNodeId, fields)", async (t) => {
-  const { getProjectFieldsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-fields/query-result.js"
+  const { getProjectItemsPage1QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-1.js"
   );
+  const { getProjectItemsPage2QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-2.js"
+  );
+  const { getProjectItemsPage3QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-3.js"
+  );
+
   const { issueItemFixture } = await import(
     "./test/fixtures/get-item/issue-item.js"
   );
@@ -1229,14 +1203,21 @@ test("project.items.update(itemNodeId, fields)", async (t) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      return {
+        data: getProjectItemsPage1QueryResultFixture,
+      };
+    }
+
+    if (/query getProjectItems\(/.test(options.query)) {
+      if (options.variables.after === "PNI_lADOBYMIeM0lfM4AAzDD") {
+        return {
+          data: getProjectItemsPage2QueryResultFixture,
+        };
+      }
 
       return {
-        data: getProjectFieldsQueryResultFixture,
+        data: getProjectItemsPage3QueryResultFixture,
       };
     }
 
@@ -1248,64 +1229,7 @@ test("project.items.update(itemNodeId, fields)", async (t) => {
       t.regex(options.query, /relevantToUsers: updateProjectNextItemField\(/);
 
       return {
-        data: {
-          data: {
-            relevantToUsers: {
-              projectNextItem: {
-                id: "PNI_lADOBYMIeM0lfM4ADfm9",
-                type: "ISSUE",
-                title: "Enforce setting project via github actions",
-                content: {
-                  __typename: "Issue",
-                  id: "I_kwDOGNkQys49IizC",
-                  number: 2,
-                  url: "https://github.com/gr2m-issues-automation-sandbox/example-product/issues/2",
-                  title: "Enforce setting project via github actions",
-                  createdAt: "2021-10-13T20:07:02Z",
-                  databaseId: 1025649858,
-                  assignees: {
-                    nodes: [],
-                  },
-                  labels: {
-                    nodes: [],
-                  },
-                  closed: false,
-                  closedAt: null,
-                  milestone: null,
-                  repository: {
-                    name: "example-product",
-                  },
-                },
-                fieldValues: {
-                  nodes: [
-                    {
-                      value: "Enforce setting project via github actions",
-                      projectField: {
-                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTI5NA==",
-                      },
-                    },
-                    {
-                      // Yes
-                      value: "c9823470",
-                      projectField: {
-                        // relevantToUsers
-                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyMw==",
-                      },
-                    },
-                    {
-                      value: "this and that",
-                      projectField: {
-                        // suggestedChangelog
-                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyNA==",
-                      },
-                    },
-                  ],
-                },
-              },
-            },
-            suggestedChangelog: {},
-          },
-        },
+        data: {},
       };
     }
 
@@ -1416,8 +1340,14 @@ test("project.items.list() then project.items.update(itemNodeId, fields)", async
 });
 
 test("project.items.update(itemNodeId, fields) not found", async (t) => {
-  const { getProjectFieldsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-fields/query-result.js"
+  const { getProjectItemsPage1QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-1.js"
+  );
+  const { getProjectItemsPage2QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-2.js"
+  );
+  const { getProjectItemsPage3QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-3.js"
   );
 
   const octokit = new Octokit();
@@ -1425,42 +1355,21 @@ test("project.items.update(itemNodeId, fields) not found", async (t) => {
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
-
+    if (/query getProjectWithItems\(/.test(options.query)) {
       return {
-        data: getProjectFieldsQueryResultFixture,
+        data: getProjectItemsPage1QueryResultFixture,
       };
     }
 
-    if (/mutation setItemProperties\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        projectId: "PN_kwDOBYMIeM0lfA",
-        itemId: "<unknown id>",
-      });
-      t.regex(options.query, /relevantToUsers: updateProjectNextItemField\(/);
+    if (/query getProjectItems\(/.test(options.query)) {
+      if (options.variables.after === "PNI_lADOBYMIeM0lfM4AAzDD") {
+        return {
+          data: getProjectItemsPage2QueryResultFixture,
+        };
+      }
 
       return {
-        headers: {},
-        data: {
-          errors: [
-            {
-              type: "NOT_FOUND",
-              path: ["relevantToUsers"],
-              locations: [
-                {
-                  line: 2,
-                  column: 3,
-                },
-              ],
-              message:
-                "Could not resolve to a node with the global id of '<unknown id>'",
-            },
-          ],
-        },
+        data: getProjectItemsPage3QueryResultFixture,
       };
     }
 
@@ -1489,8 +1398,14 @@ test("project.items.update(itemNodeId, fields) not found", async (t) => {
 });
 
 test("project.items.update(itemNodeId, fields) unforeseen GraphQL error", async (t) => {
-  const { getProjectFieldsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-fields/query-result.js"
+  const { getProjectItemsPage1QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-1.js"
+  );
+  const { getProjectItemsPage2QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-2.js"
+  );
+  const { getProjectItemsPage3QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-3.js"
   );
 
   const octokit = new Octokit();
@@ -1498,21 +1413,28 @@ test("project.items.update(itemNodeId, fields) unforeseen GraphQL error", async 
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      return {
+        data: getProjectItemsPage1QueryResultFixture,
+      };
+    }
+
+    if (/query getProjectItems\(/.test(options.query)) {
+      if (options.variables.after === "PNI_lADOBYMIeM0lfM4AAzDD") {
+        return {
+          data: getProjectItemsPage2QueryResultFixture,
+        };
+      }
 
       return {
-        data: getProjectFieldsQueryResultFixture,
+        data: getProjectItemsPage3QueryResultFixture,
       };
     }
 
     if (/mutation setItemProperties\(/.test(options.query)) {
       t.deepEqual(options.variables, {
         projectId: "PN_kwDOBYMIeM0lfA",
-        itemId: "<unknown id>",
+        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
       });
       t.regex(options.query, /relevantToUsers: updateProjectNextItemField\(/);
 
@@ -1546,7 +1468,7 @@ test("project.items.update(itemNodeId, fields) unforeseen GraphQL error", async 
   });
 
   try {
-    await project.items.update("<unknown id>", {
+    await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
       relevantToUsers: "Yes",
     });
     t.fail("Should have thrown");
@@ -1556,8 +1478,14 @@ test("project.items.update(itemNodeId, fields) unforeseen GraphQL error", async 
 });
 
 test("project.items.update(itemNodeId, fields) with non GraphQL error", async (t) => {
-  const { getProjectFieldsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-fields/query-result.js"
+  const { getProjectItemsPage1QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-1.js"
+  );
+  const { getProjectItemsPage2QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-2.js"
+  );
+  const { getProjectItemsPage3QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-3.js"
   );
 
   const octokit = new Octokit();
@@ -1565,14 +1493,21 @@ test("project.items.update(itemNodeId, fields) with non GraphQL error", async (t
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      return {
+        data: getProjectItemsPage1QueryResultFixture,
+      };
+    }
+
+    if (/query getProjectItems\(/.test(options.query)) {
+      if (options.variables.after === "PNI_lADOBYMIeM0lfM4AAzDD") {
+        return {
+          data: getProjectItemsPage2QueryResultFixture,
+        };
+      }
 
       return {
-        data: getProjectFieldsQueryResultFixture,
+        data: getProjectItemsPage3QueryResultFixture,
       };
     }
 
@@ -1598,7 +1533,7 @@ test("project.items.update(itemNodeId, fields) with non GraphQL error", async (t
   });
 
   try {
-    await project.items.update("<unknown id>", {
+    await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
       relevantToUsers: "Yes",
     });
     t.fail("should have thrown");
@@ -1608,8 +1543,14 @@ test("project.items.update(itemNodeId, fields) with non GraphQL error", async (t
 });
 
 test("project.items.update(itemNodeId, fields) where fields include a built-in read-only project field", async (t) => {
-  const { getProjectFieldsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-fields/query-result.js"
+  const { getProjectItemsPage1QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-1.js"
+  );
+  const { getProjectItemsPage2QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-2.js"
+  );
+  const { getProjectItemsPage3QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-3.js"
   );
 
   const octokit = new Octokit();
@@ -1617,14 +1558,21 @@ test("project.items.update(itemNodeId, fields) where fields include a built-in r
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      return {
+        data: getProjectItemsPage1QueryResultFixture,
+      };
+    }
+
+    if (/query getProjectItems\(/.test(options.query)) {
+      if (options.variables.after === "PNI_lADOBYMIeM0lfM4AAzDD") {
+        return {
+          data: getProjectItemsPage2QueryResultFixture,
+        };
+      }
 
       return {
-        data: getProjectFieldsQueryResultFixture,
+        data: getProjectItemsPage3QueryResultFixture,
       };
     }
 
@@ -1658,8 +1606,14 @@ test("project.items.update(itemNodeId, fields) where fields include a built-in r
 });
 
 test("project.items.update(itemNodeId, fields) where a field is unknown", async (t) => {
-  const { getProjectFieldsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-fields/query-result.js"
+  const { getProjectItemsPage1QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-1.js"
+  );
+  const { getProjectItemsPage2QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-2.js"
+  );
+  const { getProjectItemsPage3QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-3.js"
   );
 
   const octokit = new Octokit();
@@ -1667,14 +1621,21 @@ test("project.items.update(itemNodeId, fields) where a field is unknown", async 
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      return {
+        data: getProjectItemsPage1QueryResultFixture,
+      };
+    }
+
+    if (/query getProjectItems\(/.test(options.query)) {
+      if (options.variables.after === "PNI_lADOBYMIeM0lfM4AAzDD") {
+        return {
+          data: getProjectItemsPage2QueryResultFixture,
+        };
+      }
 
       return {
-        data: getProjectFieldsQueryResultFixture,
+        data: getProjectItemsPage3QueryResultFixture,
       };
     }
 
@@ -1711,8 +1672,14 @@ test("project.items.update(itemNodeId, fields) where a field is unknown", async 
 });
 
 test("project.items.update(itemNodeId, fields) with custom status field", async (t) => {
-  const { getProjectFieldsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-fields/query-result.js"
+  const { getProjectItemsPage1QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-1.js"
+  );
+  const { getProjectItemsPage2QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-2.js"
+  );
+  const { getProjectItemsPage3QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-3.js"
   );
   const { issueItemFixture } = await import(
     "./test/fixtures/get-item/issue-item.js"
@@ -1723,14 +1690,21 @@ test("project.items.update(itemNodeId, fields) with custom status field", async 
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      return {
+        data: getProjectItemsPage1QueryResultFixture,
+      };
+    }
+
+    if (/query getProjectItems\(/.test(options.query)) {
+      if (options.variables.after === "PNI_lADOBYMIeM0lfM4AAzDD") {
+        return {
+          data: getProjectItemsPage2QueryResultFixture,
+        };
+      }
 
       return {
-        data: getProjectFieldsQueryResultFixture,
+        data: getProjectItemsPage3QueryResultFixture,
       };
     }
 
@@ -1742,64 +1716,7 @@ test("project.items.update(itemNodeId, fields) with custom status field", async 
       t.regex(options.query, /status: updateProjectNextItemField\(/);
 
       return {
-        data: {
-          data: {
-            status: {
-              projectNextItem: {
-                id: "PNI_lADOBYMIeM0lfM4ADfm9",
-                type: "ISSUE",
-                title: "Enforce setting project via github actions",
-                content: {
-                  __typename: "Issue",
-                  id: "I_kwDOGNkQys49IizC",
-                  number: 2,
-                  url: "https://github.com/gr2m-issues-automation-sandbox/example-product/issues/2",
-                  title: "Enforce setting project via github actions",
-                  createdAt: "2021-10-13T20:07:02Z",
-                  databaseId: 1025649858,
-                  assignees: {
-                    nodes: [],
-                  },
-                  labels: {
-                    nodes: [],
-                  },
-                  closed: false,
-                  closedAt: null,
-                  milestone: null,
-                  repository: {
-                    name: "example-product",
-                  },
-                },
-                fieldValues: {
-                  nodes: [
-                    {
-                      value: "Enforce setting project via github actions",
-                      projectField: {
-                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTI5NA==",
-                      },
-                    },
-                    {
-                      // Yes
-                      value: "c9823470",
-                      projectField: {
-                        // relevantToUsers
-                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyMw==",
-                      },
-                    },
-                    {
-                      value: "this and that",
-                      projectField: {
-                        // suggestedChangelog
-                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyNA==",
-                      },
-                    },
-                  ],
-                },
-              },
-            },
-            suggestedChangelog: {},
-          },
-        },
+        data: {},
       };
     }
 
@@ -1833,11 +1750,14 @@ test("project.items.update(itemNodeId, fields) with custom status field", async 
 });
 
 test("project.items.update(itemNodeId, fields) with invalid field option", async (t) => {
-  const { getProjectFieldsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-fields/query-result.js"
+  const { getProjectItemsPage1QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-1.js"
   );
-  const { issueItemFixture } = await import(
-    "./test/fixtures/get-item/issue-item.js"
+  const { getProjectItemsPage2QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-2.js"
+  );
+  const { getProjectItemsPage3QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-3.js"
   );
 
   const octokit = new Octokit();
@@ -1845,14 +1765,21 @@ test("project.items.update(itemNodeId, fields) with invalid field option", async
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      return {
+        data: getProjectItemsPage1QueryResultFixture,
+      };
+    }
+
+    if (/query getProjectItems\(/.test(options.query)) {
+      if (options.variables.after === "PNI_lADOBYMIeM0lfM4AAzDD") {
+        return {
+          data: getProjectItemsPage2QueryResultFixture,
+        };
+      }
 
       return {
-        data: getProjectFieldsQueryResultFixture,
+        data: getProjectItemsPage3QueryResultFixture,
       };
     }
 
@@ -2743,8 +2670,14 @@ test("project.items.updateByContentRepositoryAndNumber(contentNodeId, { status }
 });
 
 test("project.items.update(itemNodeId, fields) with field name containing whitespace", async (t) => {
-  const { getProjectFieldsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-fields/query-result.js"
+  const { getProjectItemsPage1QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-1.js"
+  );
+  const { getProjectItemsPage2QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-2.js"
+  );
+  const { getProjectItemsPage3QueryResultFixture } = await import(
+    "./test/fixtures/get-project-items/query-result-items-page-3.js"
   );
   const { issueItemFixture } = await import(
     "./test/fixtures/get-item/issue-item.js"
@@ -2755,14 +2688,21 @@ test("project.items.update(itemNodeId, fields) with field name containing whites
     t.deepEqual(options.method, "POST");
     t.deepEqual(options.url, "/graphql");
 
-    if (/query getProjectCoreData\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        org: "org",
-        number: 1,
-      });
+    if (/query getProjectWithItems\(/.test(options.query)) {
+      return {
+        data: getProjectItemsPage1QueryResultFixture,
+      };
+    }
+
+    if (/query getProjectItems\(/.test(options.query)) {
+      if (options.variables.after === "PNI_lADOBYMIeM0lfM4AAzDD") {
+        return {
+          data: getProjectItemsPage2QueryResultFixture,
+        };
+      }
 
       return {
-        data: getProjectFieldsQueryResultFixture,
+        data: getProjectItemsPage3QueryResultFixture,
       };
     }
 
@@ -2774,71 +2714,7 @@ test("project.items.update(itemNodeId, fields) with field name containing whites
       t.regex(options.query, /ReadyForWork: updateProjectNextItemField\(/);
 
       return {
-        data: {
-          data: {
-            ReadyForWork: {
-              projectNextItem: {
-                id: "PNI_lADOBYMIeM0lfM4ADfm9",
-                type: "ISSUE",
-                title: "Enforce setting project via github actions",
-                content: {
-                  __typename: "Issue",
-                  id: "I_kwDOGNkQys49IizC",
-                  number: 2,
-                  url: "https://github.com/gr2m-issues-automation-sandbox/example-product/issues/2",
-                  title: "Enforce setting project via github actions",
-                  createdAt: "2021-10-13T20:07:02Z",
-                  databaseId: 1025649858,
-                  assignees: {
-                    nodes: [],
-                  },
-                  labels: {
-                    nodes: [],
-                  },
-                  closed: false,
-                  closedAt: null,
-                  milestone: null,
-                  repository: {
-                    name: "example-product",
-                  },
-                },
-                fieldValues: {
-                  nodes: [
-                    {
-                      value: "Yes",
-                      projectField: {
-                        // Ready For Work
-                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ0MTCyKaz=",
-                      },
-                    },
-                    {
-                      value: "Enforce setting project via github actions",
-                      projectField: {
-                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTI5NA==",
-                      },
-                    },
-                    {
-                      // Yes
-                      value: "c9823470",
-                      projectField: {
-                        // relevantToUsers
-                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyMw==",
-                      },
-                    },
-                    {
-                      value: "this and that",
-                      projectField: {
-                        // suggestedChangelog
-                        id: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyNA==",
-                      },
-                    },
-                  ],
-                },
-              },
-            },
-            suggestedChangelog: {},
-          },
-        },
+        data: {},
       };
     }
 
@@ -2869,8 +2745,6 @@ test("project.items.update(itemNodeId, fields) with field name containing whites
     fields: {
       ...issueItemFixture.fields,
       "Ready For Work": "Yes",
-      relevantToUsers: "Yes",
-      suggestedChangelog: "this and that",
     },
   });
 });
@@ -2909,7 +2783,10 @@ test("project.items.getByContentId(contentId) with optional user fields", async 
   });
 
   const item = await project.items.getByContentId("I_kwDOGNkQys49IizC");
-  t.deepEqual(item, issueItemFixture);
+  t.deepEqual(item, {
+    ...issueItemFixture,
+    fields: { ...issueItemFixture.fields, unrealField: null },
+  });
 });
 
 test("project.items.getByContentId(contentId) when non-optional user fields not found in project", async (t) => {
