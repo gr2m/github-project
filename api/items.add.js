@@ -5,6 +5,7 @@ import { projectItemNodeToGitHubProjectItem } from "./lib/project-item-node-to-g
 import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
 import { getFieldsUpdateQuery } from "./lib/get-fields-update-query.js";
 import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
+import { removeObjectKeys } from "./lib/remove-object-keys.js";
 
 /**
  * Adds new item to project. Loads project fields and caches them unless already loaded.
@@ -50,7 +51,29 @@ export async function addItem(project, state, contentNodeId, fields) {
 
   if (!fields) return newOrExistingItem;
 
-  const query = getFieldsUpdateQuery(stateWithFields, fields);
+  const nonExistingProjectFields = Object.entries(stateWithFields.fields)
+    .filter(([, field]) => field.existsInProject === false)
+    .map(([key]) => key);
+  const existingProjectFieldKeys = Object.keys(fields).filter(
+    (key) => !nonExistingProjectFields.includes(key)
+  );
+
+  if (existingProjectFieldKeys.length === 0)
+    return {
+      ...newOrExistingItem,
+      // @ts-expect-error - complaints that built-in fields `title` and `status` might not exist, but we are good here
+      fields: removeObjectKeys(
+        newOrExistingItem.fields,
+        nonExistingProjectFields
+      ),
+    };
+
+  const existingFields = Object.fromEntries(
+    existingProjectFieldKeys.map((key) => [key, fields[key]])
+  );
+
+  const query = getFieldsUpdateQuery(stateWithFields, existingFields);
+
   await project.octokit.graphql(query, {
     projectId: stateWithFields.id,
     itemId: newOrExistingItem.id,

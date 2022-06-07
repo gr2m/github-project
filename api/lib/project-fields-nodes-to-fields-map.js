@@ -48,6 +48,20 @@
  * @returns {import("../..").ProjectFieldMap}
  */
 export function projectFieldsNodesToFieldsMap(state, project, nodes) {
+  const optionalFields = Object.entries(project.fields).reduce(
+    (acc, [key, value]) => {
+      if (typeof value === "string") return acc;
+
+      if (!value.optional) return acc;
+
+      return {
+        ...acc,
+        [key]: { userName: value.name, optional: true, existsInProject: false },
+      };
+    },
+    {}
+  );
+
   return Object.entries(project.fields).reduce(
     (acc, [userInternalFieldName, userFieldNameOrConfig]) => {
       let fieldOptional = false;
@@ -83,6 +97,8 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
         id: node.id,
         name: node.name,
         userName: userFieldName,
+        optional: Object.hasOwn(optionalFields, userInternalFieldName),
+        existsInProject: true,
       };
 
       // Settings is a JSON string. It contains view information such as column width.
@@ -111,6 +127,6 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
 
       return acc;
     },
-    {}
+    optionalFields
   );
 }
