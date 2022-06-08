@@ -153,6 +153,27 @@ export async function addItemWithFieldsTest() {
   expectType<number>(item.content.number);
 }
 
+export async function addItemTestWithOptionalField() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+    fields: {
+      foo: "bar",
+      myField: { name: "My Field", optional: true },
+    },
+  });
+  const item = await project.items.add("issue node_id", {
+    foo: "bar",
+    myField: "my value",
+  });
+
+  if (item.fields.myField !== null) {
+    // @ts-expect-error - `myField` is optional and may not be set
+    item.fields.myField.toString();
+  }
+}
+
 export async function getItemTest() {
   const project = new GitHubProject({
     org: "org",
