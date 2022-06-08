@@ -177,7 +177,7 @@ const project = new GitHubProject(options);
 
 A field option object must include a `name` key and can include an `optional` key.
 
-When `optional` is `false` or omitted, an error will be thrown if the field is not found in the project. When `optional` is `true`, the error will be replaced by an `info` log via the [Octokit Logger](https://octokit.github.io/rest.js/v18#logging).
+When `optional` is `false` or omitted, an error will be thrown if the field is not found in the project. When `optional` is `true`, the error will be replaced by an `info` log via the [Octokit Logger](https://octokit.github.io/rest.js/v18#logging). Optional fields that don't exist in the project are not set on items returned by the `project.items.*` methods.
 
 </td>
     </tr>
