@@ -97,7 +97,7 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
         id: node.id,
         name: node.name,
         userName: userFieldName,
-        optional: Object.hasOwn(optionalFields, userInternalFieldName),
+        optional: userInternalFieldName in optionalFields,
         existsInProject: true,
       };
 

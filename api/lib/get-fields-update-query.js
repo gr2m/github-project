@@ -75,13 +75,15 @@ export function getFieldsUpdateQuery(state, fields) {
           ? `projectNextItem { ${queryItemFieldNodes} }`
           : "clientMutationId";
 
+      // @ts-expect-error - `field.id` is not set if field does not exist on projects, but we know it exists here
+      const fieldId = field.id;
       return `
         ${key.replace(
           /\s+/g,
           ""
-        )}: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: "${
-        field.id
-      }", value: "${escapeQuotes(valueOrOption)}"}) {
+        )}: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: "${fieldId}", value: "${escapeQuotes(
+        valueOrOption
+      )}"}) {
           ${queryNodes}
         }
       `;
