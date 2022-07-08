@@ -51,7 +51,7 @@
     ]
   },
   "dependencies": {
-    "@octokit/core": "^3.5.1",
+    "@octokit/core": "^4.0.0",
     "ava": "^4.1.0",
     "type-fest": "^2.13.0"
   }
