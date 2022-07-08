@@ -4,10 +4,6 @@ import prettier from "prettier";
 
 import GitHubProject from "./index.js";
 
-test("smoke", (t) => {
-  t.is(typeof GitHubProject, "function");
-});
-
 test("constructor", (t) => {
   const octokit = new Octokit();
   const project = new GitHubProject({
