@@ -4,43 +4,6 @@ import prettier from "prettier";
 
 import GitHubProject from "./index.js";
 
-test("getters", (t) => {
-  const project = new GitHubProject({
-    org: "org",
-    number: 1,
-    token: "ghp_secret123",
-  });
-
-  t.throws(
-    () => {
-      project.org = "org2";
-    },
-    undefined,
-    "Cannot set read-only property 'org'"
-  );
-  t.throws(
-    () => {
-      project.number = 2;
-    },
-    undefined,
-    "Cannot set read-only property 'number'"
-  );
-  t.throws(
-    () => {
-      project.octokit = new Octokit();
-    },
-    undefined,
-    "Cannot set read-only property 'octokit'"
-  );
-  t.throws(
-    () => {
-      project.fields = {};
-    },
-    undefined,
-    "Cannot set read-only property 'fields'"
-  );
-});
-
 test("project.items.list()", async (t) => {
   const { getProjectItemsQueryResultFixture } = await import(
     "./test/fixtures/get-project-items/query-result.js"
