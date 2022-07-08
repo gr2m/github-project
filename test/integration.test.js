@@ -76,7 +76,7 @@ test("project.items.list() then project.items.update(itemNodeId, fields)", async
 
 test("project.items.list() then project.items.remove(itemId) clears cache", async (t) => {
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result.js"
+    "./fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -131,7 +131,7 @@ test("project.items.list() then project.items.remove(itemId) clears cache", asyn
 
 test("project.items.list() then project.items.remove() does not send mutation request", async (t) => {
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result.js"
+    "./fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();

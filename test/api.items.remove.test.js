@@ -227,7 +227,7 @@ test("project.items.remove() with unforeseen GraphQL error", async (t) => {
 
 test("project.items.removeByContentId(contentId)", async (t) => {
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result.js"
+    "./fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -282,7 +282,7 @@ test("project.items.removeByContentId(contentId)", async (t) => {
 
 test("project.items.removeByContentId(unknownId) not found", async (t) => {
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result.js"
+    "./fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -334,7 +334,7 @@ test("project.items.removeByContentId(unknownId) not found", async (t) => {
 
 test("project.items.removeByContentRepositoryAndNumber(contentId)", async (t) => {
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result.js"
+    "./fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
@@ -389,7 +389,7 @@ test("project.items.removeByContentRepositoryAndNumber(contentId)", async (t) =>
 
 test("project.items.removeByContentRepositoryAndNumber(unknownId) not found", async (t) => {
   const { getProjectItemsQueryResultFixture } = await import(
-    "./test/fixtures/get-project-items/query-result.js"
+    "./fixtures/get-project-items/query-result.js"
   );
 
   const octokit = new Octokit();
