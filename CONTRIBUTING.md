@@ -32,7 +32,7 @@ Few notes
 
 Unless the change is trivial such as a type, please [open an issue first](https://github.com/gr2m/github-project/issues/new) before starting a pull request for a bug fix or a new feature.
 
-After you cloned your fork, create a new branch and implement the changes in them. To start a pull request, you can use the `gh` CLI
+After you cloned your fork, create a new branch and implement the changes in them. To start a pull request, you can use the [`gh` CLI](https://cli.github.com/)
 
 ```
 gh pr create
