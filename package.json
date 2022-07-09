@@ -24,6 +24,8 @@
   "author": "Gregor Martynus (https://github.com/gr2m)",
   "license": "ISC",
   "devDependencies": {
+    "@octokit/plugin-paginate-rest": "^3.0.0",
+    "@octokit/plugin-throttling": "^4.0.1",
     "c8": "^7.10.0",
     "open-cli": "^7.0.1",
     "prettier": "^2.5.1",
