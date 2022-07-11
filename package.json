@@ -24,6 +24,7 @@
   "author": "Gregor Martynus (https://github.com/gr2m)",
   "license": "ISC",
   "devDependencies": {
+    "@octokit/openapi-types": "^12.8.0",
     "@octokit/plugin-paginate-rest": "^3.0.0",
     "@octokit/plugin-throttling": "^4.0.1",
     "c8": "^7.10.0",
