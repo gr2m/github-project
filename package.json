@@ -28,6 +28,7 @@
     "@octokit/plugin-paginate-rest": "^3.0.0",
     "@octokit/plugin-throttling": "^4.0.1",
     "c8": "^7.10.0",
+    "octokit-plugin-create-pull-request": "^3.12.2",
     "open-cli": "^7.0.1",
     "prettier": "^2.5.1",
     "tsd": "^0.22.0",

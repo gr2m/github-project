@@ -12,6 +12,7 @@ export async function createRepository(octokit, owner) {
   const { data: repository } = await octokit.request("POST /orgs/{org}/repos", {
     org: owner,
     name,
+    auto_init: true,
   });
 
   return repository;
