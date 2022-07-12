@@ -102,13 +102,19 @@ async function recordFixtures(owner, projectNumber) {
 
     // normalize fixtures
     const counters = {};
+    const idMappings = {};
     const fixturesJSON = JSON.stringify(fixtures, null, 2)
-      .replaceAll(/"id": "([^_]+)_([^"]+)"/g, (match, prefix, id) => {
-        if (!counters[prefix]) counters[prefix] = 0;
-        counters[prefix]++;
+      .replaceAll(
+        /"(id|projectId|contentId)": "([^_]+)_([^"]+)"/g,
+        (match, key, prefix, id) => {
+          if (!idMappings[id]) {
+            if (!counters[prefix]) counters[prefix] = 0;
+            idMappings[id] = ++counters[prefix];
+          }
 
-        return `"id": "${prefix}_${counters[prefix]}"`;
-      })
+          return `"${key}": "${prefix}_${counters[prefix]}"`;
+        }
+      )
       .replaceAll(repository.name, "test-repository")
       .replaceAll(
         /"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z"/g,
