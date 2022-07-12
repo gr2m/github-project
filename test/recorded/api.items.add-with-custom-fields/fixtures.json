@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Tue, 12 Jul 2022 00:22:53 GMT",
+        "date": "Tue, 12 Jul 2022 23:16:57 GMT",
         "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
@@ -26,13 +26,13 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "CC33:6166:76BA9F:7B91D9:62CCBEDD",
+        "x-github-request-id": "F577:0F3B:144FBD:158811:62CE00E9",
         "x-oauth-scopes": "delete_repo, project, repo, write:org",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4976",
-        "x-ratelimit-reset": "1657587999",
+        "x-ratelimit-remaining": "4954",
+        "x-ratelimit-reset": "1657668446",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "24",
+        "x-ratelimit-used": "46",
         "x-xss-protection": "0"
       },
       "data": {
@@ -126,8 +126,8 @@
   {
     "query": "\n  mutation addIssueToProject($projectId:ID!, $contentId:ID!) {\n    addProjectNextItem(input:{\n      projectId:$projectId,\n      contentId:$contentId\n    }) {\n      projectNextItem {\n        \n  id\n  type\n  \n  content {\n    __typename\n    ... on Issue {\n      \n  id\n  number\n  title\n  url\n  createdAt\n  databaseId\n  assignees(first:10) {\n    nodes {\n      login\n    }\n  }\n  labels(first:10){\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  createdAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  number\n  title\n  url\n  createdAt\n  databaseId\n  assignees(first:10) {\n    nodes {\n      login\n    }\n  }\n  labels(first:10){\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  createdAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      value\n      projectField {\n        id\n      }\n    }\n  }\n\n      }\n    }\n  }\n",
     "variables": {
-      "projectId": "PN_kwDOBYMIeM4ADzd0",
-      "contentId": "I_kwDOHpLw785NkXu1"
+      "projectId": "PN_1",
+      "contentId": "I_1"
     },
     "response": {
       "status": 200,
@@ -139,7 +139,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Tue, 12 Jul 2022 00:22:54 GMT",
+        "date": "Tue, 12 Jul 2022 23:16:59 GMT",
         "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
@@ -150,13 +150,13 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "CC34:86D5:7E250A:82F60B:62CCBEDE",
+        "x-github-request-id": "F57C:7C8B:EF292B:FB36C3:62CE00EA",
         "x-oauth-scopes": "delete_repo, project, repo, write:org",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4975",
-        "x-ratelimit-reset": "1657587999",
+        "x-ratelimit-remaining": "4953",
+        "x-ratelimit-reset": "1657668446",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "25",
+        "x-ratelimit-used": "47",
         "x-xss-protection": "0"
       },
       "data": {
@@ -172,7 +172,7 @@
                 "title": "Issue",
                 "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
                 "createdAt": "2022-02-02T12:00:00Z",
-                "databaseId": 1301380021,
+                "databaseId": 1302713829,
                 "assignees": {
                   "nodes": []
                 },
@@ -191,7 +191,7 @@
                   {
                     "value": "Issue",
                     "projectField": {
-                      "id": "PNF_15"
+                      "id": "PNF_14"
                     }
                   }
                 ]
@@ -205,8 +205,8 @@
   {
     "query": "\n    mutation setItemProperties($projectId: ID!, $itemId: ID!) {\n      \n        text: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PNF_lADOBYMIeM4ADzd0zgCMLPg\", value: \"text\"}) {\n          projectNextItem { \n  id\n  type\n  \n  content {\n    __typename\n    ... on Issue {\n      \n  id\n  number\n  title\n  url\n  createdAt\n  databaseId\n  assignees(first:10) {\n    nodes {\n      login\n    }\n  }\n  labels(first:10){\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  createdAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  number\n  title\n  url\n  createdAt\n  databaseId\n  assignees(first:10) {\n    nodes {\n      login\n    }\n  }\n  labels(first:10){\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  createdAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      value\n      projectField {\n        id\n      }\n    }\n  }\n }\n        }\n      \n        number: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PNF_lADOBYMIeM4ADzd0zgCMLPk\", value: \"1\"}) {\n          clientMutationId\n        }\n      \n        singleSelect: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PNF_lADOBYMIeM4ADzd0zgCMLQ0\", value: \"c5f71ea9\"}) {\n          clientMutationId\n        }\n      \n        date: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PNF_lADOBYMIeM4ADzd0zgCMLQw\", value: \"2020-02-02T00:00:00.000Z\"}) {\n          clientMutationId\n        }\n      \n        status: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PNF_lADOBYMIeM4ADzd0zgCMLM0\", value: \"98236657\"}) {\n          clientMutationId\n        }\n      \n    }\n  ",
     "variables": {
-      "projectId": "PN_kwDOBYMIeM4ADzd0",
-      "itemId": "PNI_lADOBYMIeM4ADzd0zgBqpCY"
+      "projectId": "PN_1",
+      "itemId": "PNI_lADOBYMIeM4ADzd0zgBrc7s"
     },
     "response": {
       "status": 200,
@@ -218,7 +218,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Tue, 12 Jul 2022 00:22:56 GMT",
+        "date": "Tue, 12 Jul 2022 23:17:00 GMT",
         "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
@@ -229,29 +229,29 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "CC35:5E6A:6D0CC2:71D2CF:62CCBEDF",
+        "x-github-request-id": "F581:3D31:59FD5:D99F4:62CE00EB",
         "x-oauth-scopes": "delete_repo, project, repo, write:org",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4974",
-        "x-ratelimit-reset": "1657587999",
+        "x-ratelimit-remaining": "4952",
+        "x-ratelimit-reset": "1657668446",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "26",
+        "x-ratelimit-used": "48",
         "x-xss-protection": "0"
       },
       "data": {
         "data": {
           "text": {
             "projectNextItem": {
-              "id": "PNI_2",
+              "id": "PNI_1",
               "type": "ISSUE",
               "content": {
                 "__typename": "Issue",
-                "id": "I_2",
+                "id": "I_1",
                 "number": 1,
                 "title": "Issue",
                 "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
                 "createdAt": "2022-02-02T12:00:00Z",
-                "databaseId": 1301380021,
+                "databaseId": 1302713829,
                 "assignees": {
                   "nodes": []
                 },
@@ -270,13 +270,13 @@
                   {
                     "value": "Issue",
                     "projectField": {
-                      "id": "PNF_16"
+                      "id": "PNF_14"
                     }
                   },
                   {
                     "value": "text",
                     "projectField": {
-                      "id": "PNF_17"
+                      "id": "PNF_14"
                     }
                   }
                 ]

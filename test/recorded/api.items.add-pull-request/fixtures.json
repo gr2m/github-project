@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Tue, 12 Jul 2022 22:57:42 GMT",
+        "date": "Tue, 12 Jul 2022 23:16:49 GMT",
         "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
@@ -26,13 +26,13 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E391:1E4C:42E660:4C14B0:62CDFC66",
+        "x-github-request-id": "F54B:0444:8F742C:98DAD0:62CE00E1",
         "x-oauth-scopes": "delete_repo, project, repo, write:org",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4995",
+        "x-ratelimit-remaining": "4959",
         "x-ratelimit-reset": "1657668446",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "5",
+        "x-ratelimit-used": "41",
         "x-xss-protection": "0"
       },
       "data": {
@@ -126,8 +126,8 @@
   {
     "query": "\n  mutation addIssueToProject($projectId:ID!, $contentId:ID!) {\n    addProjectNextItem(input:{\n      projectId:$projectId,\n      contentId:$contentId\n    }) {\n      projectNextItem {\n        \n  id\n  type\n  \n  content {\n    __typename\n    ... on Issue {\n      \n  id\n  number\n  title\n  url\n  createdAt\n  databaseId\n  assignees(first:10) {\n    nodes {\n      login\n    }\n  }\n  labels(first:10){\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  createdAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  number\n  title\n  url\n  createdAt\n  databaseId\n  assignees(first:10) {\n    nodes {\n      login\n    }\n  }\n  labels(first:10){\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  createdAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      value\n      projectField {\n        id\n      }\n    }\n  }\n\n      }\n    }\n  }\n",
     "variables": {
-      "projectId": "PN_kwDOBYMIeM4ADzd0",
-      "contentId": "PR_kwDOHpiPhc47TF7T"
+      "projectId": "PN_1",
+      "contentId": "PR_1"
     },
     "response": {
       "status": 200,
@@ -139,7 +139,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Tue, 12 Jul 2022 22:57:43 GMT",
+        "date": "Tue, 12 Jul 2022 23:16:51 GMT",
         "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
@@ -150,13 +150,13 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E396:7CA7:E1DD1F:E8921E:62CDFC67",
+        "x-github-request-id": "F551:4BEF:2AB767:2DD830:62CE00E2",
         "x-oauth-scopes": "delete_repo, project, repo, write:org",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4994",
+        "x-ratelimit-remaining": "4958",
         "x-ratelimit-reset": "1657668446",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "6",
+        "x-ratelimit-used": "42",
         "x-xss-protection": "0"
       },
       "data": {
@@ -172,7 +172,7 @@
                 "title": "Test",
                 "url": "https://github.com/github-project-fixtures/test-repository/pull/1",
                 "createdAt": "2022-02-02T12:00:00Z",
-                "databaseId": 994860755,
+                "databaseId": 994870318,
                 "assignees": {
                   "nodes": []
                 },
@@ -192,7 +192,7 @@
                   {
                     "value": "Test",
                     "projectField": {
-                      "id": "PNF_15"
+                      "id": "PNF_14"
                     }
                   }
                 ]
