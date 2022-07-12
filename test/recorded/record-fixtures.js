@@ -67,6 +67,8 @@ async function recordFixtures(owner, projectNumber) {
       continue;
     }
 
+    if (testFolder !== "api.items.add") continue;
+
     console.log("Recording fixtures for %s", testFolder);
 
     const setupProject = new GitHubProject(projectOptions);
