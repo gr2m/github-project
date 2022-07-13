@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 13 Jul 2022 20:42:23 GMT",
+        "date": "Wed, 13 Jul 2022 20:42:31 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "0C27:6023:B6A05:CFF44:62CF2E2F",
+        "x-github-request-id": "0C9A:8D2F:2C74CA:2E95E8:62CF2E36",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4919",
+        "x-ratelimit-remaining": "4913",
         "x-ratelimit-reset": "1657747380",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "81",
+        "x-ratelimit-used": "87",
         "x-xss-protection": "0"
       },
       "data": {
@@ -116,12 +116,114 @@
               },
               "items": {
                 "pageInfo": {
-                  "endCursor": null,
+                  "endCursor": "Y3Vyc29yOnYyOpHOAGwzAQ==",
                   "hasNextPage": false
                 },
-                "nodes": []
+                "nodes": [
+                  {
+                    "id": "PNI_1",
+                    "type": "ISSUE",
+                    "content": {
+                      "__typename": "Issue",
+                      "id": "I_1",
+                      "number": 1,
+                      "title": "Issue",
+                      "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
+                      "createdAt": "2022-02-02T12:00:00Z",
+                      "databaseId": 1303924408,
+                      "assignees": {
+                        "nodes": []
+                      },
+                      "labels": {
+                        "nodes": []
+                      },
+                      "closed": false,
+                      "closedAt": null,
+                      "milestone": null,
+                      "repository": {
+                        "name": "test-repository"
+                      }
+                    },
+                    "fieldValues": {
+                      "nodes": [
+                        {
+                          "value": "Issue",
+                          "projectField": {
+                            "id": "PNF_1"
+                          }
+                        },
+                        {
+                          "value": "text",
+                          "projectField": {
+                            "id": "PNF_10"
+                          }
+                        },
+                        {
+                          "value": "1",
+                          "projectField": {
+                            "id": "PNF_11"
+                          }
+                        },
+                        {
+                          "value": "2020-02-02T00:00:00+00:00",
+                          "projectField": {
+                            "id": "PNF_12"
+                          }
+                        },
+                        {
+                          "value": "c5f71ea9",
+                          "projectField": {
+                            "id": "PNF_13"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
               }
             }
+          }
+        }
+      }
+    }
+  },
+  {
+    "query": "\n    mutation setItemProperties($projectId: ID!, $itemId: ID!) {\n      \n        text: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PNF_lADOBYMIeM4ADzd0zgCMLPg\", value: \"\"}) {\n          clientMutationId\n        }\n      \n    }\n  ",
+    "variables": {
+      "projectId": "PN_1",
+      "itemId": "PNI_1"
+    },
+    "response": {
+      "status": 200,
+      "url": "https://api.github.com/graphql",
+      "headers": {
+        "access-control-allow-origin": "*",
+        "access-control-expose-headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset",
+        "connection": "close",
+        "content-encoding": "gzip",
+        "content-security-policy": "default-src 'none'",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Wed, 13 Jul 2022 20:42:32 GMT",
+        "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+        "server": "GitHub.com",
+        "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "Accept-Encoding, Accept, X-Requested-With",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "deny",
+        "x-github-media-type": "github.v3; format=json",
+        "x-github-request-id": "0D94:7031:1D3DCE:1F22F7:62CF2E38",
+        "x-ratelimit-limit": "5000",
+        "x-ratelimit-remaining": "4912",
+        "x-ratelimit-reset": "1657747380",
+        "x-ratelimit-resource": "graphql",
+        "x-ratelimit-used": "88",
+        "x-xss-protection": "0"
+      },
+      "data": {
+        "data": {
+          "text": {
+            "clientMutationId": null
           }
         }
       }

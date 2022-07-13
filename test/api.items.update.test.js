@@ -3,55 +3,6 @@ import { Octokit } from "@octokit/core";
 import prettier from "prettier";
 import GitHubProject from "../index.js";
 
-test("project.items.update(itemNodeId, fields) unsetting a field (#10)", async (t) => {
-  const { getProjectItemsQueryResultFixture } = await import(
-    "./fixtures/get-project-items/query-result.js"
-  );
-
-  const octokit = new Octokit();
-  octokit.hook.wrap("request", async (request, options) => {
-    if (/query getProjectWithItems\(/.test(options.query)) {
-      return {
-        data: getProjectItemsQueryResultFixture,
-      };
-    }
-
-    if (/mutation setItemProperties\(/.test(options.query)) {
-      t.deepEqual(options.variables, {
-        projectId: "PN_kwDOBYMIeM0lfA",
-        itemId: "PNI_lADOBYMIeM0lfM4ADfm9",
-      });
-      t.regex(
-        options.query,
-        /fieldId: "MDE2OlByb2plY3ROZXh0RmllbGQ3MTMyMw==", value: ""/
-      );
-
-      return {
-        data: {},
-      };
-    }
-
-    throw new Error(
-      `Unexpected query:\n${prettier.format(options.query, {
-        parser: "graphql",
-      })}`
-    );
-  });
-
-  const project = new GitHubProject({
-    org: "org",
-    number: 1,
-    octokit,
-    fields: {
-      relevantToUsers: "Relevant to users?",
-      suggestedChangelog: "Suggested Changelog",
-    },
-  });
-
-  await project.items.update("PNI_lADOBYMIeM0lfM4ADfm9", {
-    relevantToUsers: null,
-  });
-});
 test("project.items.update(itemNodeId, fields) unforeseen GraphQL error", async (t) => {
   const { getProjectItemsPage1QueryResultFixture } = await import(
     "./fixtures/get-project-items/query-result-items-page-1.js"
