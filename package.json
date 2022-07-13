@@ -7,7 +7,7 @@
   "types": "./index.d.ts",
   "scripts": {
     "test": "npm run test:code && npm run test:tsc && npm run test:tsd && npm run lint",
-    "test:code": "c8 --100 ava",
+    "test:code": "c8 --100 ava test/*.test.js",
     "test:tsc": "tsc --allowJs --noEmit --esModuleInterop --skipLibCheck --lib es2020 index.js",
     "test:tsd": "tsd",
     "lint": "prettier --check \"*.{js,json,ts,md}\" \".github/**/*.yml\"",
@@ -28,6 +28,7 @@
     "@octokit/openapi-types": "^12.8.0",
     "@octokit/plugin-paginate-rest": "^3.0.0",
     "@octokit/plugin-throttling": "^4.0.1",
+    "ava": "^4.3.1",
     "c8": "^7.10.0",
     "dotenv": "^16.0.1",
     "octokit-plugin-create-pull-request": "^3.12.2",
@@ -58,7 +59,6 @@
   },
   "dependencies": {
     "@octokit/core": "^4.0.0",
-    "ava": "^4.1.0",
     "type-fest": "^2.13.0"
   }
 }

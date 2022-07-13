@@ -3,7 +3,7 @@ import { readFile, readdir } from "node:fs/promises";
 import avaTest from "ava";
 import { Octokit } from "@octokit/core";
 
-import GitHubProject from "../../index.js";
+import GitHubProject from "../index.js";
 
 const OWNER = "github-project-fixtures";
 const PROJECT_NUMBER = 2;
@@ -22,7 +22,7 @@ async function runTests(owner, projectNumber) {
     }
 
     avaTest.serial(`${testFolder}`, async (t) => {
-      const { test } = await import(`./${testFolder}/test.js`);
+      const { test } = await import(`./recorded/${testFolder}/test.js`);
       const fixturesPath = `test/recorded/${testFolder}/fixtures.json`;
       const fixtures = JSON.parse(await readFile(fixturesPath, "utf8"));
 
