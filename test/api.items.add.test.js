@@ -219,6 +219,7 @@ test("project.items.add() without configuring custom fields", async (t) => {
       labels: [],
       repository: "example-product",
       milestone: null,
+      databaseId: 1025649858
     },
   });
 });
