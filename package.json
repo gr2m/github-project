@@ -24,10 +24,12 @@
   "author": "Gregor Martynus (https://github.com/gr2m)",
   "license": "ISC",
   "devDependencies": {
+    "@octokit/app": "^13.0.5",
     "@octokit/openapi-types": "^12.8.0",
     "@octokit/plugin-paginate-rest": "^3.0.0",
     "@octokit/plugin-throttling": "^4.0.1",
     "c8": "^7.10.0",
+    "dotenv": "^16.0.1",
     "octokit-plugin-create-pull-request": "^3.12.2",
     "open-cli": "^7.0.1",
     "prettier": "^2.5.1",
