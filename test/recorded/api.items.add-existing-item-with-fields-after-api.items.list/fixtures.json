@@ -15,24 +15,21 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 13 Jul 2022 00:31:25 GMT",
-        "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
+        "date": "Wed, 13 Jul 2022 17:59:03 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
         "transfer-encoding": "chunked",
         "vary": "Accept-Encoding, Accept, X-Requested-With",
-        "x-accepted-oauth-scopes": "repo",
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "C7E5:67B0:148092:174DD3:62CE125C",
-        "x-oauth-scopes": "delete_repo, project, repo, write:org",
+        "x-github-request-id": "CAA8:44C5:A0946:B0583:62CF07E6",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4980",
-        "x-ratelimit-reset": "1657675859",
+        "x-ratelimit-remaining": "4984",
+        "x-ratelimit-reset": "1657738720",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "20",
+        "x-ratelimit-used": "16",
         "x-xss-protection": "0"
       },
       "data": {
@@ -119,7 +116,7 @@
               },
               "items": {
                 "pageInfo": {
-                  "endCursor": "Y3Vyc29yOnYyOpHOAGt5YA==",
+                  "endCursor": "Y3Vyc29yOnYyOpHOAGwaAQ==",
                   "hasNextPage": false
                 },
                 "nodes": [
@@ -133,7 +130,7 @@
                       "title": "Issue",
                       "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
                       "createdAt": "2022-02-02T12:00:00Z",
-                      "databaseId": 1302756611,
+                      "databaseId": 1303764711,
                       "assignees": {
                         "nodes": []
                       },
@@ -170,7 +167,7 @@
     "query": "\n    mutation setItemProperties($projectId: ID!, $itemId: ID!) {\n      \n        status: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PNF_lADOBYMIeM4ADzd0zgCMLM0\", value: \"98236657\"}) {\n          clientMutationId\n        }\n      \n    }\n  ",
     "variables": {
       "projectId": "PN_1",
-      "itemId": "PNI_lADOBYMIeM4ADzd0zgBreWA"
+      "itemId": "PNI_1"
     },
     "response": {
       "status": 200,
@@ -182,24 +179,21 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 13 Jul 2022 00:31:26 GMT",
-        "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
+        "date": "Wed, 13 Jul 2022 17:59:04 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
         "transfer-encoding": "chunked",
         "vary": "Accept-Encoding, Accept, X-Requested-With",
-        "x-accepted-oauth-scopes": "repo",
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "C7EA:4A8D:154069:16D025:62CE125D",
-        "x-oauth-scopes": "delete_repo, project, repo, write:org",
+        "x-github-request-id": "CAAD:2D2D:23B007:250B4A:62CF07E7",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4979",
-        "x-ratelimit-reset": "1657675859",
+        "x-ratelimit-remaining": "4983",
+        "x-ratelimit-reset": "1657738720",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "21",
+        "x-ratelimit-used": "17",
         "x-xss-protection": "0"
       },
       "data": {

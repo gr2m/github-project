@@ -78,6 +78,8 @@ async function recordFixtures() {
         continue;
       }
 
+      // if (testFolder !== "api.items.remove") continue;
+
       console.log("Recording fixtures for %s", testFolder);
 
       const setupProject = new GitHubProject(projectOptions);
@@ -95,7 +97,7 @@ async function recordFixtures() {
       const { test } = await import(`./${testFolder}/test.js`);
 
       // prepare recording fixtures
-      const args = await prepare(repository, octokit, testProject);
+      const args = await prepare(repository, octokit, setupProject);
 
       // do the recording
       const fixtures = [];
@@ -116,7 +118,7 @@ async function recordFixtures() {
       const idMappings = {};
       const fixturesJSON = JSON.stringify(fixtures, null, 2)
         .replaceAll(
-          /"(id|projectId|contentId)": "([^_]+)_([^"]+)"/g,
+          /"(id|projectId|contentId|itemId)": "([^_]+)_([^"]+)"/g,
           (match, key, prefix, id) => {
             if (!idMappings[id]) {
               if (!counters[prefix]) counters[prefix] = 0;

@@ -15,24 +15,21 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 13 Jul 2022 00:33:42 GMT",
-        "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
+        "date": "Wed, 13 Jul 2022 18:01:17 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
         "transfer-encoding": "chunked",
         "vary": "Accept-Encoding, Accept, X-Requested-With",
-        "x-accepted-oauth-scopes": "repo",
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "CB2B:3F6E:33DD51:3D0AA6:62CE12E6",
-        "x-oauth-scopes": "delete_repo, project, repo, write:org",
+        "x-github-request-id": "CD7C:8B34:1758EA:189389:62CF086D",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4883",
-        "x-ratelimit-reset": "1657675859",
+        "x-ratelimit-remaining": "4894",
+        "x-ratelimit-reset": "1657738720",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "117",
+        "x-ratelimit-used": "106",
         "x-xss-protection": "0"
       },
       "data": {
@@ -119,7 +116,7 @@
               },
               "items": {
                 "pageInfo": {
-                  "endCursor": "Y3Vyc29yOnYyOpHOAGt5iA==",
+                  "endCursor": "Y3Vyc29yOnYyOpHOAGwa9w==",
                   "hasNextPage": false
                 },
                 "nodes": [
@@ -133,7 +130,7 @@
                       "title": "Issue 1",
                       "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
                       "createdAt": "2022-02-02T12:00:00Z",
-                      "databaseId": 1302757765,
+                      "databaseId": 1303766692,
                       "assignees": {
                         "nodes": []
                       },
@@ -192,7 +189,7 @@
                       "title": "Issue 2",
                       "url": "https://github.com/github-project-fixtures/test-repository/issues/2",
                       "createdAt": "2022-02-02T12:00:00Z",
-                      "databaseId": 1302757808,
+                      "databaseId": 1303766741,
                       "assignees": {
                         "nodes": []
                       },
