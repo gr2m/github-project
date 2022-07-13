@@ -112,7 +112,7 @@ async function recordFixtures(owner, projectNumber) {
             idMappings[id] = ++counters[prefix];
           }
 
-          return `"${key}": "${prefix}_${counters[prefix]}"`;
+          return `"${key}": "${prefix}_${idMappings[id]}"`;
         }
       )
       .replaceAll(repository.name, "test-repository")

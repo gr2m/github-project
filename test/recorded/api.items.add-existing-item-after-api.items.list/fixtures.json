@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Tue, 12 Jul 2022 23:41:17 GMT",
+        "date": "Wed, 13 Jul 2022 00:31:16 GMT",
         "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
@@ -26,13 +26,13 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "D085:17E3:5E500F:672656:62CE069D",
+        "x-github-request-id": "C7AE:0F2D:74AF8:88318:62CE1253",
         "x-oauth-scopes": "delete_repo, project, repo, write:org",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4979",
-        "x-ratelimit-reset": "1657672251",
+        "x-ratelimit-remaining": "4987",
+        "x-ratelimit-reset": "1657675859",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "21",
+        "x-ratelimit-used": "13",
         "x-xss-protection": "0"
       },
       "data": {
@@ -119,7 +119,7 @@
               },
               "items": {
                 "pageInfo": {
-                  "endCursor": "Y3Vyc29yOnYyOpHOAGt1bw==",
+                  "endCursor": "Y3Vyc29yOnYyOpHOAGt5Xg==",
                   "hasNextPage": false
                 },
                 "nodes": [
@@ -133,7 +133,7 @@
                       "title": "Issue",
                       "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
                       "createdAt": "2022-02-02T12:00:00Z",
-                      "databaseId": 1302726907,
+                      "databaseId": 1302756536,
                       "assignees": {
                         "nodes": []
                       },
@@ -152,7 +152,7 @@
                         {
                           "value": "Issue",
                           "projectField": {
-                            "id": "PNF_14"
+                            "id": "PNF_1"
                           }
                         }
                       ]

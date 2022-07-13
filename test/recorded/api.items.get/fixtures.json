@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Tue, 12 Jul 2022 23:17:18 GMT",
+        "date": "Wed, 13 Jul 2022 00:32:34 GMT",
         "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
@@ -26,13 +26,13 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "F5DD:7C8B:EF31D9:FB3FED:62CE00FD",
+        "x-github-request-id": "C96B:9CB0:B971A4:C4C51D:62CE12A2",
         "x-oauth-scopes": "delete_repo, project, repo, write:org",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4939",
-        "x-ratelimit-reset": "1657668446",
+        "x-ratelimit-remaining": "4937",
+        "x-ratelimit-reset": "1657675859",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "61",
+        "x-ratelimit-used": "63",
         "x-xss-protection": "0"
       },
       "data": {
@@ -119,7 +119,7 @@
               },
               "items": {
                 "pageInfo": {
-                  "endCursor": "Y3Vyc29yOnYyOpHOAGtzwA==",
+                  "endCursor": "Y3Vyc29yOnYyOpHOAGt5cA==",
                   "hasNextPage": false
                 },
                 "nodes": [
@@ -133,7 +133,7 @@
                       "title": "Issue",
                       "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
                       "createdAt": "2022-02-02T12:00:00Z",
-                      "databaseId": 1302713983,
+                      "databaseId": 1302757209,
                       "assignees": {
                         "nodes": []
                       },
@@ -152,31 +152,31 @@
                         {
                           "value": "Issue",
                           "projectField": {
-                            "id": "PNF_14"
+                            "id": "PNF_1"
                           }
                         },
                         {
                           "value": "text",
                           "projectField": {
-                            "id": "PNF_14"
+                            "id": "PNF_10"
                           }
                         },
                         {
                           "value": "1",
                           "projectField": {
-                            "id": "PNF_14"
+                            "id": "PNF_11"
                           }
                         },
                         {
                           "value": "2020-02-02T00:00:00+00:00",
                           "projectField": {
-                            "id": "PNF_14"
+                            "id": "PNF_12"
                           }
                         },
                         {
                           "value": "c5f71ea9",
                           "projectField": {
-                            "id": "PNF_14"
+                            "id": "PNF_13"
                           }
                         }
                       ]
