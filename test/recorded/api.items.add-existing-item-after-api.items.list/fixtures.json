@@ -15,21 +15,24 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 13 Jul 2022 18:40:37 GMT",
+        "date": "Wed, 13 Jul 2022 20:34:35 GMT",
+        "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
         "transfer-encoding": "chunked",
         "vary": "Accept-Encoding, Accept, X-Requested-With",
+        "x-accepted-oauth-scopes": "repo",
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "F679:2398:1F6750:20D6F9:62CF11A4",
+        "x-github-request-id": "0DAC:2398:2D3341:2F4332:62CF2C5B",
+        "x-oauth-scopes": "delete_repo, project, repo, write:org",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4786",
-        "x-ratelimit-reset": "1657738720",
+        "x-ratelimit-remaining": "4987",
+        "x-ratelimit-reset": "1657748036",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "214",
+        "x-ratelimit-used": "13",
         "x-xss-protection": "0"
       },
       "data": {
@@ -116,7 +119,7 @@
               },
               "items": {
                 "pageInfo": {
-                  "endCursor": "Y3Vyc29yOnYyOpHOAGwh0A==",
+                  "endCursor": "Y3Vyc29yOnYyOpHOAGwyEw==",
                   "hasNextPage": false
                 },
                 "nodes": [
@@ -130,7 +133,7 @@
                       "title": "Issue",
                       "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
                       "createdAt": "2022-02-02T12:00:00Z",
-                      "databaseId": 1303803857,
+                      "databaseId": 1303912991,
                       "assignees": {
                         "nodes": []
                       },
