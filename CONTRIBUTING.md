@@ -38,6 +38,53 @@ After you cloned your fork, create a new branch and implement the changes in the
 gh pr create
 ```
 
+## Recording fixtures for testing
+
+Most parts of `github-project` is tested using full integrations test, using fixtures for GraphQL requests and responses. You can see all the tests with their fixtures in [`test/recorded/`](test/recorded/).
+
+If you changed how `github-project` is working or added a feature that is not covered by the existing tests, you need to update the fixtures.
+
+We record the fixtures using a dedicated GitHub organization: [@github-project-fixtures](https://github.com/github-project-fixtures/). We are invite you to the organization so that you can record your own fixtures without setting up your own GitHub organization and app, just let us know.
+
+But in case you prefer to use your own organization, you'll need to
+
+1. Create your own organization on GitHub
+2. Register a GitHub App for that organization with the following permissions
+   - administration: 'write',
+   - contents: 'write',
+   - issues: 'write',
+   - metadata: 'read',
+   - organization_projects: 'admin',
+   - pull_requests: 'write'
+
+Then copy the `.env.example` file to `.env` and fill in the values.
+
+Then you can record fixtures for all tests in `test/recorded/*` using
+
+```
+node test/recorded/record-fixtures.js
+```
+
+If you only want to record fixtures for selected tests, pass the folder names as CLI arguments, e.g.
+
+```
+node test/recorded/record-fixtures.js api.items.add api.items.get
+```
+
+To test a single `test/recorded/*/test.js` file, run
+
+```
+# only test test/recorded/api.items.get/test.js
+npx ava test/recorded.test.js --match api.items.get
+```
+
+If a test snapshot needs to be updated, run `ava` with `--update-snapshots`, e.g.
+
+```
+# update snapshot for test/recorded/api.items.get/test.js
+npx ava test/recorded.test.js --match api.items.get --update-snapshots
+```
+
 ## Maintainers only
 
 ### Merging the Pull Request & releasing a new version
