@@ -12,6 +12,9 @@
  * @returns {Promise<[string]>}
  */
 export async function prepare(repository, octokit, project) {
+  console.log(
+    "Creating 101 issues and adding them to the project. This will take a while..."
+  );
   // We load 100 items at a time, so we need to create 101 items for this test ...
   for (let number = 1; number <= 101; number++) {
     // create test issue 1
