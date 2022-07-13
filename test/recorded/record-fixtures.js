@@ -13,9 +13,15 @@ import { createRepository } from "./_lib/create-test-repository.js";
 
 dotenv.config();
 
-recordFixtures();
+recordFixtures(process.argv.slice(2));
 
-async function recordFixtures() {
+async function recordFixtures(selectedTestFolders) {
+  if (selectedTestFolders.length) {
+    console.log("Updating fixtures for %j", selectedTestFolders);
+  } else {
+    console.log("Updating all fixtures");
+  }
+
   if (
     !process.env.PROJECT_NUMBER ||
     !process.env.GH_PROJECT_FIXTURES_APP_ID ||
@@ -71,10 +77,20 @@ async function recordFixtures() {
         continue;
       }
 
-      if (testFolder === "api.items.list-with-pagination") {
+      if (
+        testFolder === "api.items.list-with-pagination" &&
+        !selectedTestFolders.includes(testFolder)
+      ) {
         console.log(
-          "Skipping recording fixtures for 'api.items.list-with-pagination' because it takes forever to update. Comment out this if block if you really need it."
+          "Skipping recording fixtures for 'api.items.list-with-pagination' because it takes forever to update. Record it explicitly with `node test/recorded/record-fixtures.js api.items.list-with-pagination`."
         );
+        continue;
+      }
+
+      if (
+        selectedTestFolders.length &&
+        !selectedTestFolders.includes(testFolder)
+      ) {
         continue;
       }
 
