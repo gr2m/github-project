@@ -2,8 +2,16 @@
 
 /**
  * @param {import("../../..").default} project
+ * @param {string} [repositoryName]
+ * @param {number} [issueNumber]
  */
-export function test(project) {
-  // I_1 is the normalized Issue Node ID in `./fixtures.json`
-  return project.items.getByContentRepositoryAndNumber("test-repository", 1);
+export function test(
+  project,
+  repositoryName = "test-repository",
+  issueNumber = 1
+) {
+  return project.items.getByContentRepositoryAndNumber(
+    repositoryName,
+    issueNumber
+  );
 }
