@@ -29,16 +29,25 @@ const READ_ONLY_FIELDS = [
  * @returns {string}
  */
 export function getFieldsUpdateQuery(state, fields) {
-  const readOnlyFields = Object.keys(fields)
-    .map((key) => [key, state.fields[key].name])
-    .filter(([, value]) =>
-      READ_ONLY_FIELDS.some((readOnlyField) =>
-        state.matchFieldName(
+  const existingFields = Object.fromEntries(
+    Object.keys(fields)
+      .filter((key) => state.fields[key].existsInProject)
+      .map((key) => [key, fields[key]])
+  );
+
+  const readOnlyFields = Object.keys(existingFields)
+    .map((key) => [key, state.fields[key].userName])
+    .filter(([key]) => {
+      const field = state.fields[key];
+      return READ_ONLY_FIELDS.some((readOnlyField) => {
+        return state.matchFieldName(
           readOnlyField.toLowerCase(),
-          value.toLowerCase().trim()
-        )
-      )
-    );
+
+          // @ts-expect-error - TODO: unclear why `field` is typed as potential "string" here
+          field.name.toLowerCase().trim()
+        );
+      });
+    });
 
   if (readOnlyFields.length > 0) {
     throw new Error(
@@ -49,10 +58,11 @@ export function getFieldsUpdateQuery(state, fields) {
   }
 
   const mustLoadItemProperties = !state.didLoadItems;
-  const parts = Object.entries(fields)
+  const parts = Object.entries(existingFields)
     .map(([key, value], index) => {
       if (value === undefined) return;
       const field = state.fields[key];
+
       const valueOrOption =
         value === null
           ? ""
@@ -65,10 +75,15 @@ export function getFieldsUpdateQuery(state, fields) {
           ? `projectNextItem { ${queryItemFieldNodes} }`
           : "clientMutationId";
 
+      // @ts-expect-error - `field.id` is not set if field does not exist on projects, but we know it exists here
+      const fieldId = field.id;
       return `
-        ${key.replace(/\s+/g, '')}: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: "${
-        field.id
-      }", value: "${escapeQuotes(valueOrOption)}"}) {
+        ${key.replace(
+          /\s+/g,
+          ""
+        )}: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: "${fieldId}", value: "${escapeQuotes(
+        valueOrOption
+      )}"}) {
           ${queryNodes}
         }
       `;

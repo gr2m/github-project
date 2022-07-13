@@ -1,9 +1,8 @@
 // @ts-check
 
-import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
+import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
 import { getFieldsUpdateQuery } from "./lib/get-fields-update-query.js";
 import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
-import { projectItemNodeToGitHubProjectItem } from "./lib/project-item-node-to-github-project-item.js";
 
 /**
  * Updates item fields if the item can be found and returns the full item
@@ -16,36 +15,33 @@ import { projectItemNodeToGitHubProjectItem } from "./lib/project-item-node-to-g
  * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
 export async function updateItem(project, state, itemNodeId, fields) {
-  const stateWithFields = await getStateWithProjectFields(project, state);
+  const stateWithItems = await getStateWithProjectItems(project, state);
 
-  const query = getFieldsUpdateQuery(stateWithFields, fields);
+  const item = stateWithItems.items.find((item) => item.id === itemNodeId);
 
-  try {
-    const result = await project.octokit.graphql(query, {
-      projectId: stateWithFields.id,
-      itemId: itemNodeId,
-    });
+  if (!item) return;
 
-    // if cache is loaded, get item form cache and update it
-    if (state.didLoadItems) {
-      const item = state.items.find((item) => item.id === itemNodeId);
-      if (item) {
-        item.fields = {
-          ...item.fields,
-          ...removeUndefinedValues(fields),
-        };
-      }
-      return item;
-    }
+  const existingProjectFieldKeys = Object.keys(fields).filter(
+    (key) => stateWithItems.fields[key].existsInProject
+  );
 
-    // otherwise read all information from the first query response key
-    const { projectNextItem } = result[Object.keys(result)[0]];
-    return projectItemNodeToGitHubProjectItem(stateWithFields, projectNextItem);
-  } catch (error) {
-    if (!error.errors) throw error;
+  if (existingProjectFieldKeys.length === 0) return item;
 
-    if (error.errors[0].type === "NOT_FOUND") return;
+  const existingFields = Object.fromEntries(
+    existingProjectFieldKeys.map((key) => [key, fields[key]])
+  );
 
-    throw error;
-  }
+  const query = getFieldsUpdateQuery(stateWithItems, existingFields);
+
+  await project.octokit.graphql(query, {
+    projectId: stateWithItems.id,
+    itemId: itemNodeId,
+  });
+
+  item.fields = {
+    ...item.fields,
+    ...removeUndefinedValues(fields),
+  };
+
+  return item;
 }

@@ -29,7 +29,17 @@ export async function updateItemByContentId(
 
   if (!item) return;
 
-  const query = getFieldsUpdateQuery(stateWithItems, fields);
+  const existingProjectFieldKeys = Object.keys(fields).filter(
+    (key) => stateWithItems.fields[key].existsInProject
+  );
+
+  if (existingProjectFieldKeys.length === 0) return item;
+
+  const existingFields = Object.fromEntries(
+    existingProjectFieldKeys.map((key) => [key, fields[key]])
+  );
+
+  const query = getFieldsUpdateQuery(stateWithItems, existingFields);
   await project.octokit.graphql(query, {
     projectId: stateWithItems.id,
     itemId: item.id,

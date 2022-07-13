@@ -1,21 +1,26 @@
 import { Octokit } from "@octokit/core";
+import { ConditionalKeys } from "type-fest";
 
 export type BUILT_IN_FIELDS = {
   title: "Title";
   status: "Status";
 };
 
-export type CustomFieldOption =
-  | string
-  | {
-      name: string;
-      optional?: boolean;
-    };
+type FieldOptionSettings = {
+  name: string;
+  optional?: boolean;
+};
+/** A project field can be set to a string name or an object of supported settings */
+export type FieldOptions = string | FieldOptionSettings;
 
 export default class GitHubProject<
-  TCustomFields extends Record<string, CustomFieldOption> = {},
+  TCustomFields extends Record<string, FieldOptions> = {},
   TFields extends BUILT_IN_FIELDS = TCustomFields & BUILT_IN_FIELDS,
-  TItemFields = Record<keyof TFields, string | null>
+  TItemFields = Record<
+    Exclude<keyof TFields, ConditionalKeys<TFields, { optional: true }>>,
+    string | null
+  > &
+    Partial<Record<ConditionalKeys<TFields, { optional: true }>, string | null>>
 > {
   /** GitHub organization login */
   get org(): string;
@@ -81,7 +86,7 @@ export type MatchFieldOptionValueFn = (
 ) => boolean;
 
 export type GitHubProjectOptions<
-  TFields extends Record<string, CustomFieldOption> = {}
+  TFields extends Record<string, FieldOptions> = {}
 > =
   | {
       org: string;
@@ -175,15 +180,29 @@ export type ProjectFieldNode = {
 
 export type ProjectFieldMap = Record<
   string,
-  ProjectField | ProjectFieldWithOptions
+  ProjectField | ProjectFieldWithOptions | OptionalNonExistingField
 >;
 
-type ProjectField = { id: string; name: string };
+type ProjectField = {
+  id: string;
+  name: string;
+  userName: string;
+  optional: boolean;
+  existsInProject: true;
+};
 type ProjectFieldWithOptions = {
   id: string;
   name: string;
+  userName: string;
   optionsById: Record<string, string>;
   optionsByValue: Record<string, string>;
+  optional: boolean;
+  existsInProject: true;
+};
+type OptionalNonExistingField = {
+  userName: string;
+  optional: true;
+  existsInProject: false;
 };
 
 export type ProjectFieldValueNode = {
