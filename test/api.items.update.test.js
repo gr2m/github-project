@@ -52,63 +52,6 @@ test("project.items.update(itemNodeId, fields) unsetting a field (#10)", async (
     relevantToUsers: null,
   });
 });
-test("project.items.update(itemNodeId, fields) not found", async (t) => {
-  const { getProjectItemsPage1QueryResultFixture } = await import(
-    "./fixtures/get-project-items/query-result-items-page-1.js"
-  );
-  const { getProjectItemsPage2QueryResultFixture } = await import(
-    "./fixtures/get-project-items/query-result-items-page-2.js"
-  );
-  const { getProjectItemsPage3QueryResultFixture } = await import(
-    "./fixtures/get-project-items/query-result-items-page-3.js"
-  );
-
-  const octokit = new Octokit();
-  octokit.hook.wrap("request", async (request, options) => {
-    t.deepEqual(options.method, "POST");
-    t.deepEqual(options.url, "/graphql");
-
-    if (/query getProjectWithItems\(/.test(options.query)) {
-      return {
-        data: getProjectItemsPage1QueryResultFixture,
-      };
-    }
-
-    if (/query getProjectItems\(/.test(options.query)) {
-      if (options.variables.after === "PNI_lADOBYMIeM0lfM4AAzDD") {
-        return {
-          data: getProjectItemsPage2QueryResultFixture,
-        };
-      }
-
-      return {
-        data: getProjectItemsPage3QueryResultFixture,
-      };
-    }
-
-    throw new Error(
-      `Unexpected query:\n${prettier.format(options.query, {
-        parser: "graphql",
-      })}`
-    );
-  });
-
-  const project = new GitHubProject({
-    org: "org",
-    number: 1,
-    octokit,
-    fields: {
-      relevantToUsers: "Relevant to users?",
-      suggestedChangelog: "Suggested Changelog",
-    },
-  });
-
-  const updatedItem = await project.items.update("<unknown id>", {
-    relevantToUsers: "Yes",
-  });
-
-  t.deepEqual(updatedItem, undefined);
-});
 test("project.items.update(itemNodeId, fields) unforeseen GraphQL error", async (t) => {
   const { getProjectItemsPage1QueryResultFixture } = await import(
     "./fixtures/get-project-items/query-result-items-page-1.js"
