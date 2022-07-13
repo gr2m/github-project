@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 13 Jul 2022 18:33:49 GMT",
+        "date": "Wed, 13 Jul 2022 18:42:03 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "EF63:85C7:657FE:76386:62CF100D",
+        "x-github-request-id": "F849:88A1:274B9:29C9B:62CF11FB",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4808",
+        "x-ratelimit-remaining": "4731",
         "x-ratelimit-reset": "1657738720",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "192",
+        "x-ratelimit-used": "269",
         "x-xss-protection": "0"
       },
       "data": {
@@ -116,7 +116,7 @@
               },
               "items": {
                 "pageInfo": {
-                  "endCursor": "Y3Vyc29yOnYyOpHOAGwg3g==",
+                  "endCursor": "Y3Vyc29yOnYyOpHOAGwiEA==",
                   "hasNextPage": false
                 },
                 "nodes": [
@@ -130,7 +130,7 @@
                       "title": "Issue",
                       "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
                       "createdAt": "2022-02-02T12:00:00Z",
-                      "databaseId": 1303797531,
+                      "databaseId": 1303805190,
                       "assignees": {
                         "nodes": []
                       },

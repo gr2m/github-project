@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 13 Jul 2022 17:59:51 GMT",
+        "date": "Wed, 13 Jul 2022 18:41:34 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "CBB3:6752:1051B2:1167F0:62CF0817",
+        "x-github-request-id": "F7A9:8B34:1BE500:1D58E5:62CF11DE",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4956",
+        "x-ratelimit-remaining": "4752",
         "x-ratelimit-reset": "1657738720",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "44",
+        "x-ratelimit-used": "248",
         "x-xss-protection": "0"
       },
       "data": {
@@ -136,7 +136,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 13 Jul 2022 17:59:52 GMT",
+        "date": "Wed, 13 Jul 2022 18:41:35 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -145,12 +145,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "CBB8:7032:199073:1AC8F9:62CF0818",
+        "x-github-request-id": "F7AE:8803:1BC659:1D3C5A:62CF11DF",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4955",
+        "x-ratelimit-remaining": "4751",
         "x-ratelimit-reset": "1657738720",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "45",
+        "x-ratelimit-used": "249",
         "x-xss-protection": "0"
       },
       "data": {
@@ -166,7 +166,7 @@
                 "title": "Issue",
                 "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
                 "createdAt": "2022-02-02T12:00:00Z",
-                "databaseId": 1303765491,
+                "databaseId": 1303804769,
                 "assignees": {
                   "nodes": []
                 },
@@ -212,7 +212,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 13 Jul 2022 17:59:53 GMT",
+        "date": "Wed, 13 Jul 2022 18:41:36 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -221,12 +221,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "CBBD:51D8:14960B:15AE7F:62CF0819",
+        "x-github-request-id": "F7B3:8803:1BC6CC:1D3CDB:62CF11E0",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4954",
+        "x-ratelimit-remaining": "4750",
         "x-ratelimit-reset": "1657738720",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "46",
+        "x-ratelimit-used": "250",
         "x-xss-protection": "0"
       },
       "data": {
@@ -242,7 +242,7 @@
                 "title": "Issue",
                 "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
                 "createdAt": "2022-02-02T12:00:00Z",
-                "databaseId": 1303765491,
+                "databaseId": 1303804769,
                 "assignees": {
                   "nodes": []
                 },

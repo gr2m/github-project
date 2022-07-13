@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 13 Jul 2022 17:58:45 GMT",
+        "date": "Wed, 13 Jul 2022 18:40:27 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "CA49:44C4:69AE9:78358:62CF07D5",
+        "x-github-request-id": "F646:6751:F8FFD:10BB76:62CF119B",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4997",
+        "x-ratelimit-remaining": "4793",
         "x-ratelimit-reset": "1657738720",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "3",
+        "x-ratelimit-used": "207",
         "x-xss-protection": "0"
       },
       "data": {
@@ -136,7 +136,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 13 Jul 2022 17:58:47 GMT",
+        "date": "Wed, 13 Jul 2022 18:40:29 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -145,12 +145,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "CA4E:2394:6EAB1:7C7AF:62CF07D6",
+        "x-github-request-id": "F64C:7032:1EBF93:203184:62CF119C",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4996",
+        "x-ratelimit-remaining": "4792",
         "x-ratelimit-reset": "1657738720",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "4",
+        "x-ratelimit-used": "208",
         "x-xss-protection": "0"
       },
       "data": {
@@ -166,7 +166,7 @@
                 "title": "Issue",
                 "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
                 "createdAt": "2022-02-02T12:00:00Z",
-                "databaseId": 1303764435,
+                "databaseId": 1303803735,
                 "assignees": {
                   "nodes": []
                 },
