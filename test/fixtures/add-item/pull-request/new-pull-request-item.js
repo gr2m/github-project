@@ -22,5 +22,6 @@ export const newPullRequestItemFixture = {
     repository: "example-product",
     milestone: null,
     merged: false,
+    databaseId: 757727957,
   },
 };

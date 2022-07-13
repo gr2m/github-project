@@ -315,6 +315,7 @@ test("project.items.list() without configuring custom fields", async (t) => {
         repository: "example-product",
         milestone: null,
         merged: false,
+        databaseId: 757727957,
       },
     },
     {
@@ -338,6 +339,7 @@ test("project.items.list() without configuring custom fields", async (t) => {
         labels: [],
         repository: "example-product",
         milestone: null,
+        databaseId: 1025649858,
       },
     },
   ]);
@@ -684,6 +686,7 @@ test("project.items.add() without configuring custom fields", async (t) => {
       labels: [],
       repository: "example-product",
       milestone: null,
+      databaseId: 1025649858,
     },
   });
 });

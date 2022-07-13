@@ -22,5 +22,6 @@ export const issueItemFixture = {
     labels: [],
     repository: "example-product",
     milestone: null,
+    databaseId: 1025649858
   },
 };

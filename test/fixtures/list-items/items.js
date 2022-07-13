@@ -33,6 +33,7 @@ export const listItemsFixture = [
       repository: "example-product",
       milestone: null,
       merged: false,
+      databaseId: 757727957
     },
   },
   {
@@ -58,6 +59,7 @@ export const listItemsFixture = [
       labels: [],
       repository: "example-product",
       milestone: null,
+      databaseId: 1025649858
     },
   },
 ];

@@ -153,6 +153,7 @@ type contentCommon = {
   assignees: string[];
   labels: string[];
   repository: string;
+  databaseId: number;
   milestone: {
     title: string;
     number: number;
