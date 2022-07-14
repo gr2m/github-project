@@ -44,7 +44,7 @@ Most parts of `github-project` is tested using full integrations test, using fix
 
 If you changed how `github-project` is working or added a feature that is not covered by the existing tests, you need to update the fixtures.
 
-We record the fixtures using a dedicated GitHub organization: [@github-project-fixtures](https://github.com/github-project-fixtures/). We are invite you to the organization so that you can record your own fixtures without setting up your own GitHub organization and app, just let us know.
+We record the fixtures using a dedicated GitHub organization: [@github-project-fixtures](https://github.com/github-project-fixtures/). We can invite you to the organization so that you can record your own fixtures without setting up your own GitHub organization and app, just let us know.
 
 But in case you prefer to use your own organization, you'll need to
 
