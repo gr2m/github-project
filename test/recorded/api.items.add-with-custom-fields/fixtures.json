@@ -1,0 +1,302 @@
+[
+  {
+    "query": "\n  query getProjectCoreData($org: String!, $number: Int!) {\n    organization(login: $org) {\n      projectNext(number: $number) {\n        \n  id\n  title\n  description\n  url\n  fields(first: 50) {\n    nodes {\n      id\n      name\n      settings\n    }\n  }\n\n      }\n    }\n  }\n",
+    "variables": {
+      "org": "github-project-fixtures",
+      "number": 2
+    },
+    "response": {
+      "status": 200,
+      "url": "https://api.github.com/graphql",
+      "headers": {
+        "access-control-allow-origin": "*",
+        "access-control-expose-headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset",
+        "connection": "close",
+        "content-encoding": "gzip",
+        "content-security-policy": "default-src 'none'",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Wed, 13 Jul 2022 20:35:12 GMT",
+        "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
+        "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+        "server": "GitHub.com",
+        "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "Accept-Encoding, Accept, X-Requested-With",
+        "x-accepted-oauth-scopes": "repo",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "deny",
+        "x-github-media-type": "github.v3; format=json",
+        "x-github-request-id": "0D1C:2397:1E0EBC:1FEB5E:62CF2C80",
+        "x-oauth-scopes": "delete_repo, project, repo, write:org",
+        "x-ratelimit-limit": "5000",
+        "x-ratelimit-remaining": "4964",
+        "x-ratelimit-reset": "1657748036",
+        "x-ratelimit-resource": "graphql",
+        "x-ratelimit-used": "36",
+        "x-xss-protection": "0"
+      },
+      "data": {
+        "data": {
+          "organization": {
+            "projectNext": {
+              "id": "PN_1",
+              "title": "@gr2m's Test Fixtures",
+              "description": null,
+              "url": "https://github.com/orgs/github-project-fixtures/projects/2",
+              "fields": {
+                "nodes": [
+                  {
+                    "id": "PNF_1",
+                    "name": "Title",
+                    "settings": "null"
+                  },
+                  {
+                    "id": "PNF_2",
+                    "name": "Assignees",
+                    "settings": "null"
+                  },
+                  {
+                    "id": "PNF_3",
+                    "name": "Status",
+                    "settings": "{\"options\":[{\"id\":\"f75ad846\",\"name\":\"Todo\",\"name_html\":\"Todo\"},{\"id\":\"47fc9ee4\",\"name\":\"In Progress\",\"name_html\":\"In Progress\"},{\"id\":\"98236657\",\"name\":\"Done\",\"name_html\":\"Done\"}]}"
+                  },
+                  {
+                    "id": "PNF_4",
+                    "name": "Labels",
+                    "settings": "null"
+                  },
+                  {
+                    "id": "PNF_5",
+                    "name": "Linked pull requests",
+                    "settings": "null"
+                  },
+                  {
+                    "id": "PNF_6",
+                    "name": "Tracks",
+                    "settings": "null"
+                  },
+                  {
+                    "id": "PNF_7",
+                    "name": "Reviewers",
+                    "settings": "null"
+                  },
+                  {
+                    "id": "PNF_8",
+                    "name": "Repository",
+                    "settings": "null"
+                  },
+                  {
+                    "id": "PNF_9",
+                    "name": "Milestone",
+                    "settings": "null"
+                  },
+                  {
+                    "id": "PNF_10",
+                    "name": "Text",
+                    "settings": "null"
+                  },
+                  {
+                    "id": "PNF_11",
+                    "name": "Number",
+                    "settings": "null"
+                  },
+                  {
+                    "id": "PNF_12",
+                    "name": "Date",
+                    "settings": "null"
+                  },
+                  {
+                    "id": "PNF_13",
+                    "name": "Single select",
+                    "settings": "{\"options\":[{\"id\":\"c5f71ea9\",\"name\":\"One\",\"name_html\":\"One\"},{\"id\":\"8a0f266e\",\"name\":\"Two\",\"name_html\":\"Two\"},{\"id\":\"7ec185b4\",\"name\":\"Three\",\"name_html\":\"Three\"}]}"
+                  },
+                  {
+                    "id": "PNF_14",
+                    "name": "Iteration",
+                    "settings": "{\"configuration\":{\"duration\":14,\"start_day\":5,\"iterations\":[{\"id\":\"7f89f52c\",\"title\":\"Iteration 1\",\"duration\":14,\"start_date\":\"2022-07-08\",\"title_html\":\"Iteration 1\"},{\"id\":\"44d7f5bd\",\"title\":\"Iteration 2\",\"duration\":14,\"start_date\":\"2022-07-22\",\"title_html\":\"Iteration 2\"},{\"id\":\"5d03db48\",\"title\":\"Iteration 3\",\"duration\":14,\"start_date\":\"2022-08-05\",\"title_html\":\"Iteration 3\"}],\"completed_iterations\":[]}}"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "query": "\n  mutation addIssueToProject($projectId:ID!, $contentId:ID!) {\n    addProjectNextItem(input:{\n      projectId:$projectId,\n      contentId:$contentId\n    }) {\n      projectNextItem {\n        \n  id\n  type\n  \n  content {\n    __typename\n    ... on Issue {\n      \n  id\n  number\n  title\n  url\n  createdAt\n  databaseId\n  assignees(first:10) {\n    nodes {\n      login\n    }\n  }\n  labels(first:10){\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  createdAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  number\n  title\n  url\n  createdAt\n  databaseId\n  assignees(first:10) {\n    nodes {\n      login\n    }\n  }\n  labels(first:10){\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  createdAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      value\n      projectField {\n        id\n      }\n    }\n  }\n\n      }\n    }\n  }\n",
+    "variables": {
+      "projectId": "PN_1",
+      "contentId": "I_1"
+    },
+    "response": {
+      "status": 200,
+      "url": "https://api.github.com/graphql",
+      "headers": {
+        "access-control-allow-origin": "*",
+        "access-control-expose-headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset",
+        "connection": "close",
+        "content-encoding": "gzip",
+        "content-security-policy": "default-src 'none'",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Wed, 13 Jul 2022 20:35:14 GMT",
+        "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
+        "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+        "server": "GitHub.com",
+        "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "Accept-Encoding, Accept, X-Requested-With",
+        "x-accepted-oauth-scopes": "repo",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "deny",
+        "x-github-media-type": "github.v3; format=json",
+        "x-github-request-id": "0C3B:44C6:1B5EAF:1D3702:62CF2C81",
+        "x-oauth-scopes": "delete_repo, project, repo, write:org",
+        "x-ratelimit-limit": "5000",
+        "x-ratelimit-remaining": "4963",
+        "x-ratelimit-reset": "1657748036",
+        "x-ratelimit-resource": "graphql",
+        "x-ratelimit-used": "37",
+        "x-xss-protection": "0"
+      },
+      "data": {
+        "data": {
+          "addProjectNextItem": {
+            "projectNextItem": {
+              "id": "PNI_1",
+              "type": "ISSUE",
+              "content": {
+                "__typename": "Issue",
+                "id": "I_1",
+                "number": 1,
+                "title": "Issue",
+                "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
+                "createdAt": "2022-02-02T12:00:00Z",
+                "databaseId": 1303914191,
+                "assignees": {
+                  "nodes": []
+                },
+                "labels": {
+                  "nodes": []
+                },
+                "closed": false,
+                "closedAt": null,
+                "milestone": null,
+                "repository": {
+                  "name": "test-repository"
+                }
+              },
+              "fieldValues": {
+                "nodes": [
+                  {
+                    "value": "Issue",
+                    "projectField": {
+                      "id": "PNF_1"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "query": "\n    mutation setItemProperties($projectId: ID!, $itemId: ID!) {\n      \n        text: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PNF_lADOBYMIeM4ADzd0zgCMLPg\", value: \"text\"}) {\n          projectNextItem { \n  id\n  type\n  \n  content {\n    __typename\n    ... on Issue {\n      \n  id\n  number\n  title\n  url\n  createdAt\n  databaseId\n  assignees(first:10) {\n    nodes {\n      login\n    }\n  }\n  labels(first:10){\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  createdAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  number\n  title\n  url\n  createdAt\n  databaseId\n  assignees(first:10) {\n    nodes {\n      login\n    }\n  }\n  labels(first:10){\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  createdAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      value\n      projectField {\n        id\n      }\n    }\n  }\n }\n        }\n      \n        number: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PNF_lADOBYMIeM4ADzd0zgCMLPk\", value: \"1\"}) {\n          clientMutationId\n        }\n      \n        singleSelect: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PNF_lADOBYMIeM4ADzd0zgCMLQ0\", value: \"c5f71ea9\"}) {\n          clientMutationId\n        }\n      \n        date: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PNF_lADOBYMIeM4ADzd0zgCMLQw\", value: \"2020-02-02T00:00:00.000Z\"}) {\n          clientMutationId\n        }\n      \n        status: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PNF_lADOBYMIeM4ADzd0zgCMLM0\", value: \"98236657\"}) {\n          clientMutationId\n        }\n      \n    }\n  ",
+    "variables": {
+      "projectId": "PN_1",
+      "itemId": "PNI_1"
+    },
+    "response": {
+      "status": 200,
+      "url": "https://api.github.com/graphql",
+      "headers": {
+        "access-control-allow-origin": "*",
+        "access-control-expose-headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset",
+        "connection": "close",
+        "content-encoding": "gzip",
+        "content-security-policy": "default-src 'none'",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Wed, 13 Jul 2022 20:35:15 GMT",
+        "github-authentication-token-expiration": "2022-08-08 06:31:41 UTC",
+        "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+        "server": "GitHub.com",
+        "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "Accept-Encoding, Accept, X-Requested-With",
+        "x-accepted-oauth-scopes": "repo",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "deny",
+        "x-github-media-type": "github.v3; format=json",
+        "x-github-request-id": "0DBD:6752:1C7C0E:1E58C0:62CF2C82",
+        "x-oauth-scopes": "delete_repo, project, repo, write:org",
+        "x-ratelimit-limit": "5000",
+        "x-ratelimit-remaining": "4962",
+        "x-ratelimit-reset": "1657748036",
+        "x-ratelimit-resource": "graphql",
+        "x-ratelimit-used": "38",
+        "x-xss-protection": "0"
+      },
+      "data": {
+        "data": {
+          "text": {
+            "projectNextItem": {
+              "id": "PNI_1",
+              "type": "ISSUE",
+              "content": {
+                "__typename": "Issue",
+                "id": "I_1",
+                "number": 1,
+                "title": "Issue",
+                "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
+                "createdAt": "2022-02-02T12:00:00Z",
+                "databaseId": 1303914191,
+                "assignees": {
+                  "nodes": []
+                },
+                "labels": {
+                  "nodes": []
+                },
+                "closed": false,
+                "closedAt": null,
+                "milestone": null,
+                "repository": {
+                  "name": "test-repository"
+                }
+              },
+              "fieldValues": {
+                "nodes": [
+                  {
+                    "value": "Issue",
+                    "projectField": {
+                      "id": "PNF_1"
+                    }
+                  },
+                  {
+                    "value": "text",
+                    "projectField": {
+                      "id": "PNF_10"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "number": {
+            "clientMutationId": null
+          },
+          "singleSelect": {
+            "clientMutationId": null
+          },
+          "date": {
+            "clientMutationId": null
+          },
+          "status": {
+            "clientMutationId": null
+          }
+        }
+      }
+    }
+  }
+]
