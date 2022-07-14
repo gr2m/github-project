@@ -7,6 +7,7 @@
  * @param {import("@octokit/openapi-types").components["schemas"]["repository"]} repository
  * @param {import("@octokit/core").Octokit} octokit
  * @param {import("../../..").default<{text: string, number: number, date: string, singleSelect: "One" | "Two" | "Three"}>} project
+ *
  * @returns {Promise<[string]>}
  */
 export async function prepare(repository, octokit, project) {

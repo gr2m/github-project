@@ -4,8 +4,9 @@ import GitHubProject from "../../../index.js";
 
 /**
  * @param {import("../../..").default} defaultTestProject
+ * @param {string} [contentId]
  */
-export function test(defaultTestProject) {
+export function test(defaultTestProject, contentId = "I_1") {
   const project = new GitHubProject({
     org: defaultTestProject.org,
     number: defaultTestProject.number,
@@ -16,5 +17,5 @@ export function test(defaultTestProject) {
     },
   });
 
-  return project.items.getByContentId("I_1");
+  return project.items.getByContentId(contentId).then();
 }

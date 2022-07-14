@@ -2,11 +2,11 @@
 
 /**
  * @param {import("../../..").default} project
- * @param {string} itemId
+ * @param {string} [contentId]
  */
-export async function test(project, itemId = "I_1") {
+export async function test(project, contentId = "I_1") {
   await project.items.list();
-  return project.items.add(itemId, {
+  return project.items.add(contentId, {
     status: "Done",
   });
 }

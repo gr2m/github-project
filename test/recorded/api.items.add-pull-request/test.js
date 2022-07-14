@@ -2,8 +2,8 @@
 
 /**
  * @param {import("../../../").default} project
- * @param {string} itemId
+ * @param {string} [contentId]
  */
-export function test(project, itemId = "PR_1") {
-  return project.items.add(itemId);
+export function test(project, contentId = "PR_1") {
+  return project.items.add(contentId);
 }

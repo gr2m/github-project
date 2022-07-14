@@ -2,7 +2,7 @@
 
 /**
  * @param {import("../../../").default} project
- * @param {string} itemId
+ * @param {string} [itemId]
  */
 export async function test(project, itemId = "PNI_1") {
   await project.items.list();

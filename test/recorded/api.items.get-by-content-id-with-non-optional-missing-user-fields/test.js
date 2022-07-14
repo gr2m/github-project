@@ -4,8 +4,9 @@ import GitHubProject from "../../../index.js";
 
 /**
  * @param {import("../../..").default} defaultTestProject
+ * @param {string} [contentId]
  */
-export async function test(defaultTestProject) {
+export async function test(defaultTestProject, contentId = "I_1") {
   const project = new GitHubProject({
     org: defaultTestProject.org,
     number: defaultTestProject.number,
@@ -16,7 +17,7 @@ export async function test(defaultTestProject) {
     },
   });
 
-  return project.items.getByContentId("I_1").then(
+  return project.items.getByContentId(contentId).then(
     () => new Error("should have thrown"),
     (error) => error
   );

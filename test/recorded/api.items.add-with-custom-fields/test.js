@@ -2,10 +2,10 @@
 
 /**
  * @param {import("../../../").default} project
- * @param {string} itemId
+ * @param {string} [contentId]
  */
-export function test(project, itemId = "I_1") {
-  return project.items.add(itemId, {
+export function test(project, contentId = "I_1") {
+  return project.items.add(contentId, {
     text: "text",
     number: "1",
     singleSelect: "One",

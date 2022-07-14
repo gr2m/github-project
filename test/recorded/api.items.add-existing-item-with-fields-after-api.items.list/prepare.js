@@ -1,3 +1,5 @@
+// @ts-check
+
 /**
  * Prepare state in order to record fixtures for test.js. Returns array of arguments that will be passed
  * passed as `test(project, ...arguments)`.

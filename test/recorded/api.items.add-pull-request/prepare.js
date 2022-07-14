@@ -1,3 +1,5 @@
+// @ts-check
+
 import { composeCreatePullRequest } from "octokit-plugin-create-pull-request";
 
 /**
@@ -11,6 +13,7 @@ import { composeCreatePullRequest } from "octokit-plugin-create-pull-request";
  */
 export async function prepare(repository, octokit, project) {
   // create a test pull request
+  // @ts-expect-error - is always set in our case
   const { data: pullRequest } = await composeCreatePullRequest(octokit, {
     owner: repository.owner.login,
     repo: repository.name,

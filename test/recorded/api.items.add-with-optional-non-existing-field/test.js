@@ -4,9 +4,9 @@ import GitHubProject from "../../../index.js";
 
 /**
  * @param {import("../../../").default} testProject
- * @param {string} itemId
+ * @param {string} [contentId]
  */
-export function test(testProject, itemId = "I_1") {
+export function test(testProject, contentId = "I_1") {
   const project = new GitHubProject({
     org: testProject.org,
     number: testProject.number,
@@ -15,7 +15,7 @@ export function test(testProject, itemId = "I_1") {
       nonExistingField: { name: "Nope", optional: true },
     },
   });
-  return project.items.add(itemId, {
+  return project.items.add(contentId, {
     nonExistingField: "Nope?",
   });
 }
