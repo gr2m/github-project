@@ -40,7 +40,7 @@ gh pr create
 
 ## Recording fixtures for testing
 
-Most parts of `github-project` is tested using full integrations test, using fixtures for GraphQL requests and responses. You can see all the tests with their fixtures in [`test/recorded/`](test/recorded/).
+Most parts of `github-project` are tested using full integration tests, using fixtures for GraphQL requests and responses. You can see all the tests with their fixtures in [`test/recorded/`](test/recorded/).
 
 If you changed how `github-project` is working or added a feature that is not covered by the existing tests, you need to update the fixtures.
 
