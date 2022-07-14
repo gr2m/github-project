@@ -57,6 +57,13 @@ But in case you prefer to use your own organization, you'll need to
    - organization_projects: 'admin',
    - pull_requests: 'write'
 
+In either case, create a new project (beta) and add the following fields:
+
+- Text (type: text)
+- Number (type: number)
+- Date (type: date)
+- Single Select (type: single select) with options: "One", "Two", "Three"
+
 Then copy the `.env.example` file to `.env` and fill in the values.
 
 Then you can record fixtures for all tests in `test/recorded/*` using
