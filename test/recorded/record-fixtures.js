@@ -101,10 +101,15 @@ async function recordFixtures(selectedTestFolders) {
 
       // create a clean slate
       await clearTestProject(setupProject);
-      await deleteAllTestRepositories(octokit, owner);
+      await deleteAllTestRepositories(process.env, octokit, owner);
 
       // create a test repository
-      const repository = await createRepository(octokit, owner);
+      const repository = await createRepository(
+        process.env,
+        octokit,
+        owner,
+        testFolder
+      );
 
       // import record and test scripts
       const { prepare } = await import(`./${testFolder}/prepare.js`);

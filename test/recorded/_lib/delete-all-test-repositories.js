@@ -1,9 +1,13 @@
 // @ts-check
 
 /**
+ * @param {NodeJS.ProcessEnv} env
  * @param {InstanceType<typeof import("./octokit").default>} octokit
  */
-export async function deleteAllTestRepositories(octokit, owner) {
+export async function deleteAllTestRepositories(env, octokit, owner) {
+  const prefix = env.TEST_REPSITORY_NAME_PREFIX
+    ? `${env.TEST_REPSITORY_NAME_PREFIX}-test-`
+    : "test-";
   const repositoryNames = await octokit.paginate(
     "GET /orgs/{org}/repos",
     {
@@ -12,7 +16,7 @@ export async function deleteAllTestRepositories(octokit, owner) {
     (response) => {
       return response.data
         .map((repository) => repository.name)
-        .filter((name) => name.startsWith("test-"));
+        .filter((name) => name.startsWith(prefix));
     }
   );
 
