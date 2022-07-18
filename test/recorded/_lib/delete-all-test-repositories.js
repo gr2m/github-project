@@ -5,8 +5,8 @@
  * @param {InstanceType<typeof import("./octokit").default>} octokit
  */
 export async function deleteAllTestRepositories(env, octokit, owner) {
-  const prefix = env.TEST_REPSITORY_NAME_PREFIX
-    ? `${env.TEST_REPSITORY_NAME_PREFIX}-test-`
+  const prefix = env.TEST_REPOSITORY_NAME_PREFIX
+    ? `${env.TEST_REPOSITORY_NAME_PREFIX}-test-`
     : "test-";
   const repositoryNames = await octokit.paginate(
     "GET /orgs/{org}/repos",
