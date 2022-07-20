@@ -13,7 +13,7 @@ import { itemFieldsNodesToFieldsMap } from "./item-fields-nodes-to-fields-map.js
 export function projectItemNodeToGitHubProjectItem(state, itemNode) {
   const fields = itemFieldsNodesToFieldsMap(state, itemNode.fieldValues.nodes);
 
-  // item is draft
+  // item is draft or redacted
   if (!itemNode.content || itemNode.type === "DRAFT_ISSUE") {
     return {
       id: itemNode.id,
