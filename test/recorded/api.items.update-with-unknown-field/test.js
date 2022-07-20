@@ -6,7 +6,7 @@ import GitHubProject from "../../../index.js";
  * @param {import("../../../").default} testProject
  * @param {string} [itemId]
  */
-export function test(testProject, itemId = "PNI_1") {
+export function test(testProject, itemId = "PVTI_1") {
   const project = new GitHubProject({
     org: testProject.org,
     number: testProject.number,
