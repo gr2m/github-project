@@ -237,7 +237,6 @@ export type GitHubProjectStateWithFields = GitHubProjectStateCommon & {
   didLoadItems: false;
   id: string;
   title: string;
-  description: string;
   url: string;
   fields: ProjectFieldMap;
 };
@@ -247,7 +246,6 @@ export type GitHubProjectStateWithItems = GitHubProjectStateCommon & {
   didLoadItems: true;
   id: string;
   title: string;
-  description: string;
   url: string;
   fields: ProjectFieldMap;
   items: GitHubProjectItem[];

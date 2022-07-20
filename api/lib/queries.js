@@ -34,7 +34,6 @@ const queryIssuesAndPullRequestNodes = `
 const queryProjectNodes = `
   id
   title
-  readme
   url
   fields(first: 50) {
     nodes {

@@ -17,7 +17,7 @@ export async function getStateWithProjectFields(project, state) {
   }
 
   const {
-    organization: { projectNext },
+    organization: { projectV2 },
   } = await project.octokit.graphql(getProjectCoreDataQuery, {
     org: project.org,
     number: project.number,
@@ -26,10 +26,10 @@ export async function getStateWithProjectFields(project, state) {
   const fields = projectFieldsNodesToFieldsMap(
     state,
     project,
-    projectNext.fields.nodes
+    projectV2.fields.nodes
   );
 
-  const { id, title, description, url } = projectNext;
+  const { id, title, url } = projectV2;
 
   // mutate current state and return it
   // @ts-expect-error - TS can't handle Object.assign
@@ -37,7 +37,6 @@ export async function getStateWithProjectFields(project, state) {
     didLoadFields: true,
     id,
     title,
-    description,
     url,
     fields,
   });

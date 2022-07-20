@@ -46,7 +46,7 @@ export async function getStateWithProjectItems(project, state) {
     });
   }
 
-  const { id, title, description, url } = projectV2;
+  const { id, title, url } = projectV2;
 
   // mutate current state and return it
   // @ts-expect-error - TS can't handle Object.assign
@@ -55,7 +55,6 @@ export async function getStateWithProjectItems(project, state) {
     didLoadItems: true,
     id,
     title,
-    description,
     url,
     fields,
     items,
