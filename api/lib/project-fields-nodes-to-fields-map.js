@@ -96,6 +96,7 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
       acc[userInternalFieldName] = {
         id: node.id,
         name: node.name,
+        dataType: node.dataType,
         userName: userFieldName,
         optional: userInternalFieldName in optionalFields,
         existsInProject: true,
@@ -103,9 +104,8 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
 
       // Settings is a JSON string. It contains view information such as column width.
       // If the field is of type "Single select", then the `options` property will be set.
-      const settings = JSON.parse(node.settings);
-      if (settings?.options) {
-        acc[userInternalFieldName].optionsById = settings.options.reduce(
+      if (node.options) {
+        acc[userInternalFieldName].optionsById = node.options.reduce(
           (acc, option) => {
             return {
               ...acc,
@@ -114,7 +114,7 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
           },
           {}
         );
-        acc[userInternalFieldName].optionsByValue = settings.options.reduce(
+        acc[userInternalFieldName].optionsByValue = node.options.reduce(
           (acc, option) => {
             return {
               ...acc,

@@ -21,7 +21,7 @@ export async function getStateWithProjectItems(project, state) {
   }
 
   const {
-    organization: { projectNext },
+    organization: { projectV2 },
   } = await project.octokit.graphql(getProjectWithItemsQuery, {
     org: project.org,
     number: project.number,
@@ -30,20 +30,23 @@ export async function getStateWithProjectItems(project, state) {
   const fields = projectFieldsNodesToFieldsMap(
     state,
     project,
-    projectNext.fields.nodes
+    projectV2.fields.nodes
   );
 
-  const items = projectNext.items.nodes.map((node) => {
+  const items = projectV2.items.nodes.map((node) => {
     // @ts-expect-error - for simplicity only pass fields instead of a full state
     return projectItemNodeToGitHubProjectItem({ fields }, node);
-  })
+  });
 
   // Recursively fetch all additional items for this project
-  if (projectNext.items.pageInfo.hasNextPage) {
-    await fetchProjectItems(project, fields, { cursor: projectNext.items.pageInfo.endCursor, results: items });
+  if (projectV2.items.pageInfo.hasNextPage) {
+    await fetchProjectItems(project, fields, {
+      cursor: projectV2.items.pageInfo.endCursor,
+      results: items,
+    });
   }
 
-  const { id, title, description, url } = projectNext;
+  const { id, title, description, url } = projectV2;
 
   // mutate current state and return it
   // @ts-expect-error - TS can't handle Object.assign
@@ -75,7 +78,7 @@ async function fetchProjectItems(
 ) {
   const {
     organization: {
-      projectNext: { items },
+      projectV2: { items },
     },
   } = await project.octokit.graphql(getProjectItemsPaginatedQuery, {
     org: project.org,

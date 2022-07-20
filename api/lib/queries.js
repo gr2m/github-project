@@ -2,24 +2,25 @@
 
 const queryIssuesAndPullRequestNodes = `
   id
+  databaseId
   number
   title
   url
   createdAt
-  databaseId
-  assignees(first:10) {
+  author {
+    login
+  }
+  assignees(first: 10) {
     nodes {
       login
     }
   }
-  labels(first:10){
+  labels(first: 10) {
     nodes {
       name
     }
   }
   closed
-  closedAt
-  createdAt
   milestone {
     number
     title
@@ -33,20 +34,57 @@ const queryIssuesAndPullRequestNodes = `
 const queryProjectNodes = `
   id
   title
-  description
+  readme
   url
   fields(first: 50) {
     nodes {
-      id
-      name
-      settings
+      ... on ProjectV2FieldCommon {
+        id
+        dataType
+        name
+      }
+      ... on ProjectV2SingleSelectField {
+        options {
+          id
+          name
+        }
+      }
+      ... on ProjectV2IterationField {
+        configuration {
+          iterations {
+            title
+            duration
+            startDate
+          }
+          completedIterations {
+            title
+            duration
+            startDate
+          }
+          duration
+          startDay
+        }
+      }
     }
   }
 `;
 
 const queryContentNode = `
   content {
-    __typename
+    ... on DraftIssue {
+      id
+      title
+      createdAt
+      updatedAt
+      author: creator {
+        login
+      }
+      assignees(first: 10) {
+        nodes {
+          login
+        }
+      }
+    }
     ... on Issue {
       ${queryIssuesAndPullRequestNodes}
     }
@@ -58,13 +96,54 @@ const queryContentNode = `
 `;
 export const queryItemFieldNodes = `
   id
+  createdAt
   type
   ${queryContentNode}
   fieldValues(first: 20) {
     nodes {
-      value
-      projectField {
-        id
+      __typename
+      ... on ProjectV2ItemFieldDateValue {
+        date
+        field {
+          ... on ProjectV2Field {
+            id
+          }
+        }
+      }
+      ... on ProjectV2ItemFieldIterationValue {
+        title
+        iterationId
+        startDate
+        duration
+        field {
+          ... on ProjectV2IterationField {
+            id
+          }
+        }
+      }
+      ... on ProjectV2ItemFieldNumberValue {
+        number
+        field {
+          ... on ProjectV2Field {
+            id
+          }
+        }
+      }
+      ... on ProjectV2ItemFieldSingleSelectValue {
+        optionId
+        field {
+          ... on ProjectV2SingleSelectField {
+            id
+          }
+        }
+      }
+      ... on ProjectV2ItemFieldTextValue {
+        text
+        field {
+          ... on ProjectV2Field {
+            id
+          }
+        }
       }
     }
   }
@@ -73,7 +152,7 @@ export const queryItemFieldNodes = `
 export const getProjectWithItemsQuery = `
   query getProjectWithItems($org: String!, $number: Int!) {
     organization(login: $org) {
-      projectNext(number: $number) {
+      projectV2(number: $number) {
         ${queryProjectNodes}
         items(first: 100) {
           pageInfo {
@@ -87,12 +166,12 @@ export const getProjectWithItemsQuery = `
       }
     }
   }
-`
+`;
 
 export const getProjectItemsPaginatedQuery = `
-  query getProjectItems($org: String!, $number: Int!, $first: Int, $after: String) {
+  query getPaginatedProjectItems($org: String!, $number: Int!, $first: Int, $after: String) {
     organization(login: $org) {
-      projectNext(number: $number) {
+      projectV2(number: $number) {
         items(first: $first, after: $after) {
           pageInfo {
             endCursor
@@ -110,7 +189,7 @@ export const getProjectItemsPaginatedQuery = `
 export const getProjectCoreDataQuery = `
   query getProjectCoreData($org: String!, $number: Int!) {
     organization(login: $org) {
-      projectNext(number: $number) {
+      projectV2(number: $number) {
         ${queryProjectNodes}
       }
     }
@@ -119,11 +198,11 @@ export const getProjectCoreDataQuery = `
 
 export const addIssueToProjectMutation = `
   mutation addIssueToProject($projectId:ID!, $contentId:ID!) {
-    addProjectNextItem(input:{
+    addProjectV2ItemById(input:{
       projectId:$projectId,
       contentId:$contentId
     }) {
-      projectNextItem {
+      item {
         ${queryItemFieldNodes}
       }
     }
@@ -131,8 +210,8 @@ export const addIssueToProjectMutation = `
 `;
 
 export const removeItemFromProjectMutation = `
-  mutation deleteProjectNextItem($projectId:ID!, $itemId:ID!) {
-    deleteProjectNextItem(input:{
+  mutation removeItemFromProject($projectId:ID!, $itemId:ID!) {
+    deleteProjectV2Item(input:{
       projectId:$projectId,
       itemId:$itemId
     }) {

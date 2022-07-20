@@ -72,7 +72,7 @@ export function getFieldsUpdateQuery(state, fields) {
 
       const queryNodes =
         mustLoadItemProperties && index === 0
-          ? `projectNextItem { ${queryItemFieldNodes} }`
+          ? `projectV2Item { ${queryItemFieldNodes} }`
           : "clientMutationId";
 
       // @ts-expect-error - `field.id` is not set if field does not exist on projects, but we know it exists here
@@ -81,9 +81,10 @@ export function getFieldsUpdateQuery(state, fields) {
         ${key.replace(
           /\s+/g,
           ""
-        )}: updateProjectNextItemField(input: {projectId: $projectId, itemId: $itemId, fieldId: "${fieldId}", value: "${escapeQuotes(
+        )}: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: "${fieldId}", ${toItemFieldValueInput(
+        field,
         valueOrOption
-      )}"}) {
+      )}}) {
           ${queryNodes}
         }
       `;
@@ -96,6 +97,27 @@ export function getFieldsUpdateQuery(state, fields) {
       ${parts}
     }
   `;
+}
+
+/**
+ * @param {import("../..").ProjectFieldNode} field
+ * @param {string} valueOrOption
+ * @returns {string}
+ */
+function toItemFieldValueInput(field, valueOrOption) {
+  const valueKey =
+    {
+      SINGLE_SELECT: "singleSelectOptionId",
+      NUMBER: "number",
+      DATE: "date",
+      ITERATION: "iterationId",
+    }[field.dataType] || "text";
+
+  if (valueKey === "number") {
+    return `value: {number: ${parseFloat(valueOrOption)}}`;
+  }
+
+  return `value: {${valueKey}: "${escapeQuotes(valueOrOption)}"}`;
 }
 
 function escapeQuotes(str) {

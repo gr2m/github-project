@@ -171,19 +171,21 @@ type contentCommon = {
 export type ProjectFieldNode = {
   id: string;
   name: string;
+  dataType: string;
+
   /**
-   * Settings is a JSON string. It contains view information such as column width.
-   * If the field is of type "Single select", then the `options` property will be set.
+   * `options` is only set on `ProjectV2SingleSelectField`
    */
-  settings: string;
+  options?: { id: string; name: string }[];
 };
 
-export type ProjectFieldMap = Record<
-  string,
-  ProjectField | ProjectFieldWithOptions | OptionalNonExistingField
->;
+export type ProjectField =
+  | ProjectFieldWithoutOptions
+  | ProjectFieldWithOptions
+  | OptionalNonExistingField;
+export type ProjectFieldMap = Record<string, ProjectField>;
 
-type ProjectField = {
+type ProjectFieldWithoutOptions = {
   id: string;
   name: string;
   userName: string;
@@ -207,7 +209,10 @@ type OptionalNonExistingField = {
 
 export type ProjectFieldValueNode = {
   value: string;
-  projectField: {
+  /**
+   * `field` is not set on built-in fields such as `"ProjectV2ItemFieldRepositoryValue"`
+   */
+  field?: {
     id: string;
     name: string;
   };

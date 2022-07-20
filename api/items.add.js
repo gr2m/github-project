@@ -32,7 +32,7 @@ export async function addItem(project, state, contentNodeId, fields) {
 
   if (!newOrExistingItem) {
     const {
-      addProjectNextItem: { projectNextItem },
+      addProjectV2ItemById: { item },
     } = await project.octokit.graphql(addIssueToProjectMutation, {
       projectId: stateWithFields.id,
       contentId: contentNodeId,
@@ -40,7 +40,7 @@ export async function addItem(project, state, contentNodeId, fields) {
 
     newOrExistingItem = projectItemNodeToGitHubProjectItem(
       stateWithFields,
-      projectNextItem
+      item
     );
 
     // add newly created item to cache

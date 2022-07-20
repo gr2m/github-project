@@ -35,7 +35,7 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
     milestone: itemNode.content.milestone,
     title: itemNode.content.title,
     url: itemNode.content.url,
-    databaseId: itemNode.content.databaseId
+    databaseId: itemNode.content.databaseId,
   };
   const content =
     itemNode.type === "ISSUE"
