@@ -4,7 +4,6 @@ import { addIssueToProjectMutation } from "./lib/queries.js";
 import { projectItemNodeToGitHubProjectItem } from "./lib/project-item-node-to-github-project-item.js";
 import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
 import { getFieldsUpdateQueryAndFields } from "./lib/get-fields-update-query-and-fields.js";
-import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
 import { removeObjectKeys } from "./lib/remove-object-keys.js";
 
 /**
@@ -81,6 +80,6 @@ export async function addItem(project, state, contentNodeId, fields) {
 
   return {
     ...newOrExistingItem,
-    fields: removeUndefinedValues(result.fields, fields),
+    fields: result.fields,
   };
 }

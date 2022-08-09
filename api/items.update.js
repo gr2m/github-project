@@ -2,7 +2,6 @@
 
 import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
 import { getFieldsUpdateQueryAndFields } from "./lib/get-fields-update-query-and-fields.js";
-import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
 
 /**
  * Updates item fields if the item can be found and returns the full item
@@ -38,7 +37,7 @@ export async function updateItem(project, state, itemNodeId, fields) {
     itemId: itemNodeId,
   });
 
-  item.fields = removeUndefinedValues(result.fields);
+  item.fields = result.fields;
 
   return item;
 }
