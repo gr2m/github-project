@@ -51,41 +51,7 @@ test("constructor with token", (t) => {
   t.true(project.octokit instanceof Octokit);
 });
 
-test("`matchFieldName` constructor option", async (t) => {
-  const { getProjectItemsQueryResultFixture } = await import(
-    "./fixtures/get-project-items/query-result.js"
-  );
-
-  const octokit = new Octokit();
-  octokit.hook.wrap("request", async (request, options) => {
-    t.deepEqual(options.method, "POST");
-    t.deepEqual(options.url, "/graphql");
-
-    return {
-      data: getProjectItemsQueryResultFixture,
-    };
-  });
-  const matchFieldNameArguments = [];
-  const project = new GitHubProject({
-    org: "org",
-    number: 1,
-    octokit,
-    fields: {
-      relevantToUsers: "Something totally different!",
-    },
-    matchFieldName(projectFieldName, userFieldName) {
-      matchFieldNameArguments.push({ projectFieldName, userFieldName });
-      return projectFieldName === "relevant to users?";
-    },
-  });
-
-  const items = await project.items.list();
-
-  t.snapshot(matchFieldNameArguments, "matchFieldNameArguments");
-  t.snapshot(items, "items");
-});
-
-test("`matchFieldOptionValue` constructor option", async (t) => {
+test.skip("`matchFieldOptionValue` constructor option", async (t) => {
   const { getProjectFieldsQueryResultFixture } = await import(
     "./fixtures/get-project-fields/query-result.js"
   );
