@@ -23,9 +23,5 @@ export async function test(defaultTestProject, itemId = "PVTI_1") {
 
   const result = await project.items.update(itemId, { singleSelect: "1" });
 
-  throw new Error(
-    'TODO: .singleSelect should be set to `One` even though the value is set to `"1"`'
-  );
-
   return { result, matchFieldOptionValueArguments };
 }

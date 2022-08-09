@@ -1,7 +1,7 @@
 // @ts-check
 
 import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
-import { getFieldsUpdateQuery } from "./lib/get-fields-update-query.js";
+import { getFieldsUpdateQueryAndFields } from "./lib/get-fields-update-query-and-fields.js";
 import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
 
 /**
@@ -39,17 +39,14 @@ export async function updateItemByContentId(
     existingProjectFieldKeys.map((key) => [key, fields[key]])
   );
 
-  const query = getFieldsUpdateQuery(stateWithItems, existingFields);
-  await project.octokit.graphql(query, {
+  const result = getFieldsUpdateQueryAndFields(stateWithItems, existingFields);
+  await project.octokit.graphql(result.query, {
     projectId: stateWithItems.id,
     itemId: item.id,
   });
 
   // mutate item in cache
-  item.fields = {
-    ...item.fields,
-    ...removeUndefinedValues(fields),
-  };
+  item.fields = removeUndefinedValues(result.fields);
 
   return item;
 }

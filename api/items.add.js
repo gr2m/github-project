@@ -3,7 +3,7 @@
 import { addIssueToProjectMutation } from "./lib/queries.js";
 import { projectItemNodeToGitHubProjectItem } from "./lib/project-item-node-to-github-project-item.js";
 import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
-import { getFieldsUpdateQuery } from "./lib/get-fields-update-query.js";
+import { getFieldsUpdateQueryAndFields } from "./lib/get-fields-update-query-and-fields.js";
 import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
 import { removeObjectKeys } from "./lib/remove-object-keys.js";
 
@@ -72,18 +72,15 @@ export async function addItem(project, state, contentNodeId, fields) {
     existingProjectFieldKeys.map((key) => [key, fields[key]])
   );
 
-  const query = getFieldsUpdateQuery(stateWithFields, existingFields);
+  const result = getFieldsUpdateQueryAndFields(stateWithFields, existingFields);
 
-  await project.octokit.graphql(query, {
+  await project.octokit.graphql(result.query, {
     projectId: stateWithFields.id,
     itemId: newOrExistingItem.id,
   });
 
   return {
     ...newOrExistingItem,
-    fields: {
-      ...newOrExistingItem.fields,
-      ...removeUndefinedValues(fields),
-    },
+    fields: removeUndefinedValues(result.fields, fields),
   };
 }

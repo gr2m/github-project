@@ -24,11 +24,18 @@ const READ_ONLY_FIELDS = [
  * item with all fields and content properties, so we we load them as part of
  * the first updated property.
  *
+ * This function returns both the query and the fields that are updated, because
+ * the fields can differ from what the user set, as field option matching can
+ * be customized by the user using the `matchFieldOptionValue` constructor
+ * option. For example, the user might set a single select field to "1" while
+ * the actual value is set to "One" in the project.
+ *
  * @param {import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithItems} state
  * @param {Record<string, string>} fields
- * @returns {string}
+ *
+ * @returns {{query: string, fields: Record<string, string>}}
  */
-export function getFieldsUpdateQuery(state, fields) {
+export function getFieldsUpdateQueryAndFields(state, fields) {
   const existingFields = Object.fromEntries(
     Object.keys(fields)
       .filter((key) => state.fields[key].existsInProject)
@@ -67,7 +74,7 @@ export function getFieldsUpdateQuery(state, fields) {
         value === null
           ? ""
           : "optionsByValue" in field
-          ? findFieldOptionId(state, field, value)
+          ? findFieldOptionIdAndValue(state, field, value)
           : value;
 
       const queryNodes =
@@ -77,7 +84,7 @@ export function getFieldsUpdateQuery(state, fields) {
 
       // @ts-expect-error - `field.id` is not set if field does not exist on projects, but we know it exists here
       const fieldId = field.id;
-      return `
+      const query = `
         ${key.replace(
           /\s+/g,
           ""
@@ -88,23 +95,38 @@ export function getFieldsUpdateQuery(state, fields) {
           ${queryNodes}
         }
       `;
-    })
-    .filter(Boolean)
-    .join("");
 
-  return `
-    mutation setItemProperties($projectId: ID!, $itemId: ID!) {
-      ${parts}
-    }
-  `;
+      return {
+        query,
+        key,
+        value:
+          typeof valueOrOption === "string"
+            ? valueOrOption
+            : valueOrOption.value,
+      };
+    })
+    .filter(Boolean);
+
+  return {
+    query: `
+      mutation setItemProperties($projectId: ID!, $itemId: ID!) {
+        ${parts.map((part) => part.query).join("\n")}
+      }
+    `,
+    fields: Object.fromEntries(parts.map((part) => [part.key, part.value])),
+  };
 }
 
 /**
  * @param {import("../..").ProjectFieldNode} field
- * @param {string} valueOrOption
+ * @param {string | {id: string, value: string}} valueOrOption
+ *
  * @returns {string}
  */
 function toItemFieldValueInput(field, valueOrOption) {
+  const value =
+    typeof valueOrOption === "string" ? valueOrOption : valueOrOption.id;
+
   const valueKey =
     {
       SINGLE_SELECT: "singleSelectOptionId",
@@ -114,10 +136,10 @@ function toItemFieldValueInput(field, valueOrOption) {
     }[field.dataType] || "text";
 
   if (valueKey === "number") {
-    return `value: {number: ${parseFloat(valueOrOption)}}`;
+    return `value: {number: ${parseFloat(value)}}`;
   }
 
-  return `value: {${valueKey}: "${escapeQuotes(valueOrOption)}"}`;
+  return `value: {${valueKey}: "${escapeQuotes(value)}"}`;
 }
 
 function escapeQuotes(str) {
@@ -127,14 +149,18 @@ function escapeQuotes(str) {
 }
 
 /**
+ * We retrieve both the internal option ID as well as the actual option value
+ * as users can set custom value matching using the `matchFieldOptionValue`
+ * constructor option
+ *
  * @param {import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithItems} state
  * @param {import("../..").ProjectFieldWithOptions} field
  * @param {string} value
  *
- * @returns {string}
+ * @returns {{id: string, value: string}}
  */
-function findFieldOptionId(state, field, value) {
-  const [_optionValue, optionId] =
+function findFieldOptionIdAndValue(state, field, value) {
+  const [optionValue, optionId] =
     Object.entries(field.optionsByValue).find(([optionValue]) =>
       state.matchFieldOptionValue(optionValue, value.trim())
     ) || [];
@@ -157,5 +183,5 @@ function findFieldOptionId(state, field, value) {
     );
   }
 
-  return optionId;
+  return { id: optionId, value: optionValue };
 }
