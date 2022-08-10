@@ -32,9 +32,6 @@ function projectFieldValueNodeToValue(projectField, node) {
   switch (node.__typename) {
     case "ProjectV2ItemFieldDateValue":
       return node.date;
-    case "ProjectV2ItemFieldIterationValue":
-      // TODO: implement iteration fields
-      return null;
     case "ProjectV2ItemFieldNumberValue":
       // we currently only work with strings
       return String(node.number);
@@ -42,5 +39,8 @@ function projectFieldValueNodeToValue(projectField, node) {
       return projectField.optionsById[node.optionId];
     case "ProjectV2ItemFieldTextValue":
       return node.text;
+    // TODO: implement iteration fields
+    // case "ProjectV2ItemFieldIterationValue":
+    // return null;
   }
 }

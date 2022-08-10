@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 20 Jul 2022 17:27:49 GMT",
+        "date": "Wed, 10 Aug 2022 00:17:35 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "EFBF:8343:8FA9D0:97D431:62D83B15",
+        "x-github-request-id": "D7FC:44C7:C61B79:CC0FBC:62F2F91F",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4924",
-        "x-ratelimit-reset": "1658338425",
+        "x-ratelimit-remaining": "4375",
+        "x-ratelimit-reset": "1660091457",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "76",
+        "x-ratelimit-used": "625",
         "x-xss-protection": "0"
       },
       "data": {
@@ -82,7 +82,7 @@
                   },
                   {
                     "id": "PVTF_5",
-                    "dataType": "TRACKS",
+                    "dataType": "TASKS",
                     "name": "Tracks"
                   },
                   {
@@ -141,22 +141,23 @@
                     "configuration": {
                       "iterations": [
                         {
-                          "title": "Iteration 1",
+                          "title": "Iteration 3",
                           "duration": 14,
-                          "startDate": "2022-07-08"
-                        },
+                          "startDate": "2022-08-05"
+                        }
+                      ],
+                      "completedIterations": [
                         {
                           "title": "Iteration 2",
                           "duration": 14,
                           "startDate": "2022-07-22"
                         },
                         {
-                          "title": "Iteration 3",
+                          "title": "Iteration 1",
                           "duration": 14,
-                          "startDate": "2022-08-05"
+                          "startDate": "2022-07-08"
                         }
                       ],
-                      "completedIterations": [],
                       "duration": 14,
                       "startDay": 5
                     }
@@ -185,7 +186,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Wed, 20 Jul 2022 17:27:51 GMT",
+        "date": "Wed, 10 Aug 2022 00:17:37 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -194,12 +195,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "EFC0:3E56:A4649F:ACABCA:62D83B16",
+        "x-github-request-id": "D801:85A8:1884082:1938DFF:62F2F920",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4923",
-        "x-ratelimit-reset": "1658338425",
+        "x-ratelimit-remaining": "4374",
+        "x-ratelimit-reset": "1660091457",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "77",
+        "x-ratelimit-used": "626",
         "x-xss-protection": "0"
       },
       "data": {
@@ -211,7 +212,7 @@
               "type": "ISSUE",
               "content": {
                 "id": "I_1",
-                "databaseId": 1311556865,
+                "databaseId": 1333911802,
                 "number": 1,
                 "title": "Issue",
                 "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
