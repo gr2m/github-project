@@ -186,6 +186,7 @@ export type ProjectField =
 export type ProjectFieldMap = Record<string, ProjectField>;
 
 type ProjectFieldWithoutOptions = {
+  dataType: string;
   id: string;
   name: string;
   userName: string;
@@ -193,6 +194,7 @@ type ProjectFieldWithoutOptions = {
   existsInProject: true;
 };
 type ProjectFieldWithOptions = {
+  dataType: string;
   id: string;
   name: string;
   userName: string;
@@ -202,6 +204,7 @@ type ProjectFieldWithOptions = {
   existsInProject: true;
 };
 type OptionalNonExistingField = {
+  dataType: string;
   userName: string;
   optional: true;
   existsInProject: false;

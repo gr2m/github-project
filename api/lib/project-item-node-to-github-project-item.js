@@ -14,6 +14,8 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
   const fields = itemFieldsNodesToFieldsMap(state, itemNode.fieldValues.nodes);
 
   // item is draft or redacted
+  // TODO: implement adding draft item and add tests
+  /* c8 ignore next 7 */
   if (!itemNode.content || itemNode.type === "DRAFT_ISSUE") {
     return {
       id: itemNode.id,

@@ -118,7 +118,7 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
 }
 
 /**
- * @param {import("../..").ProjectFieldNode} field
+ * @param {import("../..").ProjectField} field
  * @param {string | {id: string, value: string}} valueOrOption
  *
  * @returns {string}
