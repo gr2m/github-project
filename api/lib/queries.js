@@ -195,6 +195,16 @@ export const getProjectCoreDataQuery = `
   }
 `;
 
+export const addDraftIssueToProjectMutation = `
+  mutation addProjectV2DraftIssue($projectId: ID!, $title: String!, $body: String, $assigneeIds: [ID!]) {
+    addProjectV2DraftIssue(input: {projectId: $projectId, title: $title, body: $body, assigneeIds: $assigneeIds}) {
+      projectItem {
+        ${queryItemFieldNodes}
+      }
+    }
+  }
+`;
+
 export const addIssueToProjectMutation = `
   mutation addIssueToProject($projectId:ID!, $contentId:ID!) {
     addProjectV2ItemById(input:{

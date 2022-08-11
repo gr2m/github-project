@@ -3,6 +3,7 @@
 import { Octokit } from "@octokit/core";
 
 import { listItems } from "./api/items.list.js";
+import { addDraftItem } from "./api/items.add-draft.js";
 import { addItem } from "./api/items.add.js";
 import { getItem } from "./api/items.get.js";
 import { getItemByContentId } from "./api/items.get-by-content-id.js";
@@ -47,6 +48,7 @@ export default class GitHubProject {
     // set API
     const itemsApi = {
       list: listItems.bind(null, this, state),
+      addDraft: addDraftItem.bind(null, this, state),
       add: addItem.bind(null, this, state),
       get: getItem.bind(null, this, state),
       getByContentId: getItemByContentId.bind(null, this, state),

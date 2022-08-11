@@ -112,6 +112,23 @@ export async function listItemsTest() {
   }
 }
 
+export async function addDraftItemTest() {
+  const project = new GitHubProject({
+    org: "org",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const item = await project.items.addDraft({ title: "Draft Item Title" });
+
+  expectType<string>(item.id);
+  expectType<"DRAFT_ISSUE">(item.type);
+  expectType<string | null>(item.fields.title);
+  expectNotType<"Title">(item.fields.title);
+
+  // @ts-expect-error - TODO: draft items _do_ have content
+  item.content;
+}
+
 export async function addItemTest() {
   const project = new GitHubProject({
     org: "org",

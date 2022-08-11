@@ -13,6 +13,12 @@ type FieldOptionSettings = {
 /** A project field can be set to a string name or an object of supported settings */
 export type FieldOptions = string | FieldOptionSettings;
 
+export type DraftItemContent = {
+  title: string;
+  body?: string;
+  assigneeIds?: string[];
+};
+
 export default class GitHubProject<
   TCustomFields extends Record<string, FieldOptions> = {},
   TFields extends BUILT_IN_FIELDS = TCustomFields & BUILT_IN_FIELDS,
@@ -38,6 +44,10 @@ export default class GitHubProject<
 
   items: {
     list(): Promise<GitHubProjectItem<TItemFields>[]>;
+    addDraft(
+      content: DraftItemContent,
+      fields?: Partial<TItemFields>
+    ): Promise<ProjectItem_DraftIssue<TItemFields>>;
     add(
       contentNodeId: string,
       fields?: Partial<TItemFields>
