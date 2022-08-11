@@ -216,7 +216,7 @@ function (projectFieldName, userFieldName) {
       </td>
       <td>
 
-Customize how field options are matched with the field values set in `project.items.add()` or `project.items.update*()` methods. The function accepts two arguments:
+Customize how field options are matched with the field values set in `project.items.add()`, `project.items.addDraft()`, or `project.items.update*()` methods. The function accepts two arguments:
 
 1. `fieldOptionValue`
 2. `userValue`
@@ -244,6 +244,84 @@ const items = await project.items.list();
 
 Returns the first 100 items of the project.
 
+### `project.items.addDraft()`
+
+```js
+const newItem = await project.items.addDraft(content /*, fields*/);
+```
+
+Adds a new draft issue item to the project, sets the fields if any were passed, and returns the new item.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>content.title</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The title of the issue draft.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>content.body</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The body of the issue draft.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>content.assigneeIds</code>
+      </th>
+      <td>
+        <code>string[]</code>
+      </td>
+      <td>
+
+Node IDs of user accounts the issue should be assigned to when created.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>fields</code>
+      </th>
+      <td>
+        <code>object</code>
+      </td>
+      <td>
+
+Map of internal field names to their values.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
 ### `project.items.add()`
 
 ```js
@@ -251,8 +329,6 @@ const newItem = await project.items.add(contentId /*, fields*/);
 ```
 
 Adds a new item to the project, sets the fields if any were passed, and returns the new item. If the item already exists then it's a no-op, the existing item is still updated with the passed fields if any were passed.
-
-**Note**: GitHub has currently no API to add a draft issue to a project.
 
 <table>
   <thead align=left>
