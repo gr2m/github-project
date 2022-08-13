@@ -17,9 +17,9 @@ export async function getStateWithProjectFields(project, state) {
   }
 
   const {
-    organization: { projectV2 },
+    userOrOrganization: { projectV2 },
   } = await project.octokit.graphql(getProjectCoreDataQuery, {
-    org: project.org,
+    owner: project.owner,
     number: project.number,
   });
 

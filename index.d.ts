@@ -28,8 +28,8 @@ export default class GitHubProject<
   > &
     Partial<Record<ConditionalKeys<TFields, { optional: true }>, string | null>>
 > {
-  /** GitHub organization login */
-  get org(): string;
+  /** Project owner login */
+  get owner(): string;
 
   /** Project number */
   get number(): number;
@@ -99,7 +99,7 @@ export type GitHubProjectOptions<
   TFields extends Record<string, FieldOptions> = {}
 > =
   | {
-      org: string;
+      owner: string;
       number: number;
       token: string;
       fields?: TFields;
@@ -107,7 +107,7 @@ export type GitHubProjectOptions<
       matchFieldOptionValue?: MatchFieldOptionValueFn;
     }
   | {
-      org: string;
+      owner: string;
       number: number;
       octokit: Octokit;
       fields?: TFields;
@@ -124,30 +124,31 @@ export type GitHubProjectItem<
   | ProjectItem_Issue<TFields>;
 
 type ProjectItem_Redacted<TFields> = {
+  type: "REDACTED";
   id: string;
   fields: TFields;
-  content: {
-    type: "REDACTED";
-  };
+  content: {};
 };
 
 type ProjectItem_DraftIssue<TFields> = {
+  type: "DRAFT_ISSUE";
   id: string;
   fields: TFields;
   content: DraftIssueContent;
 };
 
+type ProjectItem_Issue<TFields> = {
+  type: "ISSUE";
+  id: string;
+  fields: TFields;
+  content: IssueContent;
+};
+
 type ProjectItem_PullRequest<TFields> = {
+  type: "PULL_REQUEST";
   id: string;
   fields: TFields;
   content: PullRequestContent;
-};
-
-type ProjectItem_Issue<TFields> = {
-  id: string;
-  type: "ISSUE";
-  fields: TFields;
-  content: IssueContent;
 };
 
 type RedactedContent = {
@@ -155,7 +156,6 @@ type RedactedContent = {
 };
 
 type DraftIssueContent = {
-  type: "DRAFT_ISSUE";
   id: string;
   title: string;
   createdAt: string;
@@ -163,7 +163,6 @@ type DraftIssueContent = {
 };
 
 type IssueContent = {
-  type: "ISSUE";
   id: string;
   number: number;
   createdAt: string;
@@ -182,8 +181,7 @@ type IssueContent = {
   url: string;
 };
 
-type PullRequestContent = Issue & {
-  type: "PULL_REQUEST";
+type PullRequestContent = IssueContent & {
   merged: boolean;
 };
 

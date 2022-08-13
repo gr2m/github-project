@@ -6,12 +6,12 @@ import GitHubProject from "../index.js";
 test("constructor", (t) => {
   const octokit = new Octokit();
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     octokit,
   });
 
-  t.deepEqual(project.org, "org");
+  t.deepEqual(project.owner, "owner");
   t.deepEqual(project.number, 1);
   t.deepEqual(project.octokit, octokit);
   t.deepEqual(project.fields, {
@@ -23,7 +23,7 @@ test("constructor", (t) => {
 test("constructor with custom fields", (t) => {
   const octokit = new Octokit();
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     octokit,
     fields: {
@@ -31,7 +31,7 @@ test("constructor with custom fields", (t) => {
     },
   });
 
-  t.deepEqual(project.org, "org");
+  t.deepEqual(project.owner, "owner");
   t.deepEqual(project.number, 1);
   t.deepEqual(project.octokit, octokit);
   t.deepEqual(project.fields, {
@@ -43,7 +43,7 @@ test("constructor with custom fields", (t) => {
 
 test("constructor with token", (t) => {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "ghp_secret123",
   });

@@ -149,17 +149,19 @@ export const queryItemFieldNodes = `
 `;
 
 export const getProjectWithItemsQuery = `
-  query getProjectWithItems($org: String!, $number: Int!) {
-    organization(login: $org) {
-      projectV2(number: $number) {
-        ${queryProjectNodes}
-        items(first: 100) {
-          pageInfo {
-            endCursor
-            hasNextPage
-          }
-          nodes {
-            ${queryItemFieldNodes}
+  query getProjectWithItems($owner: String!, $number: Int!) {
+    userOrOrganization: repositoryOwner(login: $owner) {
+      ... on ProjectV2Owner {
+        projectV2(number: $number) {
+          ${queryProjectNodes}
+          items(first: 100) {
+            pageInfo {
+              endCursor
+              hasNextPage
+            }
+            nodes {
+              ${queryItemFieldNodes}
+            }
           }
         }
       }
@@ -168,28 +170,32 @@ export const getProjectWithItemsQuery = `
 `;
 
 export const getProjectItemsPaginatedQuery = `
-  query getPaginatedProjectItems($org: String!, $number: Int!, $first: Int, $after: String) {
-    organization(login: $org) {
-      projectV2(number: $number) {
-        items(first: $first, after: $after) {
-          pageInfo {
-            endCursor
-            hasNextPage
+  query getPaginatedProjectItems($owner: String!, $number: Int!, $first: Int, $after: String) {
+    userOrOrganization: repositoryOwner(login: $owner) {
+      ... on ProjectV2Owner {
+        projectV2(number: $number) {
+          items(first: $first, after: $after) {
+            pageInfo {
+              endCursor
+              hasNextPage
+            }
+            nodes {
+              ${queryItemFieldNodes}
+            }
           }
-          nodes {
-            ${queryItemFieldNodes}
-          }
-        }
+        } 
       }
     }
   }
 `;
 
 export const getProjectCoreDataQuery = `
-  query getProjectCoreData($org: String!, $number: Int!) {
-    organization(login: $org) {
-      projectV2(number: $number) {
-        ${queryProjectNodes}
+  query getProjectCoreData($owner: String!, $number: Int!) {
+    userOrOrganization: repositoryOwner(login: $owner) {
+      ... on ProjectV2Owner {
+        projectV2(number: $number) {
+          ${queryProjectNodes}
+        }
       }
     }
   }

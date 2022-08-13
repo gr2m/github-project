@@ -58,6 +58,7 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
       content,
     };
   }
+  /* c8 ignore next 8 */
 
   // fallback: no content properties are set. Currently that's in case of "REDACTED"
   return {

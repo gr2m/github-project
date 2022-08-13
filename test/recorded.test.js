@@ -28,7 +28,7 @@ async function runTests(owner, projectNumber) {
 
       const octokit = new Octokit();
       const project = new GitHubProject({
-        org: owner,
+        owner,
         number: projectNumber,
         octokit,
         fields: {

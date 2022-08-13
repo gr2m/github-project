@@ -14,6 +14,8 @@ import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js"
 export async function getItemByContentId(project, state, contentId) {
   const stateWithItems = await getStateWithProjectItems(project, state);
 
-  // @ts-expect-error - does not handle the conditional chaining operator
-  return stateWithItems.items.find((item) => item.content?.id === contentId);
+  return stateWithItems.items.find(
+    // @ts-expect-error `.content.id` does not exist on REDACTED items
+    (item) => item.content.id === contentId
+  );
 }

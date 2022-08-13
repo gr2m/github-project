@@ -10,7 +10,7 @@ export async function test(defaultTestProject, itemId = "PVTI_1") {
   const matchFieldOptionValueArguments = [];
 
   const project = new GitHubProject({
-    org: defaultTestProject.org,
+    owner: defaultTestProject.owner,
     number: defaultTestProject.number,
     octokit: defaultTestProject.octokit,
     fields: defaultTestProject.fields,

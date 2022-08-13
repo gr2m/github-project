@@ -21,9 +21,9 @@ export async function getStateWithProjectItems(project, state) {
   }
 
   const {
-    organization: { projectV2 },
+    userOrOrganization: { projectV2 },
   } = await project.octokit.graphql(getProjectWithItemsQuery, {
-    org: project.org,
+    owner: project.owner,
     number: project.number,
   });
 
@@ -76,11 +76,11 @@ async function fetchProjectItems(
   { cursor = undefined, results = [] } = {}
 ) {
   const {
-    organization: {
+    userOrOrganization: {
       projectV2: { items },
     },
   } = await project.octokit.graphql(getProjectItemsPaginatedQuery, {
-    org: project.org,
+    owner: project.owner,
     number: project.number,
     first: 100,
     after: cursor,

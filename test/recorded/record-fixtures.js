@@ -56,7 +56,7 @@ async function recordFixtures(selectedTestFolders) {
     // we use two project instances, one for setting up state, and
     // the other for testing, without the two instances sharing internal state / caching.
     const projectOptions = {
-      org: owner,
+      owner,
       number: projectNumber,
       octokit,
       fields: {

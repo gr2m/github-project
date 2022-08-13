@@ -28,7 +28,7 @@ export default class GitHubProject {
    * @param {import(".").GitHubProjectOptions} options
    */
   constructor(options) {
-    const { org, number, fields = {} } = options;
+    const { owner, number, fields = {} } = options;
 
     // set octokit either from `options.octokit` or `options.token`
     const octokit =
@@ -67,7 +67,7 @@ export default class GitHubProject {
         removeItemByContentRepositoryAndNumber.bind(null, this, state),
     };
     Object.defineProperties(this, {
-      org: { get: () => org },
+      owner: { get: () => owner },
       number: { get: () => number },
       fields: { get: () => ({ ...BUILT_IN_FIELDS, ...fields }) },
       octokit: { get: () => octokit },

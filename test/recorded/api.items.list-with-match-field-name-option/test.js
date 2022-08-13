@@ -9,7 +9,7 @@ export async function test(defaultTestProject) {
   const matchFieldNameArguments = [];
 
   const project = new GitHubProject({
-    org: defaultTestProject.org,
+    owner: defaultTestProject.owner,
     number: defaultTestProject.number,
     octokit: defaultTestProject.octokit,
     fields: {

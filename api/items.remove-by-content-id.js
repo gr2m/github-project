@@ -16,8 +16,8 @@ export async function removeItemByContentId(project, state, contentId) {
   const stateWithItems = await getStateWithProjectItems(project, state);
 
   const existingItem = stateWithItems.items.find(
-    // @ts-expect-error - does not handle the conditional chaining operator
-    (item) => item.content?.id === contentId
+    // @ts-expect-error `.content.id` does not exist on REDACTED items
+    (item) => item.content.id === contentId
   );
 
   if (!existingItem) return;

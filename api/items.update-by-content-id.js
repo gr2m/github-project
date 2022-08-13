@@ -22,8 +22,8 @@ export async function updateItemByContentId(
   const stateWithItems = await getStateWithProjectItems(project, state);
 
   const item = stateWithItems.items.find(
-    // @ts-expect-error - does not handle the conditional chaining operator
-    (item) => item.content?.id === contentNodeId
+    // @ts-expect-error `.content.id` does not exist on REDACTED items
+    (item) => item.content.id === contentNodeId
   );
 
   if (!item) return;
