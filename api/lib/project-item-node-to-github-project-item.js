@@ -13,51 +13,57 @@ import { itemFieldsNodesToFieldsMap } from "./item-fields-nodes-to-fields-map.js
 export function projectItemNodeToGitHubProjectItem(state, itemNode) {
   const fields = itemFieldsNodesToFieldsMap(state, itemNode.fieldValues.nodes);
 
-  // item is draft or redacted
-  // TODO: implement adding draft item and add tests
-  /* c8 ignore next 7 */
-  if (!itemNode.content || itemNode.type === "DRAFT_ISSUE") {
+  const common = {
+    type: itemNode.type,
+    id: itemNode.id,
+    fields,
+  };
+
+  if (itemNode.type === "DRAFT_ISSUE") {
     return {
-      id: itemNode.id,
-      type: itemNode.type,
-      fields,
+      ...common,
+      content: {
+        id: itemNode.content.id,
+        title: itemNode.content.title,
+        createdAt: itemNode.content.createdAt,
+        assignees: itemNode.content.assignees.nodes.map((node) => node.login),
+      },
     };
   }
 
-  // item is issue or pull request
-  const common = {
-    id: itemNode.content.id,
-    number: itemNode.content.number,
-    createdAt: itemNode.content.createdAt,
-    closed: itemNode.content.closed,
-    closedAt: itemNode.content.closedAt,
-    assignees: itemNode.content.assignees.nodes.map((node) => node.login),
-    labels: itemNode.content.labels.nodes.map((node) => node.name),
-    repository: itemNode.content.repository.name,
-    milestone: itemNode.content.milestone,
-    title: itemNode.content.title,
-    url: itemNode.content.url,
-    databaseId: itemNode.content.databaseId,
-  };
-  const content =
-    itemNode.type === "ISSUE"
-      ? {
-          isIssue: true,
-          isPullRequest: false,
-          ...common,
-        }
-      : {
-          isIssue: false,
-          isPullRequest: true,
-          ...common,
-          merged: itemNode.content.merged,
-        };
+  if (itemNode.type === "ISSUE" || itemNode.type === "PULL_REQUEST") {
+    // item is issue or pull request
+    const issue = {
+      id: itemNode.content.id,
+      number: itemNode.content.number,
+      createdAt: itemNode.content.createdAt,
+      closed: itemNode.content.closed,
+      closedAt: itemNode.content.closedAt,
+      assignees: itemNode.content.assignees.nodes.map((node) => node.login),
+      labels: itemNode.content.labels.nodes.map((node) => node.name),
+      repository: itemNode.content.repository.name,
+      milestone: itemNode.content.milestone,
+      title: itemNode.content.title,
+      url: itemNode.content.url,
+      databaseId: itemNode.content.databaseId,
+    };
 
+    const content =
+      itemNode.type === "ISSUE"
+        ? issue
+        : { ...issue, merged: itemNode.content.merged };
+
+    return {
+      ...common,
+      content,
+    };
+  }
+
+  // fallback: no content properties are set. Currently that's in case of "REDACTED"
   return {
-    id: itemNode.id,
     type: itemNode.type,
+    id: itemNode.id,
     fields,
-    // @ts-expect-error - complains about `.merged` property
-    content,
+    content: {},
   };
 }

@@ -22,7 +22,6 @@ export async function removeItemByContentRepositoryAndNumber(
   const stateWithItems = await getStateWithProjectItems(project, state);
 
   const existingItem = stateWithItems.items.find((item) => {
-    // TODO: remove ignore once we support draft items
     /* c8 ignore next */
     if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") return;
 

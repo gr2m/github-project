@@ -125,41 +125,45 @@ export type GitHubProjectItem<
 
 type ProjectItem_Redacted<TFields> = {
   id: string;
-  type: "REDACTED";
   fields: TFields;
+  content: {
+    type: "REDACTED";
+  };
 };
 
 type ProjectItem_DraftIssue<TFields> = {
   id: string;
-  type: "DRAFT_ISSUE";
   fields: TFields;
+  content: DraftIssueContent;
 };
 
 type ProjectItem_PullRequest<TFields> = {
   id: string;
-  type: "PULL_REQUEST";
   fields: TFields;
-  content: PullRequest;
+  content: PullRequestContent;
 };
 
 type ProjectItem_Issue<TFields> = {
   id: string;
   type: "ISSUE";
   fields: TFields;
-  content: Issue;
+  content: IssueContent;
 };
 
-type Issue = contentCommon & {
-  isIssue: true;
-  isPullRequest: false;
-};
-type PullRequest = contentCommon & {
-  isIssue: false;
-  isPullRequest: true;
-  merged: boolean;
+type RedactedContent = {
+  type: "REDACTED";
 };
 
-type contentCommon = {
+type DraftIssueContent = {
+  type: "DRAFT_ISSUE";
+  id: string;
+  title: string;
+  createdAt: string;
+  assignees: string[];
+};
+
+type IssueContent = {
+  type: "ISSUE";
   id: string;
   number: number;
   createdAt: string;
@@ -176,6 +180,11 @@ type contentCommon = {
   };
   title: string;
   url: string;
+};
+
+type PullRequestContent = Issue & {
+  type: "PULL_REQUEST";
+  merged: boolean;
 };
 
 export type ProjectFieldNode = {
