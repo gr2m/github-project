@@ -133,7 +133,9 @@ async function recordFixtures(selectedTestFolders) {
       await test(testProject, ...args);
 
       // normalize fixtures
-      const counters = {};
+      const counters = {
+        databaseId: 1000,
+      };
       const idMappings = {};
       const fixturesJSON = JSON.stringify(fixtures, null, 2)
         .replaceAll(
@@ -147,6 +149,13 @@ async function recordFixtures(selectedTestFolders) {
             return `"${key}": "${prefix}_${idMappings[id]}"`;
           }
         )
+        .replaceAll(/"databaseId": (\d+)/g, (match, key, prefix, id) => {
+          if (!idMappings[id]) {
+            idMappings[id] = ++counters.databaseId;
+          }
+
+          return `"databaseId": ${idMappings[id]}`;
+        })
         .replaceAll(repository.name, "test-repository")
         .replaceAll(
           /"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z"/g,

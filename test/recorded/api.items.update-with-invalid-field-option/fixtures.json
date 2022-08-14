@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 13 Aug 2022 23:35:47 GMT",
+        "date": "Sun, 14 Aug 2022 00:13:19 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "DDF7:9AC0:34597E2:35D2429:62F83552",
+        "x-github-request-id": "E931:9AC0:3507ACF:3685345:62F83E1E",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4662",
+        "x-ratelimit-remaining": "3660",
         "x-ratelimit-reset": "1660436648",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "338",
+        "x-ratelimit-used": "1340",
         "x-xss-protection": "0"
       },
       "data": {
@@ -176,7 +176,7 @@
                     "type": "ISSUE",
                     "content": {
                       "id": "I_1",
-                      "databaseId": 1338083569,
+                      "databaseId": 1001,
                       "number": 1,
                       "title": "Issue",
                       "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
