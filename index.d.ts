@@ -240,8 +240,7 @@ export type ProjectFieldValueNode = {
 
 export type GitHubProjectState =
   | GitHubProjectStateInit
-  | GitHubProjectStateWithFields
-  | GitHubProjectStateWithItems;
+  | GitHubProjectStateWithFields;
 
 type GitHubProjectStateCommon = {
   matchFieldName: MatchFieldNameFn;
@@ -254,19 +253,8 @@ type GitHubProjectStateInit = GitHubProjectStateCommon & {
 
 export type GitHubProjectStateWithFields = GitHubProjectStateCommon & {
   didLoadFields: true;
-  didLoadItems: false;
   id: string;
   title: string;
   url: string;
   fields: ProjectFieldMap;
-};
-
-export type GitHubProjectStateWithItems = GitHubProjectStateCommon & {
-  didLoadFields: true;
-  didLoadItems: true;
-  id: string;
-  title: string;
-  url: string;
-  fields: ProjectFieldMap;
-  items: GitHubProjectItem[];
 };
