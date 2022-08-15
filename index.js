@@ -39,7 +39,6 @@ export default class GitHubProject {
     /** @type {import(".").GitHubProjectState} */
     const state = {
       didLoadFields: false,
-      didLoadItems: false,
       matchFieldName: options.matchFieldName || defaultMatchFunction,
       matchFieldOptionValue:
         options.matchFieldOptionValue || defaultMatchFunction,

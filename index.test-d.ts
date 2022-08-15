@@ -501,9 +501,14 @@ export async function removeItemTest() {
     number: 1,
     token: "gpg_secret123",
   });
-  const result = await project.items.remove("item node id");
+  const item = await project.items.remove("item node id");
 
-  expectType<void>(result);
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  expectType<string>(item.id);
 }
 
 export async function removeItemByContentIdTest() {
@@ -512,9 +517,14 @@ export async function removeItemByContentIdTest() {
     number: 1,
     token: "gpg_secret123",
   });
-  const result = await project.items.removeByContentId("content node id");
+  const item = await project.items.removeByContentId("content node id");
 
-  expectType<void>(result);
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  expectType<string>(item.id);
 }
 
 export async function removeItemByContentRepositoryAndNameTest() {
@@ -523,12 +533,17 @@ export async function removeItemByContentRepositoryAndNameTest() {
     number: 1,
     token: "gpg_secret123",
   });
-  const result = await project.items.removeByContentRepositoryAndNumber(
+  const item = await project.items.removeByContentRepositoryAndNumber(
     "repository-name",
     1
   );
 
-  expectType<void>(result);
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  expectType<string>(item.id);
 }
 
 export async function matchFieldNameOption() {

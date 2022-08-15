@@ -9,7 +9,7 @@ import { projectFieldsNodesToFieldsMap } from "./project-fields-nodes-to-fields-
  *
  * @param {import("../..").default} project
  * @param {import("../..").GitHubProjectState} state
- * @returns {Promise<import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithItems>}
+ * @returns {Promise<import("../..").GitHubProjectStateWithFields>}
  */
 export async function getStateWithProjectFields(project, state) {
   if (state.didLoadFields) {

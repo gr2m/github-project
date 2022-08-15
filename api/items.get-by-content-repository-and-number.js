@@ -3,6 +3,7 @@
 import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
 import { projectItemNodeToGitHubProjectItem } from "./lib/project-item-node-to-github-project-item.js";
 import { getItemByContentRepositoryAndNameQuery } from "./lib/queries.js";
+import { handleNotFoundGraphqlError } from "./lib/handle-not-found-graphql-error.js";
 
 /**
  * Find an item based on the repository and issues/pull request number.
@@ -22,35 +23,24 @@ export async function getItemByContentRepositoryAndNumber(
 ) {
   const stateWithFields = await getStateWithProjectFields(project, state);
 
-  try {
-    // TODO: ideally we would retrieve a project item directly based on a content id
-    //       and the project number, but GitHub's GraphQL Schema does not support that
-    //       as of 2022-08-14. As a workaround, we load all project items and filter
-    //       them by project number afterwards.
-    const {
-      repositoryOwner: {
-        repository: {
-          issueOrPullRequest: {
-            projectItems: { nodes },
-          },
-        },
-      },
-    } = await project.octokit.graphql(getItemByContentRepositoryAndNameQuery, {
+  // TODO: ideally we would retrieve a project item directly based on a content id
+  //       and the project number, but GitHub's GraphQL Schema does not support that
+  //       as of 2022-08-14. As a workaround, we load all project items and filter
+  //       them by project number afterwards.
+  const result = await project.octokit
+    .graphql(getItemByContentRepositoryAndNameQuery, {
       owner: project.owner,
       repositoryName: repositoryName,
       number: issueOrPullRequestNumber,
-    });
+    })
+    .catch(handleNotFoundGraphqlError);
 
-    const node = nodes.find((node) => node.project.number === project.number);
+  const node =
+    result?.repositoryOwner.repository.issueOrPullRequest.projectItems.nodes.find(
+      (node) => node.project.number === project.number
+    );
 
-    if (!node) return;
+  if (!node) return;
 
-    return projectItemNodeToGitHubProjectItem(stateWithFields, node);
-  } catch (error) {
-    /* c8 ignore next */
-    if (!error.errors) throw error;
-    if (error.errors[0].type === "NOT_FOUND") return;
-    /* c8 ignore next 2 */
-    throw error;
-  }
+  return projectItemNodeToGitHubProjectItem(stateWithFields, node);
 }

@@ -64,6 +64,8 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
     );
   }
 
+  /** @type {Record<string, {query: string, key: string, value: string|undefined}>[]} */
+  // @ts-expect-error - TS doesn't handle `.filter(Boolean)` correctly
   const parts = Object.entries(existingFields)
     .map(([key, value], index) => {
       if (value === undefined) return;
@@ -111,14 +113,12 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
       mutation setItemProperties($projectId: ID!, $itemId: ID!) {
         ${parts
           .map((part) => {
-            // @ts-expect-error - TS thinks `part` might be undefined, but we filter that out with `.filter(Boolean)` above
             return part.query;
           })
           .join("\n")}
       }
     `,
 
-    // @ts-expect-error - TS thinks `part` might be undefined, but we filter that out with `.filter(Boolean)` above
     fields: Object.fromEntries(parts.map((part) => [part.key, part.value])),
   };
 }

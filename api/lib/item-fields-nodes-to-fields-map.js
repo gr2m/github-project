@@ -1,5 +1,5 @@
 /**
- * @param {import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithItems} state
+ * @param {import("../..").GitHubProjectStateWithFields} state
  * @param {import("../..").ProjectFieldValueNode[]} nodes
  * @returns {Record<keyof import("../..").BUILT_IN_FIELDS, string> & Record<string, string>}
  */

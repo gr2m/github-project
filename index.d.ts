@@ -252,7 +252,6 @@ type GitHubProjectStateCommon = {
 };
 type GitHubProjectStateInit = GitHubProjectStateCommon & {
   didLoadFields: false;
-  didLoadItems: false;
 };
 
 export type GitHubProjectStateWithFields = GitHubProjectStateCommon & {

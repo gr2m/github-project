@@ -1,8 +1,7 @@
 // @ts-check
 
-import { removeItemFromProjectMutation } from "./lib/queries.js";
-import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
 import { getItem } from "./items.get.js";
+import { removeProjectItem } from "./lib/remove-project-item.js";
 
 /**
  * Removes an item if it exists. Resolves with the removed item
@@ -18,19 +17,6 @@ export async function removeItem(project, state, itemNodeId) {
   const item = await getItem(project, state, itemNodeId);
   if (!item) return;
 
-  const stateWithFields = await getStateWithProjectFields(project, state);
-
-  try {
-    await project.octokit.graphql(removeItemFromProjectMutation, {
-      projectId: stateWithFields.id,
-      itemId: item.id,
-    });
-    return item;
-  } catch (error) {
-    /* c8 ignore next */
-    if (!error.errors) throw error;
-    if (error.errors[0].type === "NOT_FOUND") return;
-    /* c8 ignore next 2 */
-    throw error;
-  }
+  await removeProjectItem(project, state, item.id);
+  return item;
 }

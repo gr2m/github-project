@@ -16,39 +16,18 @@ import { removeObjectKeys } from "./lib/remove-object-keys.js";
  * @returns {Promise<import("..").GitHubProjectItem>}
  */
 export async function addItem(project, state, contentNodeId, fields) {
-  let newOrExistingItem;
-  if (state.didLoadItems) {
-    const existingItem = state.items.find(
-      // @ts-expect-error `.content.id` does not exist on REDACTED items
-      (item) => item.content.id === contentNodeId
-    );
-
-    if (existingItem && !fields) existingItem;
-    newOrExistingItem = existingItem;
-  }
-
   const stateWithFields = await getStateWithProjectFields(project, state);
 
-  if (!newOrExistingItem) {
-    const {
-      addProjectV2ItemById: { item },
-    } = await project.octokit.graphql(addIssueToProjectMutation, {
-      projectId: stateWithFields.id,
-      contentId: contentNodeId,
-    });
+  const {
+    addProjectV2ItemById: { item },
+  } = await project.octokit.graphql(addIssueToProjectMutation, {
+    projectId: stateWithFields.id,
+    contentId: contentNodeId,
+  });
 
-    newOrExistingItem = projectItemNodeToGitHubProjectItem(
-      stateWithFields,
-      item
-    );
+  const newItem = projectItemNodeToGitHubProjectItem(stateWithFields, item);
 
-    // add newly created item to cache
-    if (state.didLoadItems) {
-      state.items.push(newOrExistingItem);
-    }
-  }
-
-  if (!fields) return newOrExistingItem;
+  if (!fields) return newItem;
 
   const nonExistingProjectFields = Object.entries(stateWithFields.fields)
     .filter(([, field]) => field.existsInProject === false)
@@ -59,12 +38,9 @@ export async function addItem(project, state, contentNodeId, fields) {
 
   if (existingProjectFieldKeys.length === 0)
     return {
-      ...newOrExistingItem,
+      ...newItem,
       // @ts-expect-error - complaints that built-in fields `title` and `status` might not exist, but we are good here
-      fields: removeObjectKeys(
-        newOrExistingItem.fields,
-        nonExistingProjectFields
-      ),
+      fields: removeObjectKeys(newItem.fields, nonExistingProjectFields),
     };
 
   const existingFields = Object.fromEntries(
@@ -75,11 +51,11 @@ export async function addItem(project, state, contentNodeId, fields) {
 
   await project.octokit.graphql(result.query, {
     projectId: stateWithFields.id,
-    itemId: newOrExistingItem.id,
+    itemId: newItem.id,
   });
 
   return {
-    ...newOrExistingItem,
+    ...newItem,
     fields: result.fields,
   };
 }

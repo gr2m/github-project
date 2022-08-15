@@ -32,11 +32,6 @@ export async function addDraftItem(project, state, content, fields) {
     itemNode
   );
 
-  // add newly created item to cache
-  if (state.didLoadItems) {
-    state.items.push(draftItem);
-  }
-
   if (!fields) return draftItem;
 
   const nonExistingProjectFields = Object.entries(stateWithFields.fields)
