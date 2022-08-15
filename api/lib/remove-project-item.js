@@ -5,6 +5,9 @@ import { handleNotFoundGraphqlError } from "./handle-not-found-graphql-error.js"
 import { removeItemFromProjectMutation } from "./queries.js";
 
 /**
+ * Helper method to remove an item from a project which is used
+ * by all the `project.items.remove*` methods.
+ *
  * @param {import("../..").default} project
  * @param {import("../..").GitHubProjectState} state
  * @param {string} itemNodeId

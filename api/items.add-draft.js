@@ -7,12 +7,13 @@ import { getFieldsUpdateQueryAndFields } from "./lib/get-fields-update-query-and
 import { removeObjectKeys } from "./lib/remove-object-keys.js";
 
 /**
- * Creates draft item in project. Loads project fields and caches them unless already loaded.
+ * Creates draft item in project.
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state
  * @param {import("..").DraftItemContent} content
  * @param {Record<string, string>} [fields]
+ *
  * @returns {Promise<import("..").GitHubProjectItem>}
  */
 export async function addDraftItem(project, state, content, fields) {

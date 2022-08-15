@@ -4,8 +4,8 @@ import { getItemByContentRepositoryAndNumber } from "./items.get-by-content-repo
 import { removeProjectItem } from "./lib/remove-project-item.js";
 
 /**
- * Removes an item if it exists. Resolves with `undefined` either way
- * In order to find an item by repository name and number, all items need to be loaded first.
+ * Removes an item based on content repository name and number.
+ * Resolves with the removed item or with `undefined` if item was not found.
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state

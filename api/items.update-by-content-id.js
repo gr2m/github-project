@@ -11,6 +11,7 @@ import { updateItemFields } from "./lib/update-project-item-fields.js";
  * @param {import("..").GitHubProjectState} state
  * @param {string} contentNodeId
  * @param {Record<string, string>} fields
+ *
  * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
 export async function updateItemByContentId(

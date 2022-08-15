@@ -4,6 +4,9 @@ import { getFieldsUpdateQueryAndFields } from "./get-fields-update-query-and-fie
 import { getStateWithProjectFields } from "./get-state-with-project-fields.js";
 
 /**
+ * Helper method to update fields of a project item which is used
+ * by all the `project.items.update*` methods.
+ *
  * @param {import("../..").default} project
  * @param {import("../..").GitHubProjectState} state
  * @param {string} itemNodeId

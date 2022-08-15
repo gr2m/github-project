@@ -7,12 +7,13 @@ import { getFieldsUpdateQueryAndFields } from "./lib/get-fields-update-query-and
 import { removeObjectKeys } from "./lib/remove-object-keys.js";
 
 /**
- * Adds new item to project. Loads project fields and caches them unless already loaded.
+ * Adds new item to project.
  *
  * @param {import("../").default} project
  * @param {import("..").GitHubProjectState} state
  * @param {string} contentNodeId
  * @param {Record<string, string>} fields
+ *
  * @returns {Promise<import("..").GitHubProjectItem>}
  */
 export async function addItem(project, state, contentNodeId, fields) {

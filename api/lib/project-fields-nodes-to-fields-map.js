@@ -1,10 +1,11 @@
 // @ts-check
 
 /**
- * Takes `project.fields` and the list of fields nodes from the GraphQL query result:
+ * Takes `project.fields` and the list of project item fieldValues nodes
+ * from the GraphQL query result:
  *
  * ```
- * fields(...) {
+ * fieldValues(...) {
  *   nodes {
  *     id
  *     name
@@ -45,6 +46,7 @@
  * @param {import("../..").GitHubProjectState} state
  * @param {import("../..").default} project
  * @param {import("../..").ProjectFieldNode[]} nodes
+ *
  * @returns {import("../..").ProjectFieldMap}
  */
 export function projectFieldsNodesToFieldsMap(state, project, nodes) {

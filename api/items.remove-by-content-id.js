@@ -4,8 +4,8 @@ import { getItemByContentId } from "./items.get-by-content-id.js";
 import { removeProjectItem } from "./lib/remove-project-item.js";
 
 /**
- * Removes an item based on content ID if it exists. Resolves with
- * the removed item or with `undefined` if item was not found.
+ * Removes an item based on content ID. Resolves with the removed item
+ * or with `undefined` if item was not found.
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state

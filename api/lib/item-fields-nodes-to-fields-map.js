@@ -1,6 +1,10 @@
 /**
+ * Take GraphQL project item fieldValues nodes and turn them into
+ * an object using the user-defined field names.
+ *
  * @param {import("../..").GitHubProjectStateWithFields} state
  * @param {import("../..").ProjectFieldValueNode[]} nodes
+ *
  * @returns {Record<keyof import("../..").BUILT_IN_FIELDS, string> & Record<string, string>}
  */
 export function itemFieldsNodesToFieldsMap(state, nodes) {

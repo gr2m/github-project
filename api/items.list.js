@@ -8,7 +8,7 @@ import { projectFieldsNodesToFieldsMap } from "./lib/project-fields-nodes-to-fie
 import { projectItemNodeToGitHubProjectItem } from "./lib/project-item-node-to-github-project-item.js";
 
 /**
- * Load all project fields and items and cache them
+ * Load all project items
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state
@@ -62,6 +62,7 @@ export async function listItems(project, state) {
  * @param {import("..").default} project
  * @param {import("..").ProjectFieldMap} fields
  * @param {{ cursor?: string | undefined, results?: Array<import("..").GitHubProjectItem> }} options
+ *
  * @returns {Promise<import("..").GitHubProjectItem[]>}
  */
 async function fetchProjectItems(

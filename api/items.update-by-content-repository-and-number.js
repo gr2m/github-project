@@ -12,6 +12,7 @@ import { updateItemFields } from "./lib/update-project-item-fields.js";
  * @param {string} repositoryName
  * @param {number} issueOrPullRequestNumber
  * @param {Record<string, string>} fields
+ *
  * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
 export async function updateItemByContentRepositoryAndNumber(

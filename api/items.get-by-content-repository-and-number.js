@@ -13,6 +13,7 @@ import { handleNotFoundGraphqlError } from "./lib/handle-not-found-graphql-error
  * @param {import("..").GitHubProjectState} state
  * @param {string} repositoryName
  * @param {number} issueOrPullRequestNumber
+ *
  * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
 export async function getItemByContentRepositoryAndNumber(

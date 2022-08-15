@@ -7,7 +7,7 @@ import { handleNotFoundGraphqlError } from "./lib/handle-not-found-graphql-error
 
 /**
  * Attempts to find an item based on the issues/pull request node id.
- * Returns undefined if item could not be found.
+ * Resolves with undefined if item could not be found.
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state
