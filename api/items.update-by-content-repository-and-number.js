@@ -1,7 +1,8 @@
 // @ts-check
 
-import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
+import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
 import { getFieldsUpdateQueryAndFields } from "./lib/get-fields-update-query-and-fields.js";
+import { getItemByContentRepositoryAndNumber } from "./items.get-by-content-repository-and-number.js";
 
 /**
  * Updates item fields if the item can be found.
@@ -21,22 +22,18 @@ export async function updateItemByContentRepositoryAndNumber(
   issueOrPullRequestNumber,
   fields
 ) {
-  const stateWithItems = await getStateWithProjectItems(project, state);
-
-  const item = stateWithItems.items.find((item) => {
-    /* c8 ignore next */
-    if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") return;
-
-    return (
-      item.content.repository === repositoryName &&
-      item.content.number === issueOrPullRequestNumber
-    );
-  });
-
+  const item = await getItemByContentRepositoryAndNumber(
+    project,
+    state,
+    repositoryName,
+    issueOrPullRequestNumber
+  );
   if (!item) return;
 
+  const stateWithFields = await getStateWithProjectFields(project, state);
+
   const existingProjectFieldKeys = Object.keys(fields).filter(
-    (key) => stateWithItems.fields[key].existsInProject
+    (key) => stateWithFields.fields[key].existsInProject
   );
 
   if (existingProjectFieldKeys.length === 0) return item;
@@ -45,14 +42,15 @@ export async function updateItemByContentRepositoryAndNumber(
     existingProjectFieldKeys.map((key) => [key, fields[key]])
   );
 
-  const result = getFieldsUpdateQueryAndFields(stateWithItems, existingFields);
+  const result = getFieldsUpdateQueryAndFields(stateWithFields, existingFields);
+
   await project.octokit.graphql(result.query, {
-    projectId: stateWithItems.id,
+    projectId: stateWithFields.id,
     itemId: item.id,
   });
 
-  // mutate item in cache
-  item.fields = result.fields;
-
-  return item;
+  return {
+    ...item,
+    fields: result.fields,
+  };
 }

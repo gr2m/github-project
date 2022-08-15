@@ -16,12 +16,12 @@ const READ_ONLY_FIELDS = [
 ];
 
 /**
- * Project item fields can only updated one at a time, so this methods sends
+ * Project item fields can only be updated one at a time, so this methods sends
  * a single query including one mutation for each field that is updated.
  *
  * When updating an item using the item node ID, there is no need to download
  * all items for lookup first. However, we still want to respond with the full
- * item with all fields and content properties, so we we load them as part of
+ * item with all fields and content properties, so we load them as part of
  * the first updated property.
  *
  * This function returns both the query and the fields that are updated, because
@@ -30,7 +30,7 @@ const READ_ONLY_FIELDS = [
  * option. For example, the user might set a single select field to "1" while
  * the actual value is set to "One" in the project.
  *
- * @param {import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithItems} state
+ * @param {import("../..").GitHubProjectStateWithFields} state
  * @param {Record<string, string>} fields
  *
  * @returns {{query: string, fields: Record<string, string>}}
@@ -64,7 +64,6 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
     );
   }
 
-  const mustLoadItemProperties = !state.didLoadItems;
   const parts = Object.entries(existingFields)
     .map(([key, value], index) => {
       if (value === undefined) return;
@@ -78,7 +77,7 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
           : value;
 
       const queryNodes =
-        mustLoadItemProperties && index === 0
+        index === 0
           ? `projectV2Item { ${queryItemFieldNodes} }`
           : "clientMutationId";
 
@@ -110,16 +109,23 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
   return {
     query: `
       mutation setItemProperties($projectId: ID!, $itemId: ID!) {
-        ${parts.map((part) => part.query).join("\n")}
+        ${parts
+          .map((part) => {
+            // @ts-expect-error - TS thinks `part` might be undefined, but we filter that out with `.filter(Boolean)` above
+            return part.query;
+          })
+          .join("\n")}
       }
     `,
+
+    // @ts-expect-error - TS thinks `part` might be undefined, but we filter that out with `.filter(Boolean)` above
     fields: Object.fromEntries(parts.map((part) => [part.key, part.value])),
   };
 }
 
 /**
  * @param {import("../..").ProjectField} field
- * @param {string | {id: string, value: string}} valueOrOption
+ * @param {string | {id: string, value: string | undefined}} valueOrOption
  *
  * @returns {string}
  */
@@ -153,11 +159,11 @@ function escapeQuotes(str) {
  * as users can set custom value matching using the `matchFieldOptionValue`
  * constructor option
  *
- * @param {import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithItems} state
+ * @param {import("../..").GitHubProjectStateWithFields} state
  * @param {import("../..").ProjectFieldWithOptions} field
  * @param {string} value
  *
- * @returns {{id: string, value: string}}
+ * @returns {{id: string, value: string | undefined}}
  */
 function findFieldOptionIdAndValue(state, field, value) {
   const [optionValue, optionId] =

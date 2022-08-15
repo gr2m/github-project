@@ -77,12 +77,16 @@ export default class GitHubProject<
       issueOrPullRequestNumber: number,
       fields: Partial<TItemFields>
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
-    remove(itemNodeId: string): Promise<void>;
-    removeByContentId(contentNodeId: string): Promise<void>;
+    remove(
+      itemNodeId: string
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
+    removeByContentId(
+      contentNodeId: string
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     removeByContentRepositoryAndNumber(
       repositoryName: string,
       issueOrPullRequestNumber: number
-    ): Promise<void>;
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
   };
 }
 

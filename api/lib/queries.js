@@ -201,6 +201,63 @@ export const getProjectCoreDataQuery = `
   }
 `;
 
+export const getItemQuery = `
+  query getProjectItem($id:ID!) {
+    node(id:$id){
+      ... on ProjectV2Item {
+        ${queryItemFieldNodes}
+      }
+    }
+  }
+`;
+
+const onIssueOrPullRequestFragments = `
+  ... on Issue {
+    title
+    url
+    projectItems(first: 10) {
+      nodes {
+        project {
+          number
+        }
+        ${queryItemFieldNodes}
+      }
+    }
+  }
+  ... on PullRequest {
+    title
+    url
+    projectItems(first: 10) {
+      nodes {
+        project {
+          number
+        }
+        ${queryItemFieldNodes}
+      }
+    }
+  }
+`;
+
+export const getItemByContentIdQuery = `
+  query getProjectItemByContentId($id: ID!) {
+    node(id: $id) {
+      ${onIssueOrPullRequestFragments}
+    }
+  }
+`;
+
+export const getItemByContentRepositoryAndNameQuery = `
+  query getProjectItemByContentRepositoryAndNumber($owner: String!, $repositoryName: String!, $number: Int!) {
+    repositoryOwner(login: $owner) {
+      repository(name: $repositoryName) {
+        issueOrPullRequest(number: $number) {
+          ${onIssueOrPullRequestFragments}
+        }
+      }
+    }
+  }
+`;
+
 export const addDraftIssueToProjectMutation = `
   mutation addProjectV2DraftIssue($projectId: ID!, $title: String!, $body: String, $assigneeIds: [ID!]) {
     addProjectV2DraftIssue(input: {projectId: $projectId, title: $title, body: $body, assigneeIds: $assigneeIds}) {

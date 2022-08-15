@@ -1,7 +1,8 @@
 // @ts-check
 
-import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
+import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
 import { getFieldsUpdateQueryAndFields } from "./lib/get-fields-update-query-and-fields.js";
+import { getItemByContentId } from "./items.get-by-content-id.js";
 
 /**
  * Updates item fields if the item can be found.
@@ -19,17 +20,13 @@ export async function updateItemByContentId(
   contentNodeId,
   fields
 ) {
-  const stateWithItems = await getStateWithProjectItems(project, state);
-
-  const item = stateWithItems.items.find(
-    // @ts-expect-error `.content.id` does not exist on REDACTED items
-    (item) => item.content.id === contentNodeId
-  );
-
+  const item = await getItemByContentId(project, state, contentNodeId);
   if (!item) return;
 
+  const stateWithFields = await getStateWithProjectFields(project, state);
+
   const existingProjectFieldKeys = Object.keys(fields).filter(
-    (key) => stateWithItems.fields[key].existsInProject
+    (key) => stateWithFields.fields[key].existsInProject
   );
 
   if (existingProjectFieldKeys.length === 0) return item;
@@ -38,14 +35,15 @@ export async function updateItemByContentId(
     existingProjectFieldKeys.map((key) => [key, fields[key]])
   );
 
-  const result = getFieldsUpdateQueryAndFields(stateWithItems, existingFields);
+  const result = getFieldsUpdateQueryAndFields(stateWithFields, existingFields);
+
   await project.octokit.graphql(result.query, {
-    projectId: stateWithItems.id,
+    projectId: stateWithFields.id,
     itemId: item.id,
   });
 
-  // mutate item in cache
-  item.fields = result.fields;
-
-  return item;
+  return {
+    ...item,
+    fields: result.fields,
+  };
 }

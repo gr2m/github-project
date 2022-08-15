@@ -6,8 +6,9 @@ import { itemFieldsNodesToFieldsMap } from "./item-fields-nodes-to-fields-map.js
  * Takes a GraphQL `ProjectNextItem` node and returns a `ProjectItem` object
  * in the format we return it from the GitHubProject API.
  *
- * @param {import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithFields} state
+ * @param {import("../..").GitHubProjectStateWithFields} state
  * @param {any} itemNode
+ *
  * @returns {import("../..").GitHubProjectItem}
  */
 export function projectItemNodeToGitHubProjectItem(state, itemNode) {

@@ -1,34 +1,36 @@
 // @ts-check
 
-import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
+import { getItemByContentId } from "./items.get-by-content-id.js";
+import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
 import { removeItemFromProjectMutation } from "./lib/queries.js";
 
 /**
- * Removes an item if it exists. Resolves with `undefined` either way
- * In order to find an item by content ID, all items need to be loaded first.
+ * Removes an item based on content ID if it exists. Resolves with
+ * the removed item or with `undefined` if item was not found.
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state
  * @param {string} contentId
- * @returns {Promise<void>}
+ *
+ * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
 export async function removeItemByContentId(project, state, contentId) {
-  const stateWithItems = await getStateWithProjectItems(project, state);
+  const item = await getItemByContentId(project, state, contentId);
+  if (!item) return;
 
-  const existingItem = stateWithItems.items.find(
-    // @ts-expect-error `.content.id` does not exist on REDACTED items
-    (item) => item.content.id === contentId
-  );
+  const stateWithFields = await getStateWithProjectFields(project, state);
 
-  if (!existingItem) return;
-
-  await project.octokit.graphql(removeItemFromProjectMutation, {
-    projectId: stateWithItems.id,
-    itemId: existingItem.id,
-  });
-
-  // update cache
-  stateWithItems.items = stateWithItems.items.filter(
-    (item) => item.id !== existingItem.id
-  );
+  try {
+    await project.octokit.graphql(removeItemFromProjectMutation, {
+      projectId: stateWithFields.id,
+      itemId: item.id,
+    });
+    return item;
+  } catch (error) {
+    /* c8 ignore next */
+    if (!error.errors) throw error;
+    if (error.errors[0].type === "NOT_FOUND") return;
+    /* c8 ignore next 2 */
+    throw error;
+  }
 }

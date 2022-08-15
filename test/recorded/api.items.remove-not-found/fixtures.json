@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 14 Aug 2022 00:11:15 GMT",
+        "date": "Mon, 15 Aug 2022 19:55:09 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E855:2D94:36EA635:3868D6A:62F83DA3",
+        "x-github-request-id": "C5E8:2B6D:5950A5:5BD0A0:62FAA49D",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "3755",
-        "x-ratelimit-reset": "1660436648",
+        "x-ratelimit-remaining": "4481",
+        "x-ratelimit-reset": "1660595643",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "1245",
+        "x-ratelimit-used": "519",
         "x-xss-protection": "0"
       },
       "data": {
@@ -121,7 +121,7 @@
                     "name": "Single select",
                     "options": [
                       {
-                        "id": "c5f71ea9",
+                        "id": "b92ebdaa",
                         "name": "One"
                       },
                       {
@@ -171,10 +171,9 @@
     }
   },
   {
-    "query": "\n  mutation removeItemFromProject($projectId:ID!, $itemId:ID!) {\n    deleteProjectV2Item(input:{\n      projectId:$projectId,\n      itemId:$itemId\n    }) {\n      clientMutationId\n    }\n  }\n",
+    "query": "\n  query getProjectItem($id:ID!) {\n    node(id:$id){\n      ... on ProjectV2Item {\n        \n  id\n  createdAt\n  type\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n\n      }\n    }\n  }\n",
     "variables": {
-      "projectId": "PVT_1",
-      "itemId": "<unknown id>"
+      "id": "<unknown id>"
     },
     "response": {
       "status": 200,
@@ -186,7 +185,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 14 Aug 2022 00:11:16 GMT",
+        "date": "Mon, 15 Aug 2022 19:55:10 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -195,23 +194,23 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E856:6B76:31CD7A8:334B44F:62F83DA4",
+        "x-github-request-id": "C5E9:88D6:61F540:64725B:62FAA49E",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "3754",
-        "x-ratelimit-reset": "1660436648",
+        "x-ratelimit-remaining": "4480",
+        "x-ratelimit-reset": "1660595643",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "1246",
+        "x-ratelimit-used": "520",
         "x-xss-protection": "0"
       },
       "data": {
         "data": {
-          "deleteProjectV2Item": null
+          "node": null
         },
         "errors": [
           {
             "type": "NOT_FOUND",
             "path": [
-              "deleteProjectV2Item"
+              "node"
             ],
             "locations": [
               {

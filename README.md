@@ -692,7 +692,7 @@ Map of internal field names to their values.
 await project.items.remove(itemNodeId);
 ```
 
-Removes a single item. Resolves with `undefined`, no matter if item was found or not.
+Removes a single item. Resolves with the removed item or with `undefined` if item was not found.
 
 <table>
   <thead align=left>
@@ -731,7 +731,7 @@ Removes a single item. Resolves with `undefined`, no matter if item was found or
 await project.items.removeByContentId(contentId);
 ```
 
-Removes a single item based on the Node ID of its linked issue or pull request. Resolves with `undefined`, no matter if item was found or not.
+Removes a single item based on the Node ID of its linked issue or pull request. Removes a single item. Resolves with the removed item or with `undefined` if item was not found.
 
 <table>
   <thead align=left>
@@ -773,7 +773,7 @@ await project.items.removeByContentRepositoryAndNumber(
 );
 ```
 
-Removes a single item based on the Node ID of its linked issue or pull request. Resolves with `undefined`, no matter if item was found or not.
+Removes a single item based on the Node ID of its linked issue or pull request. Removes a single item. Resolves with the removed item or with `undefined` if item was not found.
 
 <table>
   <thead align=left>

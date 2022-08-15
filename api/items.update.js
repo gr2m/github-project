@@ -1,7 +1,8 @@
 // @ts-check
 
-import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
+import { getItem } from "./items.get.js";
 import { getFieldsUpdateQueryAndFields } from "./lib/get-fields-update-query-and-fields.js";
+import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
 
 /**
  * Updates item fields if the item can be found and returns the full item
@@ -14,14 +15,13 @@ import { getFieldsUpdateQueryAndFields } from "./lib/get-fields-update-query-and
  * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
 export async function updateItem(project, state, itemNodeId, fields) {
-  const stateWithItems = await getStateWithProjectItems(project, state);
-
-  const item = stateWithItems.items.find((item) => item.id === itemNodeId);
-
+  const item = await getItem(project, state, itemNodeId);
   if (!item) return;
 
+  const stateWithFields = await getStateWithProjectFields(project, state);
+
   const existingProjectFieldKeys = Object.keys(fields).filter(
-    (key) => stateWithItems.fields[key].existsInProject
+    (key) => stateWithFields.fields[key].existsInProject
   );
 
   if (existingProjectFieldKeys.length === 0) return item;
@@ -30,14 +30,15 @@ export async function updateItem(project, state, itemNodeId, fields) {
     existingProjectFieldKeys.map((key) => [key, fields[key]])
   );
 
-  const result = getFieldsUpdateQueryAndFields(stateWithItems, existingFields);
+  const result = getFieldsUpdateQueryAndFields(stateWithFields, existingFields);
 
   await project.octokit.graphql(result.query, {
-    projectId: stateWithItems.id,
+    projectId: stateWithFields.id,
     itemId: itemNodeId,
   });
 
-  item.fields = result.fields;
-
-  return item;
+  return {
+    ...item,
+    fields: result.fields,
+  };
 }

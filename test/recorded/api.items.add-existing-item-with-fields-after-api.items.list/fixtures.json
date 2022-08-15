@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 14 Aug 2022 00:06:46 GMT",
+        "date": "Mon, 15 Aug 2022 19:49:44 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E4EC:5AC1:23DD10:255742:62F83C96",
+        "x-github-request-id": "C46A:142F:595719:5BCA80:62FAA358",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "3949",
-        "x-ratelimit-reset": "1660436648",
+        "x-ratelimit-remaining": "4710",
+        "x-ratelimit-reset": "1660595643",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "1051",
+        "x-ratelimit-used": "290",
         "x-xss-protection": "0"
       },
       "data": {
@@ -121,7 +121,7 @@
                     "name": "Single select",
                     "options": [
                       {
-                        "id": "c5f71ea9",
+                        "id": "b92ebdaa",
                         "name": "One"
                       },
                       {
@@ -220,7 +220,89 @@
     }
   },
   {
-    "query": "\n      mutation setItemProperties($projectId: ID!, $itemId: ID!) {\n        \n        status: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTSSF_lADOBYMIeM4ADzd0zgCMLM0\", value: {singleSelectOptionId: \"98236657\"}}) {\n          clientMutationId\n        }\n      \n      }\n    ",
+    "query": "\n  mutation addIssueToProject($projectId:ID!, $contentId:ID!) {\n    addProjectV2ItemById(input:{\n      projectId:$projectId,\n      contentId:$contentId\n    }) {\n      item {\n        \n  id\n  createdAt\n  type\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n\n      }\n    }\n  }\n",
+    "variables": {
+      "projectId": "PVT_1",
+      "contentId": "I_1"
+    },
+    "response": {
+      "status": 200,
+      "url": "https://api.github.com/graphql",
+      "headers": {
+        "access-control-allow-origin": "*",
+        "access-control-expose-headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset",
+        "connection": "close",
+        "content-encoding": "gzip",
+        "content-security-policy": "default-src 'none'",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Mon, 15 Aug 2022 19:49:45 GMT",
+        "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+        "server": "GitHub.com",
+        "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+        "transfer-encoding": "chunked",
+        "vary": "Accept-Encoding, Accept, X-Requested-With",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "deny",
+        "x-github-media-type": "github.v3; format=json",
+        "x-github-request-id": "C46B:785A:6435DD:66A6CF:62FAA359",
+        "x-ratelimit-limit": "5000",
+        "x-ratelimit-remaining": "4709",
+        "x-ratelimit-reset": "1660595643",
+        "x-ratelimit-resource": "graphql",
+        "x-ratelimit-used": "291",
+        "x-xss-protection": "0"
+      },
+      "data": {
+        "data": {
+          "addProjectV2ItemById": {
+            "item": {
+              "id": "PVTI_1",
+              "createdAt": "2022-02-02T12:00:00Z",
+              "type": "ISSUE",
+              "content": {
+                "id": "I_1",
+                "databaseId": 1001,
+                "number": 1,
+                "title": "Issue",
+                "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
+                "createdAt": "2022-02-02T12:00:00Z",
+                "author": {
+                  "login": "gh-project-fixtures"
+                },
+                "assignees": {
+                  "nodes": []
+                },
+                "labels": {
+                  "nodes": []
+                },
+                "closed": false,
+                "milestone": null,
+                "repository": {
+                  "name": "test-repository"
+                }
+              },
+              "fieldValues": {
+                "nodes": [
+                  {
+                    "__typename": "ProjectV2ItemFieldRepositoryValue"
+                  },
+                  {
+                    "__typename": "ProjectV2ItemFieldTextValue",
+                    "text": "Issue",
+                    "field": {
+                      "id": "PVTF_1"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "query": "\n      mutation setItemProperties($projectId: ID!, $itemId: ID!) {\n        \n        status: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTSSF_lADOBYMIeM4ADzd0zgCMLM0\", value: {singleSelectOptionId: \"98236657\"}}) {\n          projectV2Item { \n  id\n  createdAt\n  type\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n }\n        }\n      \n      }\n    ",
     "variables": {
       "projectId": "PVT_1",
       "itemId": "PVTI_1"
@@ -235,7 +317,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 14 Aug 2022 00:06:47 GMT",
+        "date": "Mon, 15 Aug 2022 19:49:46 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -244,18 +326,65 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E4ED:9774:411193:43B285:62F83C97",
+        "x-github-request-id": "C46C:47BB:57EE4E:5A5F17:62FAA35A",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "3948",
-        "x-ratelimit-reset": "1660436648",
+        "x-ratelimit-remaining": "4708",
+        "x-ratelimit-reset": "1660595643",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "1052",
+        "x-ratelimit-used": "292",
         "x-xss-protection": "0"
       },
       "data": {
         "data": {
           "status": {
-            "clientMutationId": null
+            "projectV2Item": {
+              "id": "PVTI_1",
+              "createdAt": "2022-02-02T12:00:00Z",
+              "type": "ISSUE",
+              "content": {
+                "id": "I_1",
+                "databaseId": 1001,
+                "number": 1,
+                "title": "Issue",
+                "url": "https://github.com/github-project-fixtures/test-repository/issues/1",
+                "createdAt": "2022-02-02T12:00:00Z",
+                "author": {
+                  "login": "gh-project-fixtures"
+                },
+                "assignees": {
+                  "nodes": []
+                },
+                "labels": {
+                  "nodes": []
+                },
+                "closed": false,
+                "milestone": null,
+                "repository": {
+                  "name": "test-repository"
+                }
+              },
+              "fieldValues": {
+                "nodes": [
+                  {
+                    "__typename": "ProjectV2ItemFieldRepositoryValue"
+                  },
+                  {
+                    "__typename": "ProjectV2ItemFieldTextValue",
+                    "text": "Issue",
+                    "field": {
+                      "id": "PVTF_1"
+                    }
+                  },
+                  {
+                    "__typename": "ProjectV2ItemFieldSingleSelectValue",
+                    "optionId": "98236657",
+                    "field": {
+                      "id": "PVTSSF_1"
+                    }
+                  }
+                ]
+              }
+            }
           }
         }
       }

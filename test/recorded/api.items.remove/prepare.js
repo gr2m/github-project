@@ -7,7 +7,6 @@
  * @param {import("@octokit/openapi-types").components["schemas"]["repository"]} repository
  * @param {import("@octokit/core").Octokit} octokit
  * @param {import("../../..").default<{text: string, number: number, date: string, singleSelect: "One" | "Two" | "Three"}>} project
- *
  * @returns {Promise<[string]>}
  */
 export async function prepare(repository, octokit, project) {
@@ -23,12 +22,12 @@ export async function prepare(repository, octokit, project) {
   );
 
   // add issue to project
-  await project.items.add(issue.node_id, {
+  const item = await project.items.add(issue.node_id, {
     text: "text",
     number: "1",
     date: new Date("2020-02-02").toISOString(),
     singleSelect: "One",
   });
 
-  return [issue.node_id];
+  return [item.id];
 }

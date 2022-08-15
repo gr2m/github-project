@@ -13,5 +13,5 @@
 export async function test(project, contentId = "I_2") {
   await project.items.list();
   await project.items.add(contentId);
-  return project.items.get(contentId);
+  return project.items.getByContentId(contentId);
 }
