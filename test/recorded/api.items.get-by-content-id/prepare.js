@@ -30,5 +30,5 @@ export async function prepare(repository, octokit, project) {
     singleSelect: "One",
   });
 
-  return [item.id];
+  return [issue.node_id];
 }

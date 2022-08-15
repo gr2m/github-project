@@ -15,11 +15,16 @@
  * @returns {Promise<[]>}
  */
 export async function prepare(repository, octokit, project) {
+  // We load 100 items at a time, and we have two separate queries and hence
+  // two separate places where we check if there are more items, so we need
+  // to create 201 items for this test ...
+  const createIssuesCount = 201;
+
   console.log(
-    "Creating 101 issues and adding them to the project. This will take a while..."
+    `Creating ${createIssuesCount} issues and adding them to the project. This will take a while...`
   );
-  // We load 100 items at a time, so we need to create 101 items for this test ...
-  for (let number = 1; number <= 101; number++) {
+
+  for (let number = 1; number <= createIssuesCount; number++) {
     // create test issue 1
     const { data: issue } = await octokit.request(
       "POST /repos/{owner}/{repo}/issues",
@@ -34,7 +39,7 @@ export async function prepare(repository, octokit, project) {
     // add issue to project
     await project.items.add(issue.node_id, {
       text: "text",
-      number,
+      number: String(number),
       date: new Date("2020-02-02").toISOString(),
       singleSelect: "One",
     });

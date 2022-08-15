@@ -3,13 +3,13 @@
 import GitHubProject from "../../../index.js";
 
 /**
- * @param {import("../../../").default} testProject
+ * @param {import("../../../").default} defaultTestProject
  */
-export function test(testProject) {
+export function test(defaultTestProject) {
   const project = new GitHubProject({
-    org: testProject.org,
-    number: testProject.number,
-    octokit: testProject.octokit,
+    owner: defaultTestProject.owner,
+    number: defaultTestProject.number,
+    octokit: defaultTestProject.octokit,
     fields: {},
   });
 

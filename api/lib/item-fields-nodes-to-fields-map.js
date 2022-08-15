@@ -1,6 +1,10 @@
 /**
- * @param {import("../..").GitHubProjectStateWithFields | import("../..").GitHubProjectStateWithItems} state
+ * Take GraphQL project item fieldValues nodes and turn them into
+ * an object using the user-defined field names.
+ *
+ * @param {import("../..").GitHubProjectStateWithFields} state
  * @param {import("../..").ProjectFieldValueNode[]} nodes
+ *
  * @returns {Record<keyof import("../..").BUILT_IN_FIELDS, string> & Record<string, string>}
  */
 export function itemFieldsNodesToFieldsMap(state, nodes) {
@@ -9,14 +13,8 @@ export function itemFieldsNodesToFieldsMap(state, nodes) {
       // don't set optional fields on items that don't exist in project
       if (projectField.existsInProject === false) return acc;
 
-      const rawValue =
-        nodes.find((node) => node.projectField.id === projectField.id)?.value ||
-        null;
-
-      const value =
-        "optionsById" in projectField
-          ? projectField.optionsById[rawValue] || null
-          : rawValue;
+      const node = nodes.find((node) => node.field?.id === projectField.id);
+      const value = projectFieldValueNodeToValue(projectField, node);
 
       return {
         ...acc,
@@ -25,4 +23,28 @@ export function itemFieldsNodesToFieldsMap(state, nodes) {
     },
     {}
   );
+}
+
+/**
+ * @param {import("../..").ProjectField} projectField
+ * @param {import("../..").ProjectFieldValueNode} node
+ * @returns {string}
+ */
+function projectFieldValueNodeToValue(projectField, node) {
+  if (!node) return null;
+
+  switch (node.__typename) {
+    case "ProjectV2ItemFieldDateValue":
+      return node.date;
+    case "ProjectV2ItemFieldNumberValue":
+      // we currently only work with strings
+      return String(node.number);
+    case "ProjectV2ItemFieldSingleSelectValue":
+      return projectField.optionsById[node.optionId];
+    case "ProjectV2ItemFieldTextValue":
+      return node.text;
+    // TODO: implement iteration fields
+    // case "ProjectV2ItemFieldIterationValue":
+    // return null;
+  }
 }

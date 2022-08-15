@@ -23,12 +23,12 @@ export async function prepare(repository, octokit, project) {
   );
 
   // add issue to project
-  const item = await project.items.add(issue.node_id, {
+  await project.items.add(issue.node_id, {
     text: "text",
     number: "1",
     date: new Date("2020-02-02").toISOString(),
     singleSelect: "One",
   });
 
-  return [item.id];
+  return [issue.node_id];
 }

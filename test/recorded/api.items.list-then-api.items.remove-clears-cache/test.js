@@ -8,7 +8,7 @@
  * @param {import("../../../").default} project
  * @param {string} itemId
  */
-export async function test(project, itemId = "PNI_1") {
+export async function test(project, itemId = "PVTI_1") {
   await project.items.list();
   await project.items.remove(itemId);
   return project.items.get(itemId);

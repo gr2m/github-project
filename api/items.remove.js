@@ -1,38 +1,22 @@
 // @ts-check
 
-import { removeItemFromProjectMutation } from "./lib/queries.js";
-import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
+import { getItem } from "./items.get.js";
+import { removeProjectItem } from "./lib/remove-project-item.js";
 
 /**
- * Removes an item if it exists. Resolves with `undefined` either way
+ * Removes an item if it exists. Resolves with the removed item
+ * or with `undefined` if item was not found.
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state
  * @param {string} itemNodeId
- * @returns {Promise<void>}
+ *
+ * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
 export async function removeItem(project, state, itemNodeId) {
-  const stateWithFields = await getStateWithProjectFields(project, state);
+  const item = await getItem(project, state, itemNodeId);
+  if (!item) return;
 
-  // update cache
-  if (state.didLoadItems) {
-    const existingItem = state.items.find((item) => item.id === itemNodeId);
-
-    // if not found in cache, we assume it does not exist (anymore)
-    if (!existingItem) return;
-    state.items = state.items.filter((item) => item.id !== existingItem.id);
-  }
-
-  try {
-    await project.octokit.graphql(removeItemFromProjectMutation, {
-      projectId: stateWithFields.id,
-      itemId: itemNodeId,
-    });
-  } catch (error) {
-    /* c8 ignore next */
-    if (!error.errors) throw error;
-    if (error.errors[0].type === "NOT_FOUND") return;
-    /* c8 ignore next 2 */
-    throw error;
-  }
+  await removeProjectItem(project, state, item.id);
+  return item;
 }

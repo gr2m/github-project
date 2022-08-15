@@ -1,8 +1,7 @@
 // @ts-check
 
-import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
-import { getFieldsUpdateQuery } from "./lib/get-fields-update-query.js";
-import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
+import { getItemByContentRepositoryAndNumber } from "./items.get-by-content-repository-and-number.js";
+import { updateItemFields } from "./lib/update-project-item-fields.js";
 
 /**
  * Updates item fields if the item can be found.
@@ -13,6 +12,7 @@ import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
  * @param {string} repositoryName
  * @param {number} issueOrPullRequestNumber
  * @param {Record<string, string>} fields
+ *
  * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
 export async function updateItemByContentRepositoryAndNumber(
@@ -22,42 +22,19 @@ export async function updateItemByContentRepositoryAndNumber(
   issueOrPullRequestNumber,
   fields
 ) {
-  const stateWithItems = await getStateWithProjectItems(project, state);
-
-  const item = stateWithItems.items.find((item) => {
-    // TODO: remove ignore once we support draft items
-    /* c8 ignore next */
-    if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") return;
-
-    return (
-      item.content.repository === repositoryName &&
-      item.content.number === issueOrPullRequestNumber
-    );
-  });
-
+  const item = await getItemByContentRepositoryAndNumber(
+    project,
+    state,
+    repositoryName,
+    issueOrPullRequestNumber
+  );
   if (!item) return;
 
-  const existingProjectFieldKeys = Object.keys(fields).filter(
-    (key) => stateWithItems.fields[key].existsInProject
-  );
+  const newFields = await updateItemFields(project, state, item.id, fields);
+  if (!newFields) return item;
 
-  if (existingProjectFieldKeys.length === 0) return item;
-
-  const existingFields = Object.fromEntries(
-    existingProjectFieldKeys.map((key) => [key, fields[key]])
-  );
-
-  const query = getFieldsUpdateQuery(stateWithItems, existingFields);
-  await project.octokit.graphql(query, {
-    projectId: stateWithItems.id,
-    itemId: item.id,
-  });
-
-  // mutate item in cache
-  item.fields = {
-    ...item.fields,
-    ...removeUndefinedValues(fields),
+  return {
+    ...item,
+    fields: newFields,
   };
-
-  return item;
 }

@@ -92,6 +92,41 @@ If a test snapshot needs to be updated, run `ava` with `--update-snapshots`, e.g
 npx ava test/recorded.test.js --match api.items.get --update-snapshots
 ```
 
+To create a new test, copy an existing folder and delete the `fixtures.json` file in it. Update the `prepare.js` and `test.js` files to what's needed for your test. The `prepare.js` file is only used when recording fixtures using [`test/recorded/record-fixtures.js`](test/recorded/record-fixtures.js), this is where you create the state you need for your tests, e.g. create issues and add them as project items with custom properties. Any requests made in `prepare.js` are not part of the test fixtures.
+
+When recording fixtures, all requests made in the `test.js` code are recorded and later replayed when running tests via [`test/recorded.test.js`](test/recorded.test.js).
+
+The `project` instance passed to both the `test()` and `prepare()` functions is setting the default options. If you need a customized `project` instance for your test, you can do the following:
+
+```js
+// @ts-check
+
+import GitHubProject from "../../../index.js";
+
+/**
+ * @param {import("../../..").default} defaultTestProject
+ * @param {string} [contentId]
+ */
+export async function test(defaultTestProject, contentId = "I_1") {
+  const project = new GitHubProject({
+    owner: defaultTestProject.owner,
+    number: defaultTestProject.number,
+    octokit: defaultTestProject.octokit,
+    fields: {
+      ...defaultTestProject.fields,
+      nonExistingField: { name: "Nope", optional: false },
+    },
+  });
+
+  return project.items.getByContentId(contentId).then(
+    () => new Error("should have thrown"),
+    (error) => error
+  );
+}
+```
+
+The above example also shows how to test for errors: simply return an error instance, without throwing it. That way it's tested with a snapshot, the same way as all the other tests.
+
 ## Maintainers only
 
 ### Merging the Pull Request & releasing a new version

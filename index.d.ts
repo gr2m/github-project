@@ -13,6 +13,12 @@ type FieldOptionSettings = {
 /** A project field can be set to a string name or an object of supported settings */
 export type FieldOptions = string | FieldOptionSettings;
 
+export type DraftItemContent = {
+  title: string;
+  body?: string;
+  assigneeIds?: string[];
+};
+
 export default class GitHubProject<
   TCustomFields extends Record<string, FieldOptions> = {},
   TFields extends BUILT_IN_FIELDS = TCustomFields & BUILT_IN_FIELDS,
@@ -22,8 +28,8 @@ export default class GitHubProject<
   > &
     Partial<Record<ConditionalKeys<TFields, { optional: true }>, string | null>>
 > {
-  /** GitHub organization login */
-  get org(): string;
+  /** Project owner login */
+  get owner(): string;
 
   /** Project number */
   get number(): number;
@@ -38,6 +44,10 @@ export default class GitHubProject<
 
   items: {
     list(): Promise<GitHubProjectItem<TItemFields>[]>;
+    addDraft(
+      content: DraftItemContent,
+      fields?: Partial<TItemFields>
+    ): Promise<ProjectItem_DraftIssue<TItemFields>>;
     add(
       contentNodeId: string,
       fields?: Partial<TItemFields>
@@ -67,12 +77,16 @@ export default class GitHubProject<
       issueOrPullRequestNumber: number,
       fields: Partial<TItemFields>
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
-    remove(itemNodeId: string): Promise<void>;
-    removeByContentId(contentNodeId: string): Promise<void>;
+    remove(
+      itemNodeId: string
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
+    removeByContentId(
+      contentNodeId: string
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     removeByContentRepositoryAndNumber(
       repositoryName: string,
       issueOrPullRequestNumber: number
-    ): Promise<void>;
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
   };
 }
 
@@ -89,7 +103,7 @@ export type GitHubProjectOptions<
   TFields extends Record<string, FieldOptions> = {}
 > =
   | {
-      org: string;
+      owner: string;
       number: number;
       token: string;
       fields?: TFields;
@@ -97,7 +111,7 @@ export type GitHubProjectOptions<
       matchFieldOptionValue?: MatchFieldOptionValueFn;
     }
   | {
-      org: string;
+      owner: string;
       number: number;
       octokit: Octokit;
       fields?: TFields;
@@ -114,42 +128,45 @@ export type GitHubProjectItem<
   | ProjectItem_Issue<TFields>;
 
 type ProjectItem_Redacted<TFields> = {
-  id: string;
   type: "REDACTED";
+  id: string;
   fields: TFields;
+  content: {};
 };
 
 type ProjectItem_DraftIssue<TFields> = {
-  id: string;
   type: "DRAFT_ISSUE";
-  fields: TFields;
-};
-
-type ProjectItem_PullRequest<TFields> = {
   id: string;
-  type: "PULL_REQUEST";
   fields: TFields;
-  content: PullRequest;
+  content: DraftIssueContent;
 };
 
 type ProjectItem_Issue<TFields> = {
-  id: string;
   type: "ISSUE";
+  id: string;
   fields: TFields;
-  content: Issue;
+  content: IssueContent;
 };
 
-type Issue = contentCommon & {
-  isIssue: true;
-  isPullRequest: false;
-};
-type PullRequest = contentCommon & {
-  isIssue: false;
-  isPullRequest: true;
-  merged: boolean;
+type ProjectItem_PullRequest<TFields> = {
+  type: "PULL_REQUEST";
+  id: string;
+  fields: TFields;
+  content: PullRequestContent;
 };
 
-type contentCommon = {
+type RedactedContent = {
+  type: "REDACTED";
+};
+
+type DraftIssueContent = {
+  id: string;
+  title: string;
+  createdAt: string;
+  assignees: string[];
+};
+
+type IssueContent = {
   id: string;
   number: number;
   createdAt: string;
@@ -168,22 +185,29 @@ type contentCommon = {
   url: string;
 };
 
+type PullRequestContent = IssueContent & {
+  merged: boolean;
+};
+
 export type ProjectFieldNode = {
   id: string;
   name: string;
+  dataType: string;
+
   /**
-   * Settings is a JSON string. It contains view information such as column width.
-   * If the field is of type "Single select", then the `options` property will be set.
+   * `options` is only set on `ProjectV2SingleSelectField`
    */
-  settings: string;
+  options?: { id: string; name: string }[];
 };
 
-export type ProjectFieldMap = Record<
-  string,
-  ProjectField | ProjectFieldWithOptions | OptionalNonExistingField
->;
+export type ProjectField =
+  | ProjectFieldWithoutOptions
+  | ProjectFieldWithOptions
+  | OptionalNonExistingField;
+export type ProjectFieldMap = Record<string, ProjectField>;
 
-type ProjectField = {
+type ProjectFieldWithoutOptions = {
+  dataType: string;
   id: string;
   name: string;
   userName: string;
@@ -191,6 +215,7 @@ type ProjectField = {
   existsInProject: true;
 };
 type ProjectFieldWithOptions = {
+  dataType: string;
   id: string;
   name: string;
   userName: string;
@@ -200,6 +225,7 @@ type ProjectFieldWithOptions = {
   existsInProject: true;
 };
 type OptionalNonExistingField = {
+  dataType: string;
   userName: string;
   optional: true;
   existsInProject: false;
@@ -207,7 +233,10 @@ type OptionalNonExistingField = {
 
 export type ProjectFieldValueNode = {
   value: string;
-  projectField: {
+  /**
+   * `field` is not set on built-in fields such as `"ProjectV2ItemFieldRepositoryValue"`
+   */
+  field?: {
     id: string;
     name: string;
   };
@@ -215,8 +244,7 @@ export type ProjectFieldValueNode = {
 
 export type GitHubProjectState =
   | GitHubProjectStateInit
-  | GitHubProjectStateWithFields
-  | GitHubProjectStateWithItems;
+  | GitHubProjectStateWithFields;
 
 type GitHubProjectStateCommon = {
   matchFieldName: MatchFieldNameFn;
@@ -224,26 +252,12 @@ type GitHubProjectStateCommon = {
 };
 type GitHubProjectStateInit = GitHubProjectStateCommon & {
   didLoadFields: false;
-  didLoadItems: false;
 };
 
 export type GitHubProjectStateWithFields = GitHubProjectStateCommon & {
   didLoadFields: true;
-  didLoadItems: false;
   id: string;
   title: string;
-  description: string;
   url: string;
   fields: ProjectFieldMap;
-};
-
-export type GitHubProjectStateWithItems = GitHubProjectStateCommon & {
-  didLoadFields: true;
-  didLoadItems: true;
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  fields: ProjectFieldMap;
-  items: GitHubProjectItem[];
 };

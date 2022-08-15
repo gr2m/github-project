@@ -8,17 +8,17 @@ test("GitHubProject", (t) => {
 
 test("getters", (t) => {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "ghp_secret123",
   });
 
   t.throws(
     () => {
-      project.org = "org2";
+      project.owner = "org2";
     },
     undefined,
-    "Cannot set read-only property 'org'"
+    "Cannot set read-only property 'owner'"
   );
   t.throws(
     () => {
