@@ -78,7 +78,7 @@ for (const item of items) {
 const newItem = await project.items.add(issue.node_id, { priority: 1 });
 
 // retrieve a single item using the issue node ID (passing item node ID as string works, too)
-const item = await project.items.ggetByContentIdet(issue.node_id);
+const item = await project.items.getByContentId(issue.node_id);
 
 // item is undefined when not found
 if (item) {
