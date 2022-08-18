@@ -773,7 +773,7 @@ await project.items.removeByContentRepositoryAndNumber(
 );
 ```
 
-Removes a single item based on the Node ID of its linked issue or pull request. Removes a single item. Resolves with the removed item or with `undefined` if item was not found.
+Removes a single item based on the Node ID of its linked issue or pull request. Resolves with the removed item or with `undefined` if item was not found.
 
 <table>
   <thead align=left>
