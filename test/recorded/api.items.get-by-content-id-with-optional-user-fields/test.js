@@ -8,7 +8,7 @@ import GitHubProject from "../../../index.js";
  */
 export function test(defaultTestProject, contentId = "I_1") {
   const project = new GitHubProject({
-    org: defaultTestProject.org,
+    owner: defaultTestProject.owner,
     number: defaultTestProject.number,
     octokit: defaultTestProject.octokit,
     fields: {

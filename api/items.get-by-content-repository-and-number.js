@@ -1,6 +1,9 @@
 // @ts-check
 
-import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
+import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
+import { projectItemNodeToGitHubProjectItem } from "./lib/project-item-node-to-github-project-item.js";
+import { getItemByContentRepositoryAndNameQuery } from "./lib/queries.js";
+import { handleNotFoundGraphqlError } from "./lib/handle-not-found-graphql-error.js";
 
 /**
  * Find an item based on the repository and issues/pull request number.
@@ -10,6 +13,7 @@ import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js"
  * @param {import("..").GitHubProjectState} state
  * @param {string} repositoryName
  * @param {number} issueOrPullRequestNumber
+ *
  * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
 export async function getItemByContentRepositoryAndNumber(
@@ -18,16 +22,26 @@ export async function getItemByContentRepositoryAndNumber(
   repositoryName,
   issueOrPullRequestNumber
 ) {
-  const stateWithItems = await getStateWithProjectItems(project, state);
+  const stateWithFields = await getStateWithProjectFields(project, state);
 
-  return stateWithItems.items.find((item) => {
-    // TODO: remove ignore once we support draft items
-    /* c8 ignore next */
-    if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") return;
+  // TODO: ideally we would retrieve a project item directly based on a content id
+  //       and the project number, but GitHub's GraphQL Schema does not support that
+  //       as of 2022-08-14. As a workaround, we load all project items and filter
+  //       them by project number afterwards.
+  const result = await project.octokit
+    .graphql(getItemByContentRepositoryAndNameQuery, {
+      owner: project.owner,
+      repositoryName: repositoryName,
+      number: issueOrPullRequestNumber,
+    })
+    .catch(handleNotFoundGraphqlError);
 
-    return (
-      item.content.repository === repositoryName &&
-      item.content.number === issueOrPullRequestNumber
+  const node =
+    result?.repositoryOwner.repository.issueOrPullRequest.projectItems.nodes.find(
+      (node) => node.project.number === project.number
     );
-  });
+
+  if (!node) return;
+
+  return projectItemNodeToGitHubProjectItem(stateWithFields, node);
 }

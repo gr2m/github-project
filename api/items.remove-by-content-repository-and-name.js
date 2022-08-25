@@ -1,17 +1,18 @@
 // @ts-check
 
-import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
-import { removeItemFromProjectMutation } from "./lib/queries.js";
+import { getItemByContentRepositoryAndNumber } from "./items.get-by-content-repository-and-number.js";
+import { removeProjectItem } from "./lib/remove-project-item.js";
 
 /**
- * Removes an item if it exists. Resolves with `undefined` either way
- * In order to find an item by repository name and number, all items need to be loaded first.
+ * Removes an item based on content repository name and number.
+ * Resolves with the removed item or with `undefined` if item was not found.
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state
  * @param {string} repositoryName
  * @param {number} issueOrPullRequestNumber
- * @returns {Promise<void>}
+ *
+ * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
 export async function removeItemByContentRepositoryAndNumber(
   project,
@@ -19,28 +20,14 @@ export async function removeItemByContentRepositoryAndNumber(
   repositoryName,
   issueOrPullRequestNumber
 ) {
-  const stateWithItems = await getStateWithProjectItems(project, state);
-
-  const existingItem = stateWithItems.items.find((item) => {
-    // TODO: remove ignore once we support draft items
-    /* c8 ignore next */
-    if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") return;
-
-    return (
-      item.content.repository === repositoryName &&
-      item.content.number === issueOrPullRequestNumber
-    );
-  });
-
-  if (!existingItem) return;
-
-  await project.octokit.graphql(removeItemFromProjectMutation, {
-    projectId: stateWithItems.id,
-    itemId: existingItem.id,
-  });
-
-  // update cache
-  stateWithItems.items = stateWithItems.items.filter(
-    (item) => item.id !== existingItem.id
+  const item = await getItemByContentRepositoryAndNumber(
+    project,
+    state,
+    repositoryName,
+    issueOrPullRequestNumber
   );
+  if (!item) return;
+
+  await removeProjectItem(project, state, item.id);
+  return item;
 }

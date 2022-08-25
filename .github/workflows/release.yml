@@ -6,7 +6,6 @@ name: Release
       - main
       - next
       - beta
-      - alpha
 jobs:
   release:
     name: release

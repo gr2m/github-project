@@ -1,10 +1,11 @@
 // @ts-check
 
 /**
- * Takes `project.fields` and the list of fields nodes from the GraphQL query result:
+ * Takes `project.fields` and the list of project item fieldValues nodes
+ * from the GraphQL query result:
  *
  * ```
- * fields(...) {
+ * fieldValues(...) {
  *   nodes {
  *     id
  *     name
@@ -45,6 +46,7 @@
  * @param {import("../..").GitHubProjectState} state
  * @param {import("../..").default} project
  * @param {import("../..").ProjectFieldNode[]} nodes
+ *
  * @returns {import("../..").ProjectFieldMap}
  */
 export function projectFieldsNodesToFieldsMap(state, project, nodes) {
@@ -96,6 +98,7 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
       acc[userInternalFieldName] = {
         id: node.id,
         name: node.name,
+        dataType: node.dataType,
         userName: userFieldName,
         optional: userInternalFieldName in optionalFields,
         existsInProject: true,
@@ -103,9 +106,8 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
 
       // Settings is a JSON string. It contains view information such as column width.
       // If the field is of type "Single select", then the `options` property will be set.
-      const settings = JSON.parse(node.settings);
-      if (settings?.options) {
-        acc[userInternalFieldName].optionsById = settings.options.reduce(
+      if (node.options) {
+        acc[userInternalFieldName].optionsById = node.options.reduce(
           (acc, option) => {
             return {
               ...acc,
@@ -114,7 +116,7 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
           },
           {}
         );
-        acc[userInternalFieldName].optionsByValue = settings.options.reduce(
+        acc[userInternalFieldName].optionsByValue = node.options.reduce(
           (acc, option) => {
             return {
               ...acc,

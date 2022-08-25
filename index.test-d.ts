@@ -8,12 +8,12 @@ export function smokeTest() {
 
 export function constructorTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     octokit: new Octokit(),
   });
 
-  expectType<string>(project.org);
+  expectType<string>(project.owner);
   expectType<number>(project.number);
   expectType<Octokit>(project.octokit);
   expectType<"Title">(project.fields.title);
@@ -22,7 +22,7 @@ export function constructorTest() {
 
 export function constructorWithCustomFieldsTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     octokit: new Octokit(),
     fields: {
@@ -30,7 +30,7 @@ export function constructorWithCustomFieldsTest() {
     },
   });
 
-  expectType<string>(project.org);
+  expectType<string>(project.owner);
   expectType<number>(project.number);
   expectType<Octokit>(project.octokit);
   expectType<"Title">(project.fields.title);
@@ -40,7 +40,7 @@ export function constructorWithCustomFieldsTest() {
 
 export function constructorWithCustomOptionalFieldsTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     octokit: new Octokit(),
     fields: {
@@ -49,7 +49,7 @@ export function constructorWithCustomOptionalFieldsTest() {
     },
   });
 
-  expectType<string>(project.org);
+  expectType<string>(project.owner);
   expectType<number>(project.number);
   expectType<Octokit>(project.octokit);
   expectType<"Title">(project.fields.title);
@@ -61,25 +61,25 @@ export function constructorWithCustomOptionalFieldsTest() {
 
 export function constructorWithTokenTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
   });
 
-  expectType<string>(project.org);
+  expectType<string>(project.owner);
   expectType<number>(project.number);
   expectType<Octokit>(project.octokit);
 }
 
 export function gettersTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
   });
 
-  // @ts-expect-error - `.org` is a getter
-  project.org = "org";
+  // @ts-expect-error - `.owner` is a getter
+  project.owner = "owner";
   // @ts-expect-error - `.number` is a getter
   project.number = 2;
   // @ts-expect-error - `.octokit` is a getter
@@ -90,31 +90,57 @@ export function gettersTest() {
 
 export async function listItemsTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
   });
   const [item] = await project.items.list();
 
-  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
+  if (item.type === "DRAFT_ISSUE") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
-    item.content;
+    expectType<string>(item.content.id);
+  } else if (item.type === "REDACTED") {
+    expectType<string>(item.id);
+    expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title);
+
+    // @ts-expect-error - `.content` has no properties
+    item.content.id;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
 
     expectType<number>(item.content.number);
+
+    if (item.type === "PULL_REQUEST") {
+      expectType<boolean>(item.content.merged);
+    }
   }
+}
+
+export async function addDraftItemTest() {
+  const project = new GitHubProject({
+    owner: "owner",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const item = await project.items.addDraft({ title: "Draft Item Title" });
+
+  expectType<string>(item.id);
+  expectType<"DRAFT_ISSUE">(item.type);
+  expectType<string | null>(item.fields.title);
+  expectNotType<"Title">(item.fields.title);
+
+  expectType<string>(item.content.id);
 }
 
 export async function addItemTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
   });
@@ -130,7 +156,7 @@ export async function addItemTest() {
 
 export async function addItemWithFieldsTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
     fields: {
@@ -155,7 +181,7 @@ export async function addItemWithFieldsTest() {
 
 export async function addItemTestWithOptionalField() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
     fields: {
@@ -176,7 +202,7 @@ export async function addItemTestWithOptionalField() {
 
 export async function getItemTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
     fields: {
@@ -190,7 +216,7 @@ export async function getItemTest() {
     return;
   }
 
-  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
+  if (item.type === "DRAFT_ISSUE") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
@@ -199,8 +225,18 @@ export async function getItemTest() {
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
-    item.content;
+    expectType<string>(item.content.id);
+  } else if (item.type === "REDACTED") {
+    expectType<string>(item.id);
+    expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title);
+    expectType<string | null>(item.fields.myField);
+
+    // @ts-expect-error any Property 'notField' does not exist on type
+    item.fields.notField;
+
+    // @ts-expect-error - `.content` has no properties
+    item.content.id;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
@@ -213,7 +249,7 @@ export async function getItemTest() {
 
 export async function getItemByContentIdTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
     fields: {
@@ -227,7 +263,7 @@ export async function getItemByContentIdTest() {
     return;
   }
 
-  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
+  if (item.type === "DRAFT_ISSUE") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
@@ -236,8 +272,18 @@ export async function getItemByContentIdTest() {
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
-    item.content;
+    expectType<string>(item.content.id);
+  } else if (item.type === "REDACTED") {
+    expectType<string>(item.id);
+    expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title);
+    expectType<string | null>(item.fields.myField);
+
+    // @ts-expect-error any Property 'notField' does not exist on type
+    item.fields.notField;
+
+    // @ts-expect-error - `.content` has no properties
+    item.content.id;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
@@ -250,7 +296,7 @@ export async function getItemByContentIdTest() {
 
 export async function getItemByRepositoryAndNumberTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
     fields: {
@@ -267,7 +313,7 @@ export async function getItemByRepositoryAndNumberTest() {
     return;
   }
 
-  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
+  if (item.type === "DRAFT_ISSUE") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
@@ -276,8 +322,18 @@ export async function getItemByRepositoryAndNumberTest() {
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
-    item.content;
+    expectType<string>(item.content.id);
+  } else if (item.type === "REDACTED") {
+    expectType<string>(item.id);
+    expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title);
+    expectType<string | null>(item.fields.myField);
+
+    // @ts-expect-error any Property 'notField' does not exist on type
+    item.fields.notField;
+
+    // @ts-expect-error - `.content` has no properties
+    item.content.id;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
@@ -290,7 +346,7 @@ export async function getItemByRepositoryAndNumberTest() {
 
 export async function updateItemTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
     fields: {
@@ -306,7 +362,7 @@ export async function updateItemTest() {
     return;
   }
 
-  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
+  if (item.type === "DRAFT_ISSUE") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
@@ -315,8 +371,18 @@ export async function updateItemTest() {
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
-    item.content;
+    expectType<string>(item.content.id);
+  } else if (item.type === "REDACTED") {
+    expectType<string>(item.id);
+    expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title);
+    expectType<string | null>(item.fields.myField);
+
+    // @ts-expect-error any Property 'notField' does not exist on type
+    item.fields.notField;
+
+    // @ts-expect-error - `.content` has no properties
+    item.content.id;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
@@ -329,7 +395,7 @@ export async function updateItemTest() {
 
 export async function updateItemByContentIdTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
     fields: {
@@ -345,7 +411,7 @@ export async function updateItemByContentIdTest() {
     return;
   }
 
-  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
+  if (item.type === "DRAFT_ISSUE") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
@@ -354,8 +420,18 @@ export async function updateItemByContentIdTest() {
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
-    item.content;
+    expectType<string>(item.content.id);
+  } else if (item.type === "REDACTED") {
+    expectType<string>(item.id);
+    expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title);
+    expectType<string | null>(item.fields.myField);
+
+    // @ts-expect-error any Property 'notField' does not exist on type
+    item.fields.notField;
+
+    // @ts-expect-error - `.content` has no properties
+    item.content.id;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
@@ -368,7 +444,7 @@ export async function updateItemByContentIdTest() {
 
 export async function updateItemByContentRepositoryAndNumberTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
     fields: {
@@ -388,7 +464,7 @@ export async function updateItemByContentRepositoryAndNumberTest() {
     return;
   }
 
-  if (item.type === "DRAFT_ISSUE" || item.type === "REDACTED") {
+  if (item.type === "DRAFT_ISSUE") {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
     expectNotType<"Title">(item.fields.title);
@@ -397,8 +473,18 @@ export async function updateItemByContentRepositoryAndNumberTest() {
     // @ts-expect-error any Property 'notField' does not exist on type
     item.fields.notField;
 
-    // @ts-expect-error - `.content` is not set if `.type` is "DRAFT_ISSUE" or "REDACTED"
-    item.content;
+    expectType<string>(item.content.id);
+  } else if (item.type === "REDACTED") {
+    expectType<string>(item.id);
+    expectType<string | null>(item.fields.title);
+    expectNotType<"Title">(item.fields.title);
+    expectType<string | null>(item.fields.myField);
+
+    // @ts-expect-error any Property 'notField' does not exist on type
+    item.fields.notField;
+
+    // @ts-expect-error - `.content` has no properties
+    item.content.id;
   } else {
     expectType<string>(item.id);
     expectType<string | null>(item.fields.title);
@@ -411,43 +497,58 @@ export async function updateItemByContentRepositoryAndNumberTest() {
 
 export async function removeItemTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
   });
-  const result = await project.items.remove("item node id");
+  const item = await project.items.remove("item node id");
 
-  expectType<void>(result);
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  expectType<string>(item.id);
 }
 
 export async function removeItemByContentIdTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
   });
-  const result = await project.items.removeByContentId("content node id");
+  const item = await project.items.removeByContentId("content node id");
 
-  expectType<void>(result);
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  expectType<string>(item.id);
 }
 
 export async function removeItemByContentRepositoryAndNameTest() {
   const project = new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
   });
-  const result = await project.items.removeByContentRepositoryAndNumber(
+  const item = await project.items.removeByContentRepositoryAndNumber(
     "repository-name",
     1
   );
 
-  expectType<void>(result);
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  expectType<string>(item.id);
 }
 
 export async function matchFieldNameOption() {
   new GitHubProject({
-    org: "org",
+    owner: "owner",
     number: 1,
     token: "gpg_secret123",
     matchFieldName(projectFieldName, userFieldName) {

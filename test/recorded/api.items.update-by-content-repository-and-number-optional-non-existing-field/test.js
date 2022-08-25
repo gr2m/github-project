@@ -3,19 +3,19 @@
 import GitHubProject from "../../../index.js";
 
 /**
- * @param {import("../../../").default} testProject
+ * @param {import("../../../").default} defaultTestProject
  * @param {string} [repositoryName]
  * @param {number} [issueNumber]
  */
 export function test(
-  testProject,
+  defaultTestProject,
   repositoryName = "test-repository",
   issueNumber = 1
 ) {
   const project = new GitHubProject({
-    org: testProject.org,
-    number: testProject.number,
-    octokit: testProject.octokit,
+    owner: defaultTestProject.owner,
+    number: defaultTestProject.number,
+    octokit: defaultTestProject.octokit,
     fields: {
       unknown: { name: "Unknown", optional: true },
     },

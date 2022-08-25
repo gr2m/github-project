@@ -3,6 +3,7 @@
 import { Octokit } from "@octokit/core";
 
 import { listItems } from "./api/items.list.js";
+import { addDraftItem } from "./api/items.add-draft.js";
 import { addItem } from "./api/items.add.js";
 import { getItem } from "./api/items.get.js";
 import { getItemByContentId } from "./api/items.get-by-content-id.js";
@@ -27,7 +28,7 @@ export default class GitHubProject {
    * @param {import(".").GitHubProjectOptions} options
    */
   constructor(options) {
-    const { org, number, fields = {} } = options;
+    const { owner, number, fields = {} } = options;
 
     // set octokit either from `options.octokit` or `options.token`
     const octokit =
@@ -38,7 +39,6 @@ export default class GitHubProject {
     /** @type {import(".").GitHubProjectState} */
     const state = {
       didLoadFields: false,
-      didLoadItems: false,
       matchFieldName: options.matchFieldName || defaultMatchFunction,
       matchFieldOptionValue:
         options.matchFieldOptionValue || defaultMatchFunction,
@@ -47,6 +47,7 @@ export default class GitHubProject {
     // set API
     const itemsApi = {
       list: listItems.bind(null, this, state),
+      addDraft: addDraftItem.bind(null, this, state),
       add: addItem.bind(null, this, state),
       get: getItem.bind(null, this, state),
       getByContentId: getItemByContentId.bind(null, this, state),
@@ -65,7 +66,7 @@ export default class GitHubProject {
         removeItemByContentRepositoryAndNumber.bind(null, this, state),
     };
     Object.defineProperties(this, {
-      org: { get: () => org },
+      owner: { get: () => owner },
       number: { get: () => number },
       fields: { get: () => ({ ...BUILT_IN_FIELDS, ...fields }) },
       octokit: { get: () => octokit },

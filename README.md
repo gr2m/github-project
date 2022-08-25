@@ -6,9 +6,9 @@
 
 ## Features
 
-- Use the new Projects as a database of issues and pull requests with custom fields.
-- Simple interaction with item fields and content (issue/pull request) properties.
-- Look up items by issue/pull request node IDs.
+- Use [GitHub Projects (beta)](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects) as a database of issues and pull requests with custom fields.
+- Simple interaction with item fields and content (draft/issue/pull request) properties.
+- Look up items by issue/pull request node IDs or number and repository name.
 - 100% test coverage and type definitions.
 
 ## Usage
@@ -41,13 +41,13 @@ import GitHubProject from "github-project";
 </tbody>
 </table>
 
-A project always belongs to an organization and has a number. For authentication you can pass [a personal access token with the `write:org` scope](https://github.com/settings/tokens/new?scopes=write:org&description=github-project). For read-only access the `read:org` scope is sufficient.
+A project always belongs to a user or organization account and has a number. For authentication you can pass [a personal access token with `project` and `write:org` scopes](https://github.com/settings/tokens/new?scopes=write:org,project&description=github-project). For read-only access the `read:org` and `read:project` scopes are sufficient.
 
 `fields` is map of internal field names to the project's column labels. The comparison is case-insensitive. `"Priority"` will match both a field with the label `"Priority"` and one with the label `"priority"`. An error will be thrown if a project field isn't found, unless the field is set to `optional: true`.
 
 ```js
 const project = new GitHubProject({
-  org: "my-org",
+  owner: "my-org",
   number: 1,
   token: "ghp_s3cR3t",
   fields: {
@@ -67,8 +67,8 @@ for (const item of items) {
     item.fields.title,
     item.fields.dueAt,
     item.fields.priority,
-    item.type === "DRAFT_ISSUE"
-      ? "_draft_"
+    item.type === "REDACTED"
+      ? "_redacted_"
       : item.content.assignees.map(({ login }) => login).join(",")
   );
 }
@@ -78,7 +78,7 @@ for (const item of items) {
 const newItem = await project.items.add(issue.node_id, { priority: 1 });
 
 // retrieve a single item using the issue node ID (passing item node ID as string works, too)
-const item = await project.items.get({ contentId: issue.node_id });
+const item = await project.items.getByContentId(issue.node_id);
 
 // item is undefined when not found
 if (item) {
@@ -115,7 +115,7 @@ const project = new GitHubProject(options);
   <tbody align=left valign=top>
     <tr>
       <th>
-        <code>options.org</code>
+        <code>options.owner</code>
       </th>
       <td>
         <code>string</code>
@@ -216,7 +216,7 @@ function (projectFieldName, userFieldName) {
       </td>
       <td>
 
-Customize how field options are matched with the field values set in `project.items.add()` or `project.items.update*()` methods. The function accepts two arguments:
+Customize how field options are matched with the field values set in `project.items.add()`, `project.items.addDraft()`, or `project.items.update*()` methods. The function accepts two arguments:
 
 1. `fieldOptionValue`
 2. `userValue`
@@ -244,6 +244,84 @@ const items = await project.items.list();
 
 Returns the first 100 items of the project.
 
+### `project.items.addDraft()`
+
+```js
+const newItem = await project.items.addDraft(content /*, fields*/);
+```
+
+Adds a new draft issue item to the project, sets the fields if any were passed, and returns the new item.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>content.title</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The title of the issue draft.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>content.body</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The body of the issue draft.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>content.assigneeIds</code>
+      </th>
+      <td>
+        <code>string[]</code>
+      </td>
+      <td>
+
+Node IDs of user accounts the issue should be assigned to when created.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>fields</code>
+      </th>
+      <td>
+        <code>object</code>
+      </td>
+      <td>
+
+Map of internal field names to their values.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
 ### `project.items.add()`
 
 ```js
@@ -251,8 +329,6 @@ const newItem = await project.items.add(contentId /*, fields*/);
 ```
 
 Adds a new item to the project, sets the fields if any were passed, and returns the new item. If the item already exists then it's a no-op, the existing item is still updated with the passed fields if any were passed.
-
-**Note**: GitHub has currently no API to add a draft issue to a project.
 
 <table>
   <thead align=left>
@@ -616,7 +692,7 @@ Map of internal field names to their values.
 await project.items.remove(itemNodeId);
 ```
 
-Removes a single item. Resolves with `undefined`, no matter if item was found or not.
+Removes a single item. Resolves with the removed item or with `undefined` if item was not found.
 
 <table>
   <thead align=left>
@@ -655,7 +731,7 @@ Removes a single item. Resolves with `undefined`, no matter if item was found or
 await project.items.removeByContentId(contentId);
 ```
 
-Removes a single item based on the Node ID of its linked issue or pull request. Resolves with `undefined`, no matter if item was found or not.
+Removes a single item based on the Node ID of its linked issue or pull request. Resolves with the removed item or with `undefined` if item was not found.
 
 <table>
   <thead align=left>
@@ -697,7 +773,7 @@ await project.items.removeByContentRepositoryAndNumber(
 );
 ```
 
-Removes a single item based on the Node ID of its linked issue or pull request. Resolves with `undefined`, no matter if item was found or not.
+Removes a single item based on the Node ID of its linked issue or pull request. Resolves with the removed item or with `undefined` if item was not found.
 
 <table>
   <thead align=left>

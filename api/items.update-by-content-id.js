@@ -1,8 +1,7 @@
 // @ts-check
 
-import { getStateWithProjectItems } from "./lib/get-state-with-project-items.js";
-import { getFieldsUpdateQuery } from "./lib/get-fields-update-query.js";
-import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
+import { getItemByContentId } from "./items.get-by-content-id.js";
+import { updateItemFields } from "./lib/update-project-item-fields.js";
 
 /**
  * Updates item fields if the item can be found.
@@ -12,6 +11,7 @@ import { removeUndefinedValues } from "./lib/remove-undefined-values.js";
  * @param {import("..").GitHubProjectState} state
  * @param {string} contentNodeId
  * @param {Record<string, string>} fields
+ *
  * @returns {Promise<import("..").GitHubProjectItem | undefined>}
  */
 export async function updateItemByContentId(
@@ -20,36 +20,14 @@ export async function updateItemByContentId(
   contentNodeId,
   fields
 ) {
-  const stateWithItems = await getStateWithProjectItems(project, state);
-
-  const item = stateWithItems.items.find(
-    // @ts-expect-error - does not handle the conditional chaining operator
-    (item) => item.content?.id === contentNodeId
-  );
-
+  const item = await getItemByContentId(project, state, contentNodeId);
   if (!item) return;
 
-  const existingProjectFieldKeys = Object.keys(fields).filter(
-    (key) => stateWithItems.fields[key].existsInProject
-  );
+  const newFields = await updateItemFields(project, state, item.id, fields);
+  if (!newFields) return item;
 
-  if (existingProjectFieldKeys.length === 0) return item;
-
-  const existingFields = Object.fromEntries(
-    existingProjectFieldKeys.map((key) => [key, fields[key]])
-  );
-
-  const query = getFieldsUpdateQuery(stateWithItems, existingFields);
-  await project.octokit.graphql(query, {
-    projectId: stateWithItems.id,
-    itemId: item.id,
-  });
-
-  // mutate item in cache
-  item.fields = {
-    ...item.fields,
-    ...removeUndefinedValues(fields),
+  return {
+    ...item,
+    fields: newFields,
   };
-
-  return item;
 }
