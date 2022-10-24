@@ -22,7 +22,7 @@ export type DraftItemContent = {
 export default class GitHubProject<
   TCustomFields extends Record<string, FieldOptions> = {},
   TFields extends BUILT_IN_FIELDS = TCustomFields & BUILT_IN_FIELDS,
-  TItemFields = Record<
+  TItemFields extends {} = Record<
     Exclude<keyof TFields, ConditionalKeys<TFields, { optional: true }>>,
     string | null
   > &
