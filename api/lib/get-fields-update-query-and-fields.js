@@ -70,41 +70,52 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
     .map(([key, value], index) => {
       if (value === undefined) return;
       const field = state.fields[key];
-
-      const valueOrOption =
-        value === null
-          ? ""
-          : "optionsByValue" in field
-          ? findFieldOptionIdAndValue(state, field, value)
-          : value;
-
+      const alias = key.replace(/\s+/g, "");
+      // @ts-expect-error - `field.id` is not set if field does not exist on projects, but we know it exists here
+      const fieldId = field.id;
+      // only retrieve the updated node once
       const queryNodes =
         index === 0
           ? `projectV2Item { ${queryItemFieldNodes} }`
           : "clientMutationId";
 
-      // @ts-expect-error - `field.id` is not set if field does not exist on projects, but we know it exists here
-      const fieldId = field.id;
-      const query = `
-        ${key.replace(
-          /\s+/g,
-          ""
-        )}: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: "${fieldId}", ${toItemFieldValueInput(
-        field,
-        valueOrOption
-      )}}) {
-          ${queryNodes}
-        }
-      `;
+      if (value === null) {
+        // https://docs.github.com/en/graphql/reference/mutations#clearprojectv2itemfieldvalue
+        const query = `
+          ${alias}: clearProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: "${fieldId}"}) {
+            ${queryNodes}
+          }
+        `;
 
-      return {
-        query,
-        key,
-        value:
-          typeof valueOrOption === "string"
-            ? valueOrOption
-            : valueOrOption.value,
-      };
+        return {
+          query,
+          key,
+          value: null,
+        };
+      } else {
+        const valueOrOption =
+          "optionsByValue" in field
+            ? findFieldOptionIdAndValue(state, field, value)
+            : value;
+
+        const query = `
+          ${alias}: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: "${fieldId}", ${toItemFieldValueInput(
+          field,
+          valueOrOption
+        )}}) {
+            ${queryNodes}
+          }
+        `;
+
+        return {
+          query,
+          key,
+          value:
+            typeof valueOrOption === "string"
+              ? valueOrOption
+              : valueOrOption.value,
+        };
+      }
     })
     .filter(Boolean);
 
