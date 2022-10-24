@@ -26,7 +26,7 @@
   "devDependencies": {
     "@octokit/app": "^13.0.5",
     "@octokit/openapi-types": "^14.0.0",
-    "@octokit/plugin-paginate-rest": "^4.0.0",
+    "@octokit/plugin-paginate-rest": "^5.0.0",
     "@octokit/plugin-throttling": "^4.0.1",
     "ava": "^4.3.3",
     "c8": "^7.12.0",
