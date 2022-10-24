@@ -80,7 +80,6 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
           : "clientMutationId";
 
       if (value === null) {
-        // TODO: use new mutation `clearProjectV2ItemFieldValue`
         // https://docs.github.com/en/graphql/reference/mutations#clearprojectv2itemfieldvalue
         const query = `
           ${alias}: clearProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: "${fieldId}"}) {
