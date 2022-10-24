@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 15 Aug 2022 19:49:15 GMT",
+        "date": "Mon, 24 Oct 2022 17:26:06 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "C44D:0B08:5EE455:6155CC:62FAA33A",
+        "x-github-request-id": "E46D:97C9:2B9226:2CAF81:6356CAAD",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4734",
-        "x-ratelimit-reset": "1660595643",
+        "x-ratelimit-remaining": "4957",
+        "x-ratelimit-reset": "1666635908",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "266",
+        "x-ratelimit-used": "43",
         "x-xss-protection": "0"
       },
       "data": {
@@ -82,7 +82,7 @@
                   },
                   {
                     "id": "PVTF_5",
-                    "dataType": "TASKS",
+                    "dataType": "TRACKS",
                     "name": "Tracks"
                   },
                   {
@@ -139,14 +139,13 @@
                     "dataType": "ITERATION",
                     "name": "Iteration",
                     "configuration": {
-                      "iterations": [
+                      "iterations": [],
+                      "completedIterations": [
                         {
                           "title": "Iteration 3",
                           "duration": 14,
                           "startDate": "2022-08-05"
-                        }
-                      ],
-                      "completedIterations": [
+                        },
                         {
                           "title": "Iteration 2",
                           "duration": 14,
@@ -187,7 +186,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 15 Aug 2022 19:49:16 GMT",
+        "date": "Mon, 24 Oct 2022 17:26:07 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -196,12 +195,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "C44E:155A:663DCD:68B1F5:62FAA33B",
+        "x-github-request-id": "E46E:0A68:BF78655:C3C617E:6356CAAE",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4733",
-        "x-ratelimit-reset": "1660595643",
+        "x-ratelimit-remaining": "4956",
+        "x-ratelimit-reset": "1666635908",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "267",
+        "x-ratelimit-used": "44",
         "x-xss-protection": "0"
       },
       "data": {
@@ -256,7 +255,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 15 Aug 2022 19:49:18 GMT",
+        "date": "Mon, 24 Oct 2022 17:26:09 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -265,12 +264,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "C44F:785A:640B79:667B7A:62FAA33C",
+        "x-github-request-id": "E46F:32CE:16D2EBF:17716ED:6356CAAF",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4732",
-        "x-ratelimit-reset": "1660595643",
+        "x-ratelimit-remaining": "4955",
+        "x-ratelimit-reset": "1666635908",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "268",
+        "x-ratelimit-used": "45",
         "x-xss-protection": "0"
       },
       "data": {

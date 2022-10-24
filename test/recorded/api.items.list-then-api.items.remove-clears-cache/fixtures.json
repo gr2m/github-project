@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 15 Aug 2022 19:53:17 GMT",
+        "date": "Mon, 24 Oct 2022 17:30:28 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "C560:142F:5A7CB2:5CF7D0:62FAA42C",
+        "x-github-request-id": "E58F:6582:ABDAF15:B028427:6356CBB4",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4564",
-        "x-ratelimit-reset": "1660595643",
+        "x-ratelimit-remaining": "4787",
+        "x-ratelimit-reset": "1666635908",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "436",
+        "x-ratelimit-used": "213",
         "x-xss-protection": "0"
       },
       "data": {
@@ -82,7 +82,7 @@
                   },
                   {
                     "id": "PVTF_5",
-                    "dataType": "TASKS",
+                    "dataType": "TRACKS",
                     "name": "Tracks"
                   },
                   {
@@ -139,14 +139,13 @@
                     "dataType": "ITERATION",
                     "name": "Iteration",
                     "configuration": {
-                      "iterations": [
+                      "iterations": [],
+                      "completedIterations": [
                         {
                           "title": "Iteration 3",
                           "duration": 14,
                           "startDate": "2022-08-05"
-                        }
-                      ],
-                      "completedIterations": [
+                        },
                         {
                           "title": "Iteration 2",
                           "duration": 14,
@@ -262,7 +261,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 15 Aug 2022 19:53:18 GMT",
+        "date": "Mon, 24 Oct 2022 17:30:29 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -271,12 +270,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "C561:6CE4:58BF18:5B3966:62FAA42D",
+        "x-github-request-id": "E590:0C72:B3C6BC6:B81519E:6356CBB5",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4563",
-        "x-ratelimit-reset": "1660595643",
+        "x-ratelimit-remaining": "4786",
+        "x-ratelimit-reset": "1666635908",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "437",
+        "x-ratelimit-used": "214",
         "x-xss-protection": "0"
       },
       "data": {
@@ -370,7 +369,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 15 Aug 2022 19:53:19 GMT",
+        "date": "Mon, 24 Oct 2022 17:30:30 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -379,12 +378,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "C562:94F7:655B30:67D6BE:62FAA42E",
+        "x-github-request-id": "E591:97C9:2D50C5:2E7936:6356CBB6",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4562",
-        "x-ratelimit-reset": "1660595643",
+        "x-ratelimit-remaining": "4785",
+        "x-ratelimit-reset": "1666635908",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "438",
+        "x-ratelimit-used": "215",
         "x-xss-protection": "0"
       },
       "data": {
@@ -411,7 +410,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 15 Aug 2022 19:53:20 GMT",
+        "date": "Mon, 24 Oct 2022 17:30:31 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -420,12 +419,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "C563:685F:619811:636DE2:62FAA42F",
+        "x-github-request-id": "E592:30A5:40A9BC:4245CD:6356CBB7",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4561",
-        "x-ratelimit-reset": "1660595643",
+        "x-ratelimit-remaining": "4784",
+        "x-ratelimit-reset": "1666635908",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "439",
+        "x-ratelimit-used": "216",
         "x-xss-protection": "0"
       },
       "data": {
@@ -444,7 +443,7 @@
                 "column": 5
               }
             ],
-            "message": "Could not resolve to a node with the global id of 'PVTI_lADOBYMIeM4ADzd0zgCFGok'."
+            "message": "Could not resolve to a node with the global id of 'PVTI_lADOBYMIeM4ADzd0zgDFgro'."
           }
         ]
       }
