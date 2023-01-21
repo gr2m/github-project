@@ -27,7 +27,7 @@
     "@octokit/app": "^13.0.5",
     "@octokit/openapi-types": "^14.0.0",
     "@octokit/plugin-paginate-rest": "^5.0.0",
-    "@octokit/plugin-throttling": "^4.0.1",
+    "@octokit/plugin-throttling": "^5.0.0",
     "ava": "^5.0.0",
     "c8": "^7.12.0",
     "dotenv": "^16.0.1",
