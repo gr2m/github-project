@@ -130,6 +130,7 @@ export type GitHubProjectItem<
 type ProjectItem_Redacted<TFields> = {
   type: "REDACTED";
   id: string;
+  isArchived: boolean;
   fields: TFields;
   content: {};
 };
@@ -137,6 +138,7 @@ type ProjectItem_Redacted<TFields> = {
 type ProjectItem_DraftIssue<TFields> = {
   type: "DRAFT_ISSUE";
   id: string;
+  isArchived: boolean;
   fields: TFields;
   content: DraftIssueContent;
 };
@@ -144,6 +146,7 @@ type ProjectItem_DraftIssue<TFields> = {
 type ProjectItem_Issue<TFields> = {
   type: "ISSUE";
   id: string;
+  isArchived: boolean;
   fields: TFields;
   content: IssueContent;
 };
@@ -151,6 +154,7 @@ type ProjectItem_Issue<TFields> = {
 type ProjectItem_PullRequest<TFields> = {
   type: "PULL_REQUEST";
   id: string;
+  isArchived: boolean;
   fields: TFields;
   content: PullRequestContent;
 };
