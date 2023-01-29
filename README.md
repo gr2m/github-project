@@ -686,6 +686,139 @@ Map of internal field names to their values.
   </tbody>
 </table>
 
+### `project.items.archive()`
+
+```js
+await project.items.archive(itemNodeId);
+```
+
+Archives a single item. Resolves with the archived item or with `undefined` if item was not found.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>itemNodeId</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The graphql node ID of the project item
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
+### `project.items.archiveByContentId()`
+
+```js
+await project.items.archiveByContentId(contentId);
+```
+
+Archives a single item based on the Node ID of its linked issue or pull request. Resolves with the archived item or with `undefined` if item was not found.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>contentId</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The graphql node ID of the issue/pull request the item is linked to.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
+### `project.items.archiveByContentRepositoryAndNumber()`
+
+```js
+await project.items.archiveByContentRepositoryAndNumber(
+  repositoryName,
+  issueOrPullRequestNumber
+);
+```
+
+Archives a single item based on the Node ID of its linked issue or pull request. Resolves with the archived item or with `undefined` if item was not found.
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>repositoryName</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+**Required**. The repository name, without the `owner/`.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>issueOrPullRequestNumber</code>
+      </th>
+      <td>
+        <code>number</code>
+      </td>
+      <td>
+
+**Required**. The number of the issue or pull request.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
 ### `project.items.remove()`
 
 ```js
