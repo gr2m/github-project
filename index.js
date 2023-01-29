@@ -11,6 +11,9 @@ import { getItemByContentRepositoryAndNumber } from "./api/items.get-by-content-
 import { updateItem } from "./api/items.update.js";
 import { updateItemByContentId } from "./api/items.update-by-content-id.js";
 import { updateItemByContentRepositoryAndNumber } from "./api/items.update-by-content-repository-and-number.js";
+import { archiveItem } from "./api/items.archive.js";
+import { archiveItemByContentId } from "./api/items.archive-by-content-id.js";
+import { archiveItemByContentRepositoryAndNumber } from "./api/items.archive-by-content-repository-and-number.js";
 import { removeItem } from "./api/items.remove.js";
 import { removeItemByContentId } from "./api/items.remove-by-content-id.js";
 import { removeItemByContentRepositoryAndNumber } from "./api/items.remove-by-content-repository-and-name.js";
@@ -60,6 +63,10 @@ export default class GitHubProject {
       updateByContentId: updateItemByContentId.bind(null, this, state),
       updateByContentRepositoryAndNumber:
         updateItemByContentRepositoryAndNumber.bind(null, this, state),
+      archive: archiveItem.bind(null, this, state),
+      archiveByContentId: archiveItemByContentId.bind(null, this, state),
+      archiveByContentRepositoryAndNumber:
+        archiveItemByContentRepositoryAndNumber.bind(null, this, state),
       remove: removeItem.bind(null, this, state),
       removeByContentId: removeItemByContentId.bind(null, this, state),
       removeByContentRepositoryAndNumber:
