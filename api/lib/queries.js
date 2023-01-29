@@ -292,3 +292,11 @@ export const removeItemFromProjectMutation = `
     }
   }
 `;
+
+export const archiveItemMutation = `
+  mutation archiveItem($projectId: ID!, $itemId: ID!) {
+    archiveProjectV2Item(input:{projectId: $projectId, itemId: $itemId }) {
+      clientMutationId
+    }
+  }
+`;

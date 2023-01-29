@@ -5,5 +5,5 @@
  * @param {string} [itemId]
  */
 export function test(project, itemId = "PVTI_1") {
-  return project.items.removeByContentId(itemId);
+  return project.items.remove(itemId);
 }

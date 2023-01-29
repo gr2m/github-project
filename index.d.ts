@@ -77,6 +77,16 @@ export default class GitHubProject<
       issueOrPullRequestNumber: number,
       fields: Partial<TItemFields>
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
+    archive(
+      itemNodeId: string
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
+    archiveByContentId(
+      contentNodeId: string
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
+    archiveByContentRepositoryAndNumber(
+      repositoryName: string,
+      issueOrPullRequestNumber: number
+    ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     remove(
       itemNodeId: string
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;

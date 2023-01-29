@@ -495,6 +495,57 @@ export async function updateItemByContentRepositoryAndNumberTest() {
   }
 }
 
+export async function archiveItemTest() {
+  const project = new GitHubProject({
+    owner: "owner",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const item = await project.items.archive("item node id");
+
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  expectType<string>(item.id);
+}
+
+export async function archiveItemByContentIdTest() {
+  const project = new GitHubProject({
+    owner: "owner",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const item = await project.items.archiveByContentId("content node id");
+
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  expectType<string>(item.id);
+}
+
+export async function archiveItemByContentRepositoryAndNameTest() {
+  const project = new GitHubProject({
+    owner: "owner",
+    number: 1,
+    token: "gpg_secret123",
+  });
+  const item = await project.items.archiveByContentRepositoryAndNumber(
+    "repository-name",
+    1
+  );
+
+  if (typeof item === "undefined") {
+    expectType<undefined>(item);
+    return;
+  }
+
+  expectType<string>(item.id);
+}
+
 export async function removeItemTest() {
   const project = new GitHubProject({
     owner: "owner",
