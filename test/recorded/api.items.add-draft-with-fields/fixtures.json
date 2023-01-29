@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 24 Oct 2022 17:26:06 GMT",
+        "date": "Sun, 29 Jan 2023 18:46:36 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E46D:97C9:2B9226:2CAF81:6356CAAD",
+        "x-github-request-id": "E142:40DE:31DB9E:340BDE:63D6BF0C",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4957",
-        "x-ratelimit-reset": "1666635908",
+        "x-ratelimit-remaining": "4968",
+        "x-ratelimit-reset": "1675021300",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "43",
+        "x-ratelimit-used": "32",
         "x-xss-protection": "0"
       },
       "data": {
@@ -82,36 +82,31 @@
                   },
                   {
                     "id": "PVTF_5",
-                    "dataType": "TRACKS",
-                    "name": "Tracks"
-                  },
-                  {
-                    "id": "PVTF_6",
                     "dataType": "REVIEWERS",
                     "name": "Reviewers"
                   },
                   {
-                    "id": "PVTF_7",
+                    "id": "PVTF_6",
                     "dataType": "REPOSITORY",
                     "name": "Repository"
                   },
                   {
-                    "id": "PVTF_8",
+                    "id": "PVTF_7",
                     "dataType": "MILESTONE",
                     "name": "Milestone"
                   },
                   {
-                    "id": "PVTF_9",
+                    "id": "PVTF_8",
                     "dataType": "TEXT",
                     "name": "Text"
                   },
                   {
-                    "id": "PVTF_10",
+                    "id": "PVTF_9",
                     "dataType": "NUMBER",
                     "name": "Number"
                   },
                   {
-                    "id": "PVTF_11",
+                    "id": "PVTF_10",
                     "dataType": "DATE",
                     "name": "Date"
                   },
@@ -186,7 +181,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 24 Oct 2022 17:26:07 GMT",
+        "date": "Sun, 29 Jan 2023 18:46:37 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -195,12 +190,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E46E:0A68:BF78655:C3C617E:6356CAAE",
+        "x-github-request-id": "E143:333C:3303DD:353438:63D6BF0D",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4956",
-        "x-ratelimit-reset": "1666635908",
+        "x-ratelimit-remaining": "4967",
+        "x-ratelimit-reset": "1675021300",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "44",
+        "x-ratelimit-used": "33",
         "x-xss-protection": "0"
       },
       "data": {
@@ -240,7 +235,7 @@
     }
   },
   {
-    "query": "\n      mutation setItemProperties($projectId: ID!, $itemId: ID!) {\n        \n        date: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTF_lADOBYMIeM4ADzd0zgCMLQw\", value: {date: \"2020-01-01\"}}) {\n          projectV2Item { \n  id\n  createdAt\n  type\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n }\n        }\n      \n\n        number: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTF_lADOBYMIeM4ADzd0zgCMLPk\", value: {number: 123}}) {\n          clientMutationId\n        }\n      \n\n        singleSelect: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTSSF_lADOBYMIeM4ADzd0zgCMLQ0\", value: {singleSelectOptionId: \"8a0f266e\"}}) {\n          clientMutationId\n        }\n      \n\n        status: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTSSF_lADOBYMIeM4ADzd0zgCMLM0\", value: {singleSelectOptionId: \"98236657\"}}) {\n          clientMutationId\n        }\n      \n\n        text: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTF_lADOBYMIeM4ADzd0zgCMLPg\", value: {text: \"Some text\"}}) {\n          clientMutationId\n        }\n      \n\n        title: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTF_lADOBYMIeM4ADzd0zgCMLMs\", value: {text: \"the hack?\"}}) {\n          clientMutationId\n        }\n      \n      }\n    ",
+    "query": "\n      mutation setItemProperties($projectId: ID!, $itemId: ID!) {\n        \n          date: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTF_lADOBYMIeM4ADzd0zgCMLQw\", value: {date: \"2020-01-01\"}}) {\n            projectV2Item { \n  id\n  createdAt\n  type\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n }\n          }\n        \n\n          number: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTF_lADOBYMIeM4ADzd0zgCMLPk\", value: {number: 123}}) {\n            clientMutationId\n          }\n        \n\n          singleSelect: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTSSF_lADOBYMIeM4ADzd0zgCMLQ0\", value: {singleSelectOptionId: \"8a0f266e\"}}) {\n            clientMutationId\n          }\n        \n\n          status: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTSSF_lADOBYMIeM4ADzd0zgCMLM0\", value: {singleSelectOptionId: \"98236657\"}}) {\n            clientMutationId\n          }\n        \n\n          text: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTF_lADOBYMIeM4ADzd0zgCMLPg\", value: {text: \"Some text\"}}) {\n            clientMutationId\n          }\n        \n\n          title: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: \"PVTF_lADOBYMIeM4ADzd0zgCMLMs\", value: {text: \"the hack?\"}}) {\n            clientMutationId\n          }\n        \n      }\n    ",
     "variables": {
       "projectId": "PVT_1",
       "itemId": "PVTI_1"
@@ -255,7 +250,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 24 Oct 2022 17:26:09 GMT",
+        "date": "Sun, 29 Jan 2023 18:46:39 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -264,12 +259,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E46F:32CE:16D2EBF:17716ED:6356CAAF",
+        "x-github-request-id": "E144:34F7:36A0BA:38D268:63D6BF0E",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4955",
-        "x-ratelimit-reset": "1666635908",
+        "x-ratelimit-remaining": "4966",
+        "x-ratelimit-reset": "1675021300",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "45",
+        "x-ratelimit-used": "34",
         "x-xss-protection": "0"
       },
       "data": {
@@ -304,7 +299,7 @@
                     "__typename": "ProjectV2ItemFieldDateValue",
                     "date": "2020-01-01",
                     "field": {
-                      "id": "PVTF_11"
+                      "id": "PVTF_10"
                     }
                   }
                 ]

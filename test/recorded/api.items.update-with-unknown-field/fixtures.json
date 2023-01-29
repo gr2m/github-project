@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 24 Oct 2022 17:36:10 GMT",
+        "date": "Sun, 29 Jan 2023 18:55:39 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E6DF:14B4:5603CC0:587EDCF:6356CD09",
+        "x-github-request-id": "E3B8:820A:33095E:355036:63D6C12B",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4566",
-        "x-ratelimit-reset": "1666635908",
+        "x-ratelimit-remaining": "4560",
+        "x-ratelimit-reset": "1675021300",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "434",
+        "x-ratelimit-used": "440",
         "x-xss-protection": "0"
       },
       "data": {
@@ -82,36 +82,31 @@
                   },
                   {
                     "id": "PVTF_5",
-                    "dataType": "TRACKS",
-                    "name": "Tracks"
-                  },
-                  {
-                    "id": "PVTF_6",
                     "dataType": "REVIEWERS",
                     "name": "Reviewers"
                   },
                   {
-                    "id": "PVTF_7",
+                    "id": "PVTF_6",
                     "dataType": "REPOSITORY",
                     "name": "Repository"
                   },
                   {
-                    "id": "PVTF_8",
+                    "id": "PVTF_7",
                     "dataType": "MILESTONE",
                     "name": "Milestone"
                   },
                   {
-                    "id": "PVTF_9",
+                    "id": "PVTF_8",
                     "dataType": "TEXT",
                     "name": "Text"
                   },
                   {
-                    "id": "PVTF_10",
+                    "id": "PVTF_9",
                     "dataType": "NUMBER",
                     "name": "Number"
                   },
                   {
-                    "id": "PVTF_11",
+                    "id": "PVTF_10",
                     "dataType": "DATE",
                     "name": "Date"
                   },

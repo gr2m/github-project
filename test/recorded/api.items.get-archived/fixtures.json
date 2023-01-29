@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 29 Jan 2023 18:41:53 GMT",
+        "date": "Sun, 29 Jan 2023 18:48:30 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E0C7:40DE:30D6BD:32FBCF:63D6BDF1",
+        "x-github-request-id": "E1C0:5DBC:37FDF5:3A3328:63D6BF7E",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4990",
+        "x-ratelimit-remaining": "4885",
         "x-ratelimit-reset": "1675021300",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "10",
+        "x-ratelimit-used": "115",
         "x-xss-protection": "0"
       },
       "data": {
@@ -165,7 +165,7 @@
     }
   },
   {
-    "query": "\n  query getProjectItem($id:ID!) {\n    node(id:$id){\n      ... on ProjectV2Item {\n        \n  id\n  createdAt\n  type\n  isArchived\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n\n      }\n    }\n  }\n",
+    "query": "\n  query getProjectItem($id:ID!) {\n    node(id:$id){\n      ... on ProjectV2Item {\n        \n  id\n  createdAt\n  type\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n\n      }\n    }\n  }\n",
     "variables": {
       "id": "PVTI_1"
     },
@@ -179,7 +179,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 29 Jan 2023 18:41:54 GMT",
+        "date": "Sun, 29 Jan 2023 18:48:31 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -188,12 +188,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E0C8:0782:39C368:3BE836:63D6BDF1",
+        "x-github-request-id": "E1C1:333C:3374E9:35A9EA:63D6BF7F",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4989",
+        "x-ratelimit-remaining": "4884",
         "x-ratelimit-reset": "1675021300",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "11",
+        "x-ratelimit-used": "116",
         "x-xss-protection": "0"
       },
       "data": {
@@ -202,7 +202,6 @@
             "id": "PVTI_1",
             "createdAt": "2022-02-02T12:00:00Z",
             "type": "ISSUE",
-            "isArchived": true,
             "content": {
               "id": "I_1",
               "databaseId": 1001,
