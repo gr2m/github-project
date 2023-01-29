@@ -97,6 +97,7 @@ export const queryItemFieldNodes = `
   id
   createdAt
   type
+  isArchived
   ${queryContentNode}
   fieldValues(first: 20) {
     nodes {
