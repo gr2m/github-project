@@ -60,7 +60,7 @@ const options = {
 const project = new GitHubProject(options);
 
 // Alternatively, you can call the factory method to get a project instance
-const project = GithubProject.getInstance(options)
+// const project = await GithubProject.getInstance(options)
 
 // get project data
 const projectData = await project.get();

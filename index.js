@@ -74,17 +74,13 @@ export default class GitHubProject {
         removeItemByContentRepositoryAndNumber.bind(null, this, state),
     };
 
-    const projectApi = {
-      getProperties: getProperties.bind(null, this, state),
-    };
-
     Object.defineProperties(this, {
       owner: { get: () => owner },
       number: { get: () => number },
       fields: { get: () => ({ ...BUILT_IN_FIELDS, ...fields }) },
       octokit: { get: () => octokit },
       items: { get: () => itemsApi },
-      getProperties: { get: () => projectApi.getProperties },
+      getProperties: { get: () => getProperties.bind(null, this, state) },
     });
   }
 
