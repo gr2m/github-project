@@ -607,3 +607,37 @@ export async function matchFieldNameOption() {
     },
   });
 }
+
+export async function testGetInstance() {
+  const project = await GitHubProject.getInstance({
+    owner: "owner",
+    number: 1,
+    token: "gpg_secret123",
+    fields: {
+      myField: "My Field",
+    },
+  });
+
+  expectType<GitHubProject<{ myField: string }>>(project);
+  expectType<string>(project.fields.myField);
+
+  const items = await project.items.list();
+  expectType<string | null>(items[0].fields.myField);
+}
+
+export async function testGetProperties() {
+  const project = new GitHubProject({
+    owner: "owner",
+    number: 1,
+    token: "gpg_secret123",
+  });
+
+  const properties = await project.getProperties();
+
+  expectType<{
+    databaseId: string;
+    id: string;
+    title: string;
+    url: string;
+  }>(properties);
+}

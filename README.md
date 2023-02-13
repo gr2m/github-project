@@ -55,7 +55,7 @@ const options = {
     dueAt: "Due",
     lastUpdate: { name: "Last Update", optional: true },
   },
-}
+};
 
 const project = new GitHubProject(options);
 
@@ -260,7 +260,6 @@ const projectData = await project.getProperties();
 ```
 
 Returns project level data, such as `url`, `title`, `description` and `databaseId`
-
 
 ### `project.items.list()`
 

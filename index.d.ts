@@ -50,7 +50,19 @@ export default class GitHubProject<
   /** Project properties */
   getProperties(): Promise<GitHubProjectProperties>;
 
-  static getInstance(): Promise<GitHubProject>;
+  static getInstance<
+    TCustomFields extends Record<string, FieldOptions> = {},
+    TFields extends BUILT_IN_FIELDS = TCustomFields & BUILT_IN_FIELDS,
+    TItemFields extends {} = Record<
+      Exclude<keyof TFields, ConditionalKeys<TFields, { optional: true }>>,
+      string | null
+    > &
+      Partial<
+        Record<ConditionalKeys<TFields, { optional: true }>, string | null>
+      >
+  >(
+    options: GitHubProjectOptions<TCustomFields>
+  ): Promise<GitHubProject<TCustomFields, TFields, TItemFields>>;
 
   constructor(options: GitHubProjectOptions<TCustomFields>);
 
