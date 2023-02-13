@@ -35,6 +35,7 @@ const queryProjectNodes = `
   id
   title
   url
+  databaseId
   fields(first: 50) {
     nodes {
       ... on ProjectV2FieldCommon {

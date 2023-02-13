@@ -17,12 +17,23 @@ export async function getStateWithProjectFields(project, state) {
     return state;
   }
 
-  const {
-    userOrOrganization: { projectV2 },
-  } = await project.octokit.graphql(getProjectCoreDataQuery, {
+  const response = await project.octokit.graphql(getProjectCoreDataQuery, {
     owner: project.owner,
     number: project.number,
   });
+
+  if (
+    response.userOrOrganization === null ||
+    response.userOrOrganization.projectV2 === null
+  ) {
+    throw new Error(
+      `[github-project] Cannot find project with number: ${project.number} and owner: ${project.owner}`
+    );
+  }
+
+  const {
+    userOrOrganization: { projectV2 },
+  } = response;
 
   const fields = projectFieldsNodesToFieldsMap(
     state,
@@ -30,7 +41,7 @@ export async function getStateWithProjectFields(project, state) {
     projectV2.fields.nodes
   );
 
-  const { id, title, url } = projectV2;
+  const { id, title, url, databaseId } = projectV2;
 
   // mutate current state and return it
   // @ts-expect-error - TS can't handle Object.assign
@@ -39,6 +50,7 @@ export async function getStateWithProjectFields(project, state) {
     id,
     title,
     url,
+    databaseId,
     fields,
   });
 }
