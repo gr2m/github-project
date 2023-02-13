@@ -19,6 +19,13 @@ export type DraftItemContent = {
   assigneeIds?: string[];
 };
 
+export type GitHubProjectProperties = {
+  databaseId: string;
+  id: string;
+  title: string;
+  url: string;
+};
+
 export default class GitHubProject<
   TCustomFields extends Record<string, FieldOptions> = {},
   TFields extends BUILT_IN_FIELDS = TCustomFields & BUILT_IN_FIELDS,
@@ -40,7 +47,12 @@ export default class GitHubProject<
   /** Map of fields */
   get fields(): TFields;
 
-  constructor(options: GitHubProjectOptions<TCustomFields>);
+  /** Project properties */
+  get getProperties(): GitHubProjectProperties;
+
+  static getInstance(): GitHubProject
+
+  constructor(options: GitHubProjectOptions<TCustomFields>)
 
   items: {
     list(): Promise<GitHubProjectItem<TItemFields>[]>;
@@ -260,4 +272,5 @@ export type GitHubProjectStateWithFields = GitHubProjectStateCommon & {
   title: string;
   url: string;
   fields: ProjectFieldMap;
+  databaseId: string;
 };

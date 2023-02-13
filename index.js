@@ -14,6 +14,7 @@ import { updateItemByContentRepositoryAndNumber } from "./api/items.update-by-co
 import { removeItem } from "./api/items.remove.js";
 import { removeItemByContentId } from "./api/items.remove-by-content-id.js";
 import { removeItemByContentRepositoryAndNumber } from "./api/items.remove-by-content-repository-and-name.js";
+import { getProperties } from "./api/project.getProperties.js";
 
 import { defaultMatchFunction } from "./api/lib/default-match-function.js";
 
@@ -65,12 +66,33 @@ export default class GitHubProject {
       removeByContentRepositoryAndNumber:
         removeItemByContentRepositoryAndNumber.bind(null, this, state),
     };
+
+    const projectApi = {
+      getProperties: getProperties.bind(null, this, state),
+    };
+
     Object.defineProperties(this, {
       owner: { get: () => owner },
       number: { get: () => number },
       fields: { get: () => ({ ...BUILT_IN_FIELDS, ...fields }) },
       octokit: { get: () => octokit },
       items: { get: () => itemsApi },
+      getProperties: { get: () => projectApi.getProperties },
     });
+  }
+
+  /**
+   * Returns a GithubProject instance and calls `getProperties()` to preload
+   * project level properties.
+   *
+   * @param {import(".").GitHubProjectOptions} options
+   *
+   * @return {Promise<import(".").default>}
+   */
+  static async getInstance(options) {
+    const project = new GitHubProject(options);
+    await project.getProperties();
+
+    return project;
   }
 }

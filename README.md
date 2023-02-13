@@ -240,13 +240,16 @@ function (fieldOptionValue, userValue) {
   </tbody>
 </table>
 
-### `project.get()`
+### `project.getProperties()`
 
 ```js
-const projectData = await project.get();
+const projectData = await project.getProperties();
 ```
 
 Returns project level data, such as `url`, `title`, `description` and `databaseId`
+### Factory 
+
+`Project.getInstance()`
 
 ### `project.items.list()`
 
