@@ -98,6 +98,7 @@ export const queryItemFieldNodes = `
   id
   createdAt
   type
+  isArchived
   ${queryContentNode}
   fieldValues(first: 20) {
     nodes {
@@ -288,6 +289,14 @@ export const removeItemFromProjectMutation = `
       projectId:$projectId,
       itemId:$itemId
     }) {
+      clientMutationId
+    }
+  }
+`;
+
+export const archiveItemMutation = `
+  mutation archiveItem($projectId: ID!, $itemId: ID!) {
+    archiveProjectV2Item(input:{projectId: $projectId, itemId: $itemId }) {
       clientMutationId
     }
   }

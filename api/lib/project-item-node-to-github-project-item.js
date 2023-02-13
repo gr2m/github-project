@@ -17,6 +17,7 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
   const common = {
     type: itemNode.type,
     id: itemNode.id,
+    isArchived: itemNode.isArchived,
     fields,
   };
 
@@ -59,12 +60,13 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
       content,
     };
   }
-  /* c8 ignore next 8 */
+  /* c8 ignore next 9 */
 
   // fallback: no content properties are set. Currently that's in case of "REDACTED"
   return {
     type: itemNode.type,
     id: itemNode.id,
+    isArchived: itemNode.isArchived,
     fields,
     content: {},
   };

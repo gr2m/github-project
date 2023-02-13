@@ -1,0 +1,50 @@
+// @ts-check
+
+/**
+ * Prepare state in order to record fixtures for test.js. Returns array of arguments that will be passed
+ * passed as `test(project, ...arguments)`.
+ *
+ * @param {import("@octokit/openapi-types").components["schemas"]["repository"]} repository
+ * @param {import("@octokit/core").Octokit} octokit
+ * @param {import("../../..").default<{text: string, number: number, date: string, singleSelect: "One" | "Two" | "Three"}>} project
+ * @returns {Promise<[string]>}
+ */
+export async function prepare(repository, octokit, project) {
+  // create a test issue
+  const { data: issue } = await octokit.request(
+    "POST /repos/{owner}/{repo}/issues",
+    {
+      owner: repository.owner.login,
+      repo: repository.name,
+      title: "Issue",
+      body: "This is a test issue",
+    }
+  );
+
+  // add issue to project
+  const item = await project.items.add(issue.node_id, {
+    text: "text",
+    number: "1",
+    date: new Date("2020-02-02").toISOString(),
+    singleSelect: "One",
+  });
+
+  // archive item
+  // TODO: replace with `project.items.archive()` once its implemented
+  await octokit.graphql(
+    `
+    mutation addIssueToProject($projectId: ID!, $itemId: ID!) {
+      archiveProjectV2Item(input:{projectId: $projectId, itemId: $itemId }) {
+        clientMutationId
+      }
+    }
+  `,
+    {
+      // hardcoded to https://github.com/orgs/github-project-fixtures/projects/2
+      projectId: "PVT_kwDOBYMIeM4ADzd0",
+      itemId: item.id,
+    }
+  );
+
+  return [item.id];
+}
