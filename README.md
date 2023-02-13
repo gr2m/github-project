@@ -259,7 +259,7 @@ function (fieldOptionValue, userValue) {
 const projectData = await project.getProperties();
 ```
 
-Returns project level data, such as `url`, `title`, `description` and `databaseId`
+Returns project level data `url`, `title`, `description` and `databaseId`
 
 ### `project.items.list()`
 
