@@ -57,6 +57,10 @@ const project = new GitHubProject({
   },
 });
 
+// get project data
+const projectData = await project.get();
+console.log(projectData.description)
+
 // log out all items
 const items = await project.items.list();
 for (const item of items) {
@@ -235,6 +239,14 @@ function (fieldOptionValue, userValue) {
     </tr>
   </tbody>
 </table>
+
+### `project.get()`
+
+```js
+const projectData = await project.get();
+```
+
+Returns project level data, such as `url`, `title`, `description` and `databaseId`
 
 ### `project.items.list()`
 
