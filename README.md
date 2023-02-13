@@ -46,7 +46,7 @@ A project always belongs to a user or organization account and has a number. For
 `fields` is map of internal field names to the project's column labels. The comparison is case-insensitive. `"Priority"` will match both a field with the label `"Priority"` and one with the label `"priority"`. An error will be thrown if a project field isn't found, unless the field is set to `optional: true`.
 
 ```js
-const project = new GitHubProject({
+const options = {
   owner: "my-org",
   number: 1,
   token: "ghp_s3cR3t",
@@ -55,11 +55,16 @@ const project = new GitHubProject({
     dueAt: "Due",
     lastUpdate: { name: "Last Update", optional: true },
   },
-});
+}
+
+const project = new GitHubProject(options);
+
+// Alternatively, you can call the factory method to get a project instance
+const project = GithubProject.getInstance(options)
 
 // get project data
 const projectData = await project.get();
-console.log(projectData.description)
+console.log(projectData.description);
 
 // log out all items
 const items = await project.items.list();
@@ -100,6 +105,14 @@ if (item) {
 
 ```js
 const project = new GitHubProject(options);
+```
+
+### Factory method
+
+The factory method is useful when you want immediate access to the project's data, for example to get the project's title. Will throw an error if the project doesn't exist.
+
+```js
+const project = GitHubProject.getInstance(options);
 ```
 
 <table>
@@ -247,9 +260,7 @@ const projectData = await project.getProperties();
 ```
 
 Returns project level data, such as `url`, `title`, `description` and `databaseId`
-### Factory 
 
-`Project.getInstance()`
 
 ### `project.items.list()`
 

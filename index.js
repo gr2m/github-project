@@ -97,7 +97,9 @@ export default class GitHubProject {
    * @return {Promise<import(".").default>}
    */
   static async getInstance(options) {
-    const project = new GitHubProject(options);
+    const project = /**  @type {import(".").default} */ (
+      new GitHubProject(options)
+    );
     await project.getProperties();
 
     return project;

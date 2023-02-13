@@ -48,11 +48,11 @@ export default class GitHubProject<
   get fields(): TFields;
 
   /** Project properties */
-  get getProperties(): GitHubProjectProperties;
+  getProperties(): Promise<GitHubProjectProperties>;
 
-  static getInstance(): GitHubProject
+  static getInstance(): Promise<GitHubProject>;
 
-  constructor(options: GitHubProjectOptions<TCustomFields>)
+  constructor(options: GitHubProjectOptions<TCustomFields>);
 
   items: {
     list(): Promise<GitHubProjectItem<TItemFields>[]>;

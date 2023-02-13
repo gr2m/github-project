@@ -4,8 +4,7 @@ import { projectNodeToProperties } from "./lib/project-node-to-properties.js";
 import { getStateWithProjectFields } from "./lib/get-state-with-project-fields.js";
 
 /**
- * Attempts to find an item based on the issues/pull request node id.
- * Resolves with undefined if item could not be found.
+ * Attempts to get a project's properties based on the owner and number.
  *
  * @param {import("..").default} project
  * @param {import("..").GitHubProjectState} state
