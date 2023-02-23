@@ -70,7 +70,7 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
     .map(([key, value], index) => {
       if (value === undefined) return;
       const field = state.fields[key];
-      const alias = key.replace(/\s+/g, "");
+      const alias = key.replace(/[^\w\d]/g, "");
       // @ts-expect-error - `field.id` is not set if field does not exist on projects, but we know it exists here
       const fieldId = field.id;
       // only retrieve the updated node once
