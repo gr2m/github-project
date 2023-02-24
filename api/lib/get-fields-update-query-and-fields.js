@@ -31,15 +31,18 @@ const READ_ONLY_FIELDS = [
  * the actual value is set to "One" in the project.
  *
  * @param {import("../..").GitHubProjectStateWithFields} state
- * @param {Record<string, string>} fields
+ * @param {Record<string, string | null>} fields
  *
  * @returns {{query: string, fields: Record<string, string>}}
  */
 export function getFieldsUpdateQueryAndFields(state, fields) {
+  // When updating fields convert empty strings to null to ensure that the field's value
+  // is correctly unset. This is important for date fields, which fail validation if
+  // an empty string is passed.
   const existingFields = Object.fromEntries(
     Object.keys(fields)
       .filter((key) => state.fields[key].existsInProject)
-      .map((key) => [key, fields[key]])
+      .map((key) => [key, fields[key] === "" ? null : fields[key]])
   );
 
   const readOnlyFields = Object.keys(existingFields)
