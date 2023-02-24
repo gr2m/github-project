@@ -31,7 +31,7 @@ const READ_ONLY_FIELDS = [
  * the actual value is set to "One" in the project.
  *
  * @param {import("../..").GitHubProjectStateWithFields} state
- * @param {Record<string, string | null>} fields
+ * @param {Record<string, string>} fields
  *
  * @returns {{query: string, fields: Record<string, string>}}
  */
