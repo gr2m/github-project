@@ -21,7 +21,6 @@ const queryIssuesAndPullRequestNodes = `
     }
   }
   closed
-  closedAt
   milestone {
     number
     title
@@ -53,11 +52,13 @@ const queryProjectNodes = `
       ... on ProjectV2IterationField {
         configuration {
           iterations {
+            id
             title
             duration
             startDate
           }
           completedIterations {
+            id
             title
             duration
             startDate
@@ -186,7 +187,7 @@ export const getProjectItemsPaginatedQuery = `
               ${queryItemFieldNodes}
             }
           }
-        } 
+        }
       }
     }
   }
