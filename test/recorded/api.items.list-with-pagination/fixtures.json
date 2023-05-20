@@ -1,6 +1,6 @@
 [
   {
-    "query": "\n  query getProjectWithItems($owner: String!, $number: Int!) {\n    userOrOrganization: repositoryOwner(login: $owner) {\n      ... on ProjectV2Owner {\n        projectV2(number: $number) {\n          \n  id\n  title\n  url\n  fields(first: 50) {\n    nodes {\n      ... on ProjectV2FieldCommon {\n        id\n        dataType\n        name\n      }\n      ... on ProjectV2SingleSelectField {\n        options {\n          id\n          name\n        }\n      }\n      ... on ProjectV2IterationField {\n        configuration {\n          iterations {\n            title\n            duration\n            startDate\n          }\n          completedIterations {\n            title\n            duration\n            startDate\n          }\n          duration\n          startDay\n        }\n      }\n    }\n  }\n\n          items(first: 100) {\n            pageInfo {\n              endCursor\n              hasNextPage\n            }\n            nodes {\n              \n  id\n  createdAt\n  type\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n\n            }\n          }\n        }\n      }\n    }\n  }\n",
+    "query": "\n  query getProjectWithItems($owner: String!, $number: Int!) {\n    userOrOrganization: repositoryOwner(login: $owner) {\n      ... on ProjectV2Owner {\n        projectV2(number: $number) {\n          \n  id\n  title\n  url\n  databaseId\n  fields(first: 50) {\n    nodes {\n      ... on ProjectV2FieldCommon {\n        id\n        dataType\n        name\n      }\n      ... on ProjectV2SingleSelectField {\n        options {\n          id\n          name\n        }\n      }\n      ... on ProjectV2IterationField {\n        configuration {\n          iterations {\n            title\n            duration\n            startDate\n          }\n          completedIterations {\n            title\n            duration\n            startDate\n          }\n          duration\n          startDay\n        }\n      }\n    }\n  }\n\n          items(first: 100) {\n            pageInfo {\n              endCursor\n              hasNextPage\n            }\n            nodes {\n              \n  id\n  createdAt\n  type\n  isArchived\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n\n            }\n          }\n        }\n      }\n    }\n  }\n",
     "variables": {
       "owner": "github-project-fixtures",
       "number": 2
@@ -15,7 +15,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 29 Jan 2023 19:10:43 GMT",
+        "date": "Sat, 20 May 2023 00:57:33 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -24,12 +24,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E6A0:54E3:3E7DCC:40E80F:63D6C4B2",
+        "x-github-request-id": "EC13:9AC6:8523CBD:89244C4:64681AFB",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4143",
-        "x-ratelimit-reset": "1675021300",
+        "x-ratelimit-remaining": "4090",
+        "x-ratelimit-reset": "1684545298",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "857",
+        "x-ratelimit-used": "910",
         "x-xss-protection": "0"
       },
       "data": {
@@ -39,6 +39,7 @@
               "id": "PVT_1",
               "title": "@gr2m's Test Fixtures",
               "url": "https://github.com/orgs/github-project-fixtures/projects/2",
+              "databaseId": 1001,
               "fields": {
                 "nodes": [
                   {
@@ -168,6 +169,7 @@
                     "id": "PVTI_1",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_1",
                       "databaseId": 1001,
@@ -185,6 +187,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -237,6 +240,7 @@
                     "id": "PVTI_2",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_2",
                       "databaseId": 1001,
@@ -254,6 +258,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -306,6 +311,7 @@
                     "id": "PVTI_3",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_3",
                       "databaseId": 1001,
@@ -323,6 +329,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -375,6 +382,7 @@
                     "id": "PVTI_4",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_4",
                       "databaseId": 1001,
@@ -392,6 +400,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -444,6 +453,7 @@
                     "id": "PVTI_5",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_5",
                       "databaseId": 1001,
@@ -461,6 +471,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -513,6 +524,7 @@
                     "id": "PVTI_6",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_6",
                       "databaseId": 1001,
@@ -530,6 +542,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -582,6 +595,7 @@
                     "id": "PVTI_7",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_7",
                       "databaseId": 1001,
@@ -599,6 +613,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -651,6 +666,7 @@
                     "id": "PVTI_8",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_8",
                       "databaseId": 1001,
@@ -668,6 +684,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -720,6 +737,7 @@
                     "id": "PVTI_9",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_9",
                       "databaseId": 1001,
@@ -737,6 +755,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -789,6 +808,7 @@
                     "id": "PVTI_10",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_10",
                       "databaseId": 1001,
@@ -806,6 +826,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -858,6 +879,7 @@
                     "id": "PVTI_11",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_11",
                       "databaseId": 1001,
@@ -875,6 +897,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -927,6 +950,7 @@
                     "id": "PVTI_12",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_12",
                       "databaseId": 1001,
@@ -944,6 +968,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -996,6 +1021,7 @@
                     "id": "PVTI_13",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_13",
                       "databaseId": 1001,
@@ -1013,6 +1039,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1065,6 +1092,7 @@
                     "id": "PVTI_14",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_14",
                       "databaseId": 1001,
@@ -1082,6 +1110,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1134,6 +1163,7 @@
                     "id": "PVTI_15",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_15",
                       "databaseId": 1001,
@@ -1151,6 +1181,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1203,6 +1234,7 @@
                     "id": "PVTI_16",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_16",
                       "databaseId": 1001,
@@ -1220,6 +1252,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1272,6 +1305,7 @@
                     "id": "PVTI_17",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_17",
                       "databaseId": 1001,
@@ -1289,6 +1323,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1341,6 +1376,7 @@
                     "id": "PVTI_18",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_18",
                       "databaseId": 1001,
@@ -1358,6 +1394,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1410,6 +1447,7 @@
                     "id": "PVTI_19",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_19",
                       "databaseId": 1001,
@@ -1427,6 +1465,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1479,6 +1518,7 @@
                     "id": "PVTI_20",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_20",
                       "databaseId": 1001,
@@ -1496,6 +1536,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1548,6 +1589,7 @@
                     "id": "PVTI_21",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_21",
                       "databaseId": 1001,
@@ -1565,6 +1607,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1617,6 +1660,7 @@
                     "id": "PVTI_22",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_22",
                       "databaseId": 1001,
@@ -1634,6 +1678,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1686,6 +1731,7 @@
                     "id": "PVTI_23",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_23",
                       "databaseId": 1001,
@@ -1703,6 +1749,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1755,6 +1802,7 @@
                     "id": "PVTI_24",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_24",
                       "databaseId": 1001,
@@ -1772,6 +1820,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1824,6 +1873,7 @@
                     "id": "PVTI_25",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_25",
                       "databaseId": 1001,
@@ -1841,6 +1891,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1893,6 +1944,7 @@
                     "id": "PVTI_26",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_26",
                       "databaseId": 1001,
@@ -1910,6 +1962,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -1962,6 +2015,7 @@
                     "id": "PVTI_27",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_27",
                       "databaseId": 1001,
@@ -1979,6 +2033,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2031,6 +2086,7 @@
                     "id": "PVTI_28",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_28",
                       "databaseId": 1001,
@@ -2048,6 +2104,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2100,6 +2157,7 @@
                     "id": "PVTI_29",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_29",
                       "databaseId": 1001,
@@ -2117,6 +2175,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2169,6 +2228,7 @@
                     "id": "PVTI_30",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_30",
                       "databaseId": 1001,
@@ -2186,6 +2246,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2238,6 +2299,7 @@
                     "id": "PVTI_31",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_31",
                       "databaseId": 1001,
@@ -2255,6 +2317,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2307,6 +2370,7 @@
                     "id": "PVTI_32",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_32",
                       "databaseId": 1001,
@@ -2324,6 +2388,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2376,6 +2441,7 @@
                     "id": "PVTI_33",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_33",
                       "databaseId": 1001,
@@ -2393,6 +2459,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2445,6 +2512,7 @@
                     "id": "PVTI_34",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_34",
                       "databaseId": 1001,
@@ -2462,6 +2530,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2514,6 +2583,7 @@
                     "id": "PVTI_35",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_35",
                       "databaseId": 1001,
@@ -2531,6 +2601,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2583,6 +2654,7 @@
                     "id": "PVTI_36",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_36",
                       "databaseId": 1001,
@@ -2600,6 +2672,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2652,6 +2725,7 @@
                     "id": "PVTI_37",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_37",
                       "databaseId": 1001,
@@ -2669,6 +2743,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2721,6 +2796,7 @@
                     "id": "PVTI_38",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_38",
                       "databaseId": 1001,
@@ -2738,6 +2814,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2790,6 +2867,7 @@
                     "id": "PVTI_39",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_39",
                       "databaseId": 1001,
@@ -2807,6 +2885,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2859,6 +2938,7 @@
                     "id": "PVTI_40",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_40",
                       "databaseId": 1001,
@@ -2876,6 +2956,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2928,6 +3009,7 @@
                     "id": "PVTI_41",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_41",
                       "databaseId": 1001,
@@ -2945,6 +3027,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -2997,6 +3080,7 @@
                     "id": "PVTI_42",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_42",
                       "databaseId": 1001,
@@ -3014,6 +3098,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3066,6 +3151,7 @@
                     "id": "PVTI_43",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_43",
                       "databaseId": 1001,
@@ -3083,6 +3169,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3135,6 +3222,7 @@
                     "id": "PVTI_44",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_44",
                       "databaseId": 1001,
@@ -3152,6 +3240,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3204,6 +3293,7 @@
                     "id": "PVTI_45",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_45",
                       "databaseId": 1001,
@@ -3221,6 +3311,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3273,6 +3364,7 @@
                     "id": "PVTI_46",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_46",
                       "databaseId": 1001,
@@ -3290,6 +3382,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3342,6 +3435,7 @@
                     "id": "PVTI_47",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_47",
                       "databaseId": 1001,
@@ -3359,6 +3453,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3411,6 +3506,7 @@
                     "id": "PVTI_48",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_48",
                       "databaseId": 1001,
@@ -3428,6 +3524,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3480,6 +3577,7 @@
                     "id": "PVTI_49",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_49",
                       "databaseId": 1001,
@@ -3497,6 +3595,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3549,6 +3648,7 @@
                     "id": "PVTI_50",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_50",
                       "databaseId": 1001,
@@ -3566,6 +3666,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3618,6 +3719,7 @@
                     "id": "PVTI_51",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_51",
                       "databaseId": 1001,
@@ -3635,6 +3737,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3687,6 +3790,7 @@
                     "id": "PVTI_52",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_52",
                       "databaseId": 1001,
@@ -3704,6 +3808,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3756,6 +3861,7 @@
                     "id": "PVTI_53",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_53",
                       "databaseId": 1001,
@@ -3773,6 +3879,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3825,6 +3932,7 @@
                     "id": "PVTI_54",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_54",
                       "databaseId": 1001,
@@ -3842,6 +3950,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3894,6 +4003,7 @@
                     "id": "PVTI_55",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_55",
                       "databaseId": 1001,
@@ -3911,6 +4021,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -3963,6 +4074,7 @@
                     "id": "PVTI_56",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_56",
                       "databaseId": 1001,
@@ -3980,6 +4092,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4032,6 +4145,7 @@
                     "id": "PVTI_57",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_57",
                       "databaseId": 1001,
@@ -4049,6 +4163,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4101,6 +4216,7 @@
                     "id": "PVTI_58",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_58",
                       "databaseId": 1001,
@@ -4118,6 +4234,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4170,6 +4287,7 @@
                     "id": "PVTI_59",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_59",
                       "databaseId": 1001,
@@ -4187,6 +4305,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4239,6 +4358,7 @@
                     "id": "PVTI_60",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_60",
                       "databaseId": 1001,
@@ -4256,6 +4376,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4308,6 +4429,7 @@
                     "id": "PVTI_61",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_61",
                       "databaseId": 1001,
@@ -4325,6 +4447,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4377,6 +4500,7 @@
                     "id": "PVTI_62",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_62",
                       "databaseId": 1001,
@@ -4394,6 +4518,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4446,6 +4571,7 @@
                     "id": "PVTI_63",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_63",
                       "databaseId": 1001,
@@ -4463,6 +4589,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4515,6 +4642,7 @@
                     "id": "PVTI_64",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_64",
                       "databaseId": 1001,
@@ -4532,6 +4660,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4584,6 +4713,7 @@
                     "id": "PVTI_65",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_65",
                       "databaseId": 1001,
@@ -4601,6 +4731,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4653,6 +4784,7 @@
                     "id": "PVTI_66",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_66",
                       "databaseId": 1001,
@@ -4670,6 +4802,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4722,6 +4855,7 @@
                     "id": "PVTI_67",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_67",
                       "databaseId": 1001,
@@ -4739,6 +4873,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4791,6 +4926,7 @@
                     "id": "PVTI_68",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_68",
                       "databaseId": 1001,
@@ -4808,6 +4944,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4860,6 +4997,7 @@
                     "id": "PVTI_69",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_69",
                       "databaseId": 1001,
@@ -4877,6 +5015,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4929,6 +5068,7 @@
                     "id": "PVTI_70",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_70",
                       "databaseId": 1001,
@@ -4946,6 +5086,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -4998,6 +5139,7 @@
                     "id": "PVTI_71",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_71",
                       "databaseId": 1001,
@@ -5015,6 +5157,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5067,6 +5210,7 @@
                     "id": "PVTI_72",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_72",
                       "databaseId": 1001,
@@ -5084,6 +5228,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5136,6 +5281,7 @@
                     "id": "PVTI_73",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_73",
                       "databaseId": 1001,
@@ -5153,6 +5299,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5205,6 +5352,7 @@
                     "id": "PVTI_74",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_74",
                       "databaseId": 1001,
@@ -5222,6 +5370,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5274,6 +5423,7 @@
                     "id": "PVTI_75",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_75",
                       "databaseId": 1001,
@@ -5291,6 +5441,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5343,6 +5494,7 @@
                     "id": "PVTI_76",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_76",
                       "databaseId": 1001,
@@ -5360,6 +5512,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5412,6 +5565,7 @@
                     "id": "PVTI_77",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_77",
                       "databaseId": 1001,
@@ -5429,6 +5583,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5481,6 +5636,7 @@
                     "id": "PVTI_78",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_78",
                       "databaseId": 1001,
@@ -5498,6 +5654,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5550,6 +5707,7 @@
                     "id": "PVTI_79",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_79",
                       "databaseId": 1001,
@@ -5567,6 +5725,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5619,6 +5778,7 @@
                     "id": "PVTI_80",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_80",
                       "databaseId": 1001,
@@ -5636,6 +5796,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5688,6 +5849,7 @@
                     "id": "PVTI_81",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_81",
                       "databaseId": 1001,
@@ -5705,6 +5867,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5757,6 +5920,7 @@
                     "id": "PVTI_82",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_82",
                       "databaseId": 1001,
@@ -5774,6 +5938,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5826,6 +5991,7 @@
                     "id": "PVTI_83",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_83",
                       "databaseId": 1001,
@@ -5843,6 +6009,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5895,6 +6062,7 @@
                     "id": "PVTI_84",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_84",
                       "databaseId": 1001,
@@ -5912,6 +6080,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -5964,6 +6133,7 @@
                     "id": "PVTI_85",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_85",
                       "databaseId": 1001,
@@ -5981,6 +6151,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6033,6 +6204,7 @@
                     "id": "PVTI_86",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_86",
                       "databaseId": 1001,
@@ -6050,6 +6222,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6102,6 +6275,7 @@
                     "id": "PVTI_87",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_87",
                       "databaseId": 1001,
@@ -6119,6 +6293,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6171,6 +6346,7 @@
                     "id": "PVTI_88",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_88",
                       "databaseId": 1001,
@@ -6188,6 +6364,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6240,6 +6417,7 @@
                     "id": "PVTI_89",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_89",
                       "databaseId": 1001,
@@ -6257,6 +6435,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6309,6 +6488,7 @@
                     "id": "PVTI_90",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_90",
                       "databaseId": 1001,
@@ -6326,6 +6506,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6378,6 +6559,7 @@
                     "id": "PVTI_91",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_91",
                       "databaseId": 1001,
@@ -6395,6 +6577,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6447,6 +6630,7 @@
                     "id": "PVTI_92",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_92",
                       "databaseId": 1001,
@@ -6464,6 +6648,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6516,6 +6701,7 @@
                     "id": "PVTI_93",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_93",
                       "databaseId": 1001,
@@ -6533,6 +6719,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6585,6 +6772,7 @@
                     "id": "PVTI_94",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_94",
                       "databaseId": 1001,
@@ -6602,6 +6790,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6654,6 +6843,7 @@
                     "id": "PVTI_95",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_95",
                       "databaseId": 1001,
@@ -6671,6 +6861,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6723,6 +6914,7 @@
                     "id": "PVTI_96",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_96",
                       "databaseId": 1001,
@@ -6740,6 +6932,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6792,6 +6985,7 @@
                     "id": "PVTI_97",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_97",
                       "databaseId": 1001,
@@ -6809,6 +7003,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6861,6 +7056,7 @@
                     "id": "PVTI_98",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_98",
                       "databaseId": 1001,
@@ -6878,6 +7074,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6930,6 +7127,7 @@
                     "id": "PVTI_99",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_99",
                       "databaseId": 1001,
@@ -6947,6 +7145,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -6999,6 +7198,7 @@
                     "id": "PVTI_100",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_100",
                       "databaseId": 1001,
@@ -7016,6 +7216,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -7073,7 +7274,7 @@
     }
   },
   {
-    "query": "\n  query getPaginatedProjectItems($owner: String!, $number: Int!, $first: Int, $after: String) {\n    userOrOrganization: repositoryOwner(login: $owner) {\n      ... on ProjectV2Owner {\n        projectV2(number: $number) {\n          items(first: $first, after: $after) {\n            pageInfo {\n              endCursor\n              hasNextPage\n            }\n            nodes {\n              \n  id\n  createdAt\n  type\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n\n            }\n          }\n        } \n      }\n    }\n  }\n",
+    "query": "\n  query getPaginatedProjectItems($owner: String!, $number: Int!, $first: Int, $after: String) {\n    userOrOrganization: repositoryOwner(login: $owner) {\n      ... on ProjectV2Owner {\n        projectV2(number: $number) {\n          items(first: $first, after: $after) {\n            pageInfo {\n              endCursor\n              hasNextPage\n            }\n            nodes {\n              \n  id\n  createdAt\n  type\n  isArchived\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n\n            }\n          }\n        } \n      }\n    }\n  }\n",
     "variables": {
       "owner": "github-project-fixtures",
       "number": 2,
@@ -7090,7 +7291,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 29 Jan 2023 19:10:45 GMT",
+        "date": "Sat, 20 May 2023 00:57:34 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -7099,12 +7300,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E6A1:0782:41283E:43920E:63D6C4B3",
+        "x-github-request-id": "EC14:089B:6318754:6624C9B:64681AFD",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4141",
-        "x-ratelimit-reset": "1675021300",
+        "x-ratelimit-remaining": "4088",
+        "x-ratelimit-reset": "1684545298",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "859",
+        "x-ratelimit-used": "912",
         "x-xss-protection": "0"
       },
       "data": {
@@ -7121,6 +7322,7 @@
                     "id": "PVTI_101",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_101",
                       "databaseId": 1001,
@@ -7138,6 +7340,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -7190,6 +7393,7 @@
                     "id": "PVTI_102",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_102",
                       "databaseId": 1001,
@@ -7207,6 +7411,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -7259,6 +7464,7 @@
                     "id": "PVTI_103",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_103",
                       "databaseId": 1001,
@@ -7276,6 +7482,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -7328,6 +7535,7 @@
                     "id": "PVTI_104",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_104",
                       "databaseId": 1001,
@@ -7345,6 +7553,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -7397,6 +7606,7 @@
                     "id": "PVTI_105",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_105",
                       "databaseId": 1001,
@@ -7414,6 +7624,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -7466,6 +7677,7 @@
                     "id": "PVTI_106",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_106",
                       "databaseId": 1001,
@@ -7483,6 +7695,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -7535,6 +7748,7 @@
                     "id": "PVTI_107",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_107",
                       "databaseId": 1001,
@@ -7552,6 +7766,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -7604,6 +7819,7 @@
                     "id": "PVTI_108",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_108",
                       "databaseId": 1001,
@@ -7621,6 +7837,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -7673,6 +7890,7 @@
                     "id": "PVTI_109",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_109",
                       "databaseId": 1001,
@@ -7690,6 +7908,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -7742,6 +7961,7 @@
                     "id": "PVTI_110",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_110",
                       "databaseId": 1001,
@@ -7759,6 +7979,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -7811,6 +8032,7 @@
                     "id": "PVTI_111",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_111",
                       "databaseId": 1001,
@@ -7828,6 +8050,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -7880,6 +8103,7 @@
                     "id": "PVTI_112",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_112",
                       "databaseId": 1001,
@@ -7897,6 +8121,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -7949,6 +8174,7 @@
                     "id": "PVTI_113",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_113",
                       "databaseId": 1001,
@@ -7966,6 +8192,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8018,6 +8245,7 @@
                     "id": "PVTI_114",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_114",
                       "databaseId": 1001,
@@ -8035,6 +8263,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8087,6 +8316,7 @@
                     "id": "PVTI_115",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_115",
                       "databaseId": 1001,
@@ -8104,6 +8334,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8156,6 +8387,7 @@
                     "id": "PVTI_116",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_116",
                       "databaseId": 1001,
@@ -8173,6 +8405,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8225,6 +8458,7 @@
                     "id": "PVTI_117",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_117",
                       "databaseId": 1001,
@@ -8242,6 +8476,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8294,6 +8529,7 @@
                     "id": "PVTI_118",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_118",
                       "databaseId": 1001,
@@ -8311,6 +8547,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8363,6 +8600,7 @@
                     "id": "PVTI_119",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_119",
                       "databaseId": 1001,
@@ -8380,6 +8618,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8432,6 +8671,7 @@
                     "id": "PVTI_120",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_120",
                       "databaseId": 1001,
@@ -8449,6 +8689,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8501,6 +8742,7 @@
                     "id": "PVTI_121",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_121",
                       "databaseId": 1001,
@@ -8518,6 +8760,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8570,6 +8813,7 @@
                     "id": "PVTI_122",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_122",
                       "databaseId": 1001,
@@ -8587,6 +8831,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8639,6 +8884,7 @@
                     "id": "PVTI_123",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_123",
                       "databaseId": 1001,
@@ -8656,6 +8902,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8708,6 +8955,7 @@
                     "id": "PVTI_124",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_124",
                       "databaseId": 1001,
@@ -8725,6 +8973,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8777,6 +9026,7 @@
                     "id": "PVTI_125",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_125",
                       "databaseId": 1001,
@@ -8794,6 +9044,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8846,6 +9097,7 @@
                     "id": "PVTI_126",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_126",
                       "databaseId": 1001,
@@ -8863,6 +9115,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8915,6 +9168,7 @@
                     "id": "PVTI_127",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_127",
                       "databaseId": 1001,
@@ -8932,6 +9186,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -8984,6 +9239,7 @@
                     "id": "PVTI_128",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_128",
                       "databaseId": 1001,
@@ -9001,6 +9257,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9053,6 +9310,7 @@
                     "id": "PVTI_129",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_129",
                       "databaseId": 1001,
@@ -9070,6 +9328,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9122,6 +9381,7 @@
                     "id": "PVTI_130",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_130",
                       "databaseId": 1001,
@@ -9139,6 +9399,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9191,6 +9452,7 @@
                     "id": "PVTI_131",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_131",
                       "databaseId": 1001,
@@ -9208,6 +9470,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9260,6 +9523,7 @@
                     "id": "PVTI_132",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_132",
                       "databaseId": 1001,
@@ -9277,6 +9541,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9329,6 +9594,7 @@
                     "id": "PVTI_133",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_133",
                       "databaseId": 1001,
@@ -9346,6 +9612,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9398,6 +9665,7 @@
                     "id": "PVTI_134",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_134",
                       "databaseId": 1001,
@@ -9415,6 +9683,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9467,6 +9736,7 @@
                     "id": "PVTI_135",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_135",
                       "databaseId": 1001,
@@ -9484,6 +9754,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9536,6 +9807,7 @@
                     "id": "PVTI_136",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_136",
                       "databaseId": 1001,
@@ -9553,6 +9825,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9605,6 +9878,7 @@
                     "id": "PVTI_137",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_137",
                       "databaseId": 1001,
@@ -9622,6 +9896,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9674,6 +9949,7 @@
                     "id": "PVTI_138",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_138",
                       "databaseId": 1001,
@@ -9691,6 +9967,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9743,6 +10020,7 @@
                     "id": "PVTI_139",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_139",
                       "databaseId": 1001,
@@ -9760,6 +10038,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9812,6 +10091,7 @@
                     "id": "PVTI_140",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_140",
                       "databaseId": 1001,
@@ -9829,6 +10109,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9881,6 +10162,7 @@
                     "id": "PVTI_141",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_141",
                       "databaseId": 1001,
@@ -9898,6 +10180,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -9950,6 +10233,7 @@
                     "id": "PVTI_142",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_142",
                       "databaseId": 1001,
@@ -9967,6 +10251,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10019,6 +10304,7 @@
                     "id": "PVTI_143",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_143",
                       "databaseId": 1001,
@@ -10036,6 +10322,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10088,6 +10375,7 @@
                     "id": "PVTI_144",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_144",
                       "databaseId": 1001,
@@ -10105,6 +10393,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10157,6 +10446,7 @@
                     "id": "PVTI_145",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_145",
                       "databaseId": 1001,
@@ -10174,6 +10464,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10226,6 +10517,7 @@
                     "id": "PVTI_146",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_146",
                       "databaseId": 1001,
@@ -10243,6 +10535,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10295,6 +10588,7 @@
                     "id": "PVTI_147",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_147",
                       "databaseId": 1001,
@@ -10312,6 +10606,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10364,6 +10659,7 @@
                     "id": "PVTI_148",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_148",
                       "databaseId": 1001,
@@ -10381,6 +10677,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10433,6 +10730,7 @@
                     "id": "PVTI_149",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_149",
                       "databaseId": 1001,
@@ -10450,6 +10748,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10502,6 +10801,7 @@
                     "id": "PVTI_150",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_150",
                       "databaseId": 1001,
@@ -10519,6 +10819,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10571,6 +10872,7 @@
                     "id": "PVTI_151",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_151",
                       "databaseId": 1001,
@@ -10588,6 +10890,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10640,6 +10943,7 @@
                     "id": "PVTI_152",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_152",
                       "databaseId": 1001,
@@ -10657,6 +10961,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10709,6 +11014,7 @@
                     "id": "PVTI_153",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_153",
                       "databaseId": 1001,
@@ -10726,6 +11032,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10778,6 +11085,7 @@
                     "id": "PVTI_154",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_154",
                       "databaseId": 1001,
@@ -10795,6 +11103,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10847,6 +11156,7 @@
                     "id": "PVTI_155",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_155",
                       "databaseId": 1001,
@@ -10864,6 +11174,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10916,6 +11227,7 @@
                     "id": "PVTI_156",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_156",
                       "databaseId": 1001,
@@ -10933,6 +11245,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -10985,6 +11298,7 @@
                     "id": "PVTI_157",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_157",
                       "databaseId": 1001,
@@ -11002,6 +11316,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11054,6 +11369,7 @@
                     "id": "PVTI_158",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_158",
                       "databaseId": 1001,
@@ -11071,6 +11387,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11123,6 +11440,7 @@
                     "id": "PVTI_159",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_159",
                       "databaseId": 1001,
@@ -11140,6 +11458,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11192,6 +11511,7 @@
                     "id": "PVTI_160",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_160",
                       "databaseId": 1001,
@@ -11209,6 +11529,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11261,6 +11582,7 @@
                     "id": "PVTI_161",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_161",
                       "databaseId": 1001,
@@ -11278,6 +11600,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11330,6 +11653,7 @@
                     "id": "PVTI_162",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_162",
                       "databaseId": 1001,
@@ -11347,6 +11671,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11399,6 +11724,7 @@
                     "id": "PVTI_163",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_163",
                       "databaseId": 1001,
@@ -11416,6 +11742,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11468,6 +11795,7 @@
                     "id": "PVTI_164",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_164",
                       "databaseId": 1001,
@@ -11485,6 +11813,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11537,6 +11866,7 @@
                     "id": "PVTI_165",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_165",
                       "databaseId": 1001,
@@ -11554,6 +11884,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11606,6 +11937,7 @@
                     "id": "PVTI_166",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_166",
                       "databaseId": 1001,
@@ -11623,6 +11955,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11675,6 +12008,7 @@
                     "id": "PVTI_167",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_167",
                       "databaseId": 1001,
@@ -11692,6 +12026,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11744,6 +12079,7 @@
                     "id": "PVTI_168",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_168",
                       "databaseId": 1001,
@@ -11761,6 +12097,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11813,6 +12150,7 @@
                     "id": "PVTI_169",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_169",
                       "databaseId": 1001,
@@ -11830,6 +12168,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11882,6 +12221,7 @@
                     "id": "PVTI_170",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_170",
                       "databaseId": 1001,
@@ -11899,6 +12239,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -11951,6 +12292,7 @@
                     "id": "PVTI_171",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_171",
                       "databaseId": 1001,
@@ -11968,6 +12310,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12020,6 +12363,7 @@
                     "id": "PVTI_172",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_172",
                       "databaseId": 1001,
@@ -12037,6 +12381,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12089,6 +12434,7 @@
                     "id": "PVTI_173",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_173",
                       "databaseId": 1001,
@@ -12106,6 +12452,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12158,6 +12505,7 @@
                     "id": "PVTI_174",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_174",
                       "databaseId": 1001,
@@ -12175,6 +12523,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12227,6 +12576,7 @@
                     "id": "PVTI_175",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_175",
                       "databaseId": 1001,
@@ -12244,6 +12594,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12296,6 +12647,7 @@
                     "id": "PVTI_176",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_176",
                       "databaseId": 1001,
@@ -12313,6 +12665,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12365,6 +12718,7 @@
                     "id": "PVTI_177",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_177",
                       "databaseId": 1001,
@@ -12382,6 +12736,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12434,6 +12789,7 @@
                     "id": "PVTI_178",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_178",
                       "databaseId": 1001,
@@ -12451,6 +12807,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12503,6 +12860,7 @@
                     "id": "PVTI_179",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_179",
                       "databaseId": 1001,
@@ -12520,6 +12878,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12572,6 +12931,7 @@
                     "id": "PVTI_180",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_180",
                       "databaseId": 1001,
@@ -12589,6 +12949,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12641,6 +13002,7 @@
                     "id": "PVTI_181",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_181",
                       "databaseId": 1001,
@@ -12658,6 +13020,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12710,6 +13073,7 @@
                     "id": "PVTI_182",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_182",
                       "databaseId": 1001,
@@ -12727,6 +13091,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12779,6 +13144,7 @@
                     "id": "PVTI_183",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_183",
                       "databaseId": 1001,
@@ -12796,6 +13162,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12848,6 +13215,7 @@
                     "id": "PVTI_184",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_184",
                       "databaseId": 1001,
@@ -12865,6 +13233,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12917,6 +13286,7 @@
                     "id": "PVTI_185",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_185",
                       "databaseId": 1001,
@@ -12934,6 +13304,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -12986,6 +13357,7 @@
                     "id": "PVTI_186",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_186",
                       "databaseId": 1001,
@@ -13003,6 +13375,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13055,6 +13428,7 @@
                     "id": "PVTI_187",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_187",
                       "databaseId": 1001,
@@ -13072,6 +13446,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13124,6 +13499,7 @@
                     "id": "PVTI_188",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_188",
                       "databaseId": 1001,
@@ -13141,6 +13517,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13193,6 +13570,7 @@
                     "id": "PVTI_189",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_189",
                       "databaseId": 1001,
@@ -13210,6 +13588,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13262,6 +13641,7 @@
                     "id": "PVTI_190",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_190",
                       "databaseId": 1001,
@@ -13279,6 +13659,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13331,6 +13712,7 @@
                     "id": "PVTI_191",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_191",
                       "databaseId": 1001,
@@ -13348,6 +13730,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13400,6 +13783,7 @@
                     "id": "PVTI_192",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_192",
                       "databaseId": 1001,
@@ -13417,6 +13801,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13469,6 +13854,7 @@
                     "id": "PVTI_193",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_193",
                       "databaseId": 1001,
@@ -13486,6 +13872,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13538,6 +13925,7 @@
                     "id": "PVTI_194",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_194",
                       "databaseId": 1001,
@@ -13555,6 +13943,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13607,6 +13996,7 @@
                     "id": "PVTI_195",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_195",
                       "databaseId": 1001,
@@ -13624,6 +14014,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13676,6 +14067,7 @@
                     "id": "PVTI_196",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_196",
                       "databaseId": 1001,
@@ -13693,6 +14085,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13745,6 +14138,7 @@
                     "id": "PVTI_197",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_197",
                       "databaseId": 1001,
@@ -13762,6 +14156,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13814,6 +14209,7 @@
                     "id": "PVTI_198",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_198",
                       "databaseId": 1001,
@@ -13831,6 +14227,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13883,6 +14280,7 @@
                     "id": "PVTI_199",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_199",
                       "databaseId": 1001,
@@ -13900,6 +14298,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -13952,6 +14351,7 @@
                     "id": "PVTI_200",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_200",
                       "databaseId": 1001,
@@ -13969,6 +14369,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
@@ -14026,7 +14427,7 @@
     }
   },
   {
-    "query": "\n  query getPaginatedProjectItems($owner: String!, $number: Int!, $first: Int, $after: String) {\n    userOrOrganization: repositoryOwner(login: $owner) {\n      ... on ProjectV2Owner {\n        projectV2(number: $number) {\n          items(first: $first, after: $after) {\n            pageInfo {\n              endCursor\n              hasNextPage\n            }\n            nodes {\n              \n  id\n  createdAt\n  type\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n\n            }\n          }\n        } \n      }\n    }\n  }\n",
+    "query": "\n  query getPaginatedProjectItems($owner: String!, $number: Int!, $first: Int, $after: String) {\n    userOrOrganization: repositoryOwner(login: $owner) {\n      ... on ProjectV2Owner {\n        projectV2(number: $number) {\n          items(first: $first, after: $after) {\n            pageInfo {\n              endCursor\n              hasNextPage\n            }\n            nodes {\n              \n  id\n  createdAt\n  type\n  isArchived\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n\n            }\n          }\n        } \n      }\n    }\n  }\n",
     "variables": {
       "owner": "github-project-fixtures",
       "number": 2,
@@ -14043,7 +14444,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Sun, 29 Jan 2023 19:10:45 GMT",
+        "date": "Sat, 20 May 2023 00:57:34 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -14052,12 +14453,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "E6A2:40DE:372866:3992A1:63D6C4B5",
+        "x-github-request-id": "EC15:41C3:60D1054:63A004C:64681AFE",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4139",
-        "x-ratelimit-reset": "1675021300",
+        "x-ratelimit-remaining": "4086",
+        "x-ratelimit-reset": "1684545298",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "861",
+        "x-ratelimit-used": "914",
         "x-xss-protection": "0"
       },
       "data": {
@@ -14074,6 +14475,7 @@
                     "id": "PVTI_201",
                     "createdAt": "2022-02-02T12:00:00Z",
                     "type": "ISSUE",
+                    "isArchived": false,
                     "content": {
                       "id": "I_201",
                       "databaseId": 1001,
@@ -14091,6 +14493,7 @@
                         "nodes": []
                       },
                       "closed": false,
+                      "closedAt": null,
                       "milestone": null,
                       "repository": {
                         "name": "test-repository"
