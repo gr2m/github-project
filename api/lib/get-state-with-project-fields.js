@@ -22,15 +22,6 @@ export async function getStateWithProjectFields(project, state) {
     number: project.number,
   });
 
-  if (
-    response.userOrOrganization === null ||
-    response.userOrOrganization.projectV2 === null
-  ) {
-    throw new Error(
-      `[github-project] Cannot find project with number: ${project.number} and owner: ${project.owner}`
-    );
-  }
-
   const {
     userOrOrganization: { projectV2 },
   } = response;
