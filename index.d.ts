@@ -218,7 +218,7 @@ type IssueContent = {
     title: string;
     number: number;
     state: "OPEN" | "CLOSED";
-  };
+  } | null;
   title: string;
   url: string;
 };
