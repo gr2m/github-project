@@ -40,6 +40,16 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "maxisam",
+      "name": "Sam Lin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/456807?v=4",
+      "profile": "http://maxisam.github.io/",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
