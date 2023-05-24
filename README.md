@@ -977,6 +977,28 @@ Removes a single item based on the Node ID of its linked issue or pull request. 
   </tbody>
 </table>
 
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://dev.to/gr2m"><img src="https://avatars.githubusercontent.com/u/39992?v=4?s=100" width="100px;" alt="Gregor Martynus"/><br /><sub><b>Gregor Martynus</b></sub></a><br /><a href="#ideas-gr2m" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/gr2m/github-project/commits?author=gr2m" title="Code">💻</a> <a href="https://github.com/gr2m/github-project/commits?author=gr2m" title="Tests">⚠️</a> <a href="https://github.com/gr2m/github-project/pulls?q=is%3Apr+reviewed-by%3Agr2m" title="Reviewed Pull Requests">👀</a> <a href="#maintenance-gr2m" title="Maintenance">🚧</a> <a href="#infra-gr2m" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
 ## License
 
 [ISC](LICENSE.md)

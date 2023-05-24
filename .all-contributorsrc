@@ -1,0 +1,31 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "gr2m",
+      "name": "Gregor Martynus",
+      "avatar_url": "https://avatars.githubusercontent.com/u/39992?v=4",
+      "profile": "https://dev.to/gr2m",
+      "contributions": [
+        "ideas",
+        "code",
+        "test",
+        "review",
+        "maintenance",
+        "infra"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "github-project",
+  "projectOwner": "gr2m"
+}
