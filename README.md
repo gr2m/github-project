@@ -988,6 +988,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://dev.to/gr2m"><img src="https://avatars.githubusercontent.com/u/39992?v=4?s=100" width="100px;" alt="Gregor Martynus"/><br /><sub><b>Gregor Martynus</b></sub></a><br /><a href="#ideas-gr2m" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/gr2m/github-project/commits?author=gr2m" title="Code">💻</a> <a href="https://github.com/gr2m/github-project/commits?author=gr2m" title="Tests">⚠️</a> <a href="https://github.com/gr2m/github-project/pulls?q=is%3Apr+reviewed-by%3Agr2m" title="Reviewed Pull Requests">👀</a> <a href="#maintenance-gr2m" title="Maintenance">🚧</a> <a href="#infra-gr2m" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://mikesurowiec.com"><img src="https://avatars.githubusercontent.com/u/821435?v=4?s=100" width="100px;" alt="Mike Surowiec"/><br /><sub><b>Mike Surowiec</b></sub></a><br /><a href="https://github.com/gr2m/github-project/commits?author=mikesurowiec" title="Code">💻</a> <a href="https://github.com/gr2m/github-project/commits?author=mikesurowiec" title="Tests">⚠️</a></td>
     </tr>
   </tbody>
 </table>
