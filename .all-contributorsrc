@@ -50,6 +50,17 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "Ebonsignori",
+      "name": "Evan Bonsignori",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17055832?v=4",
+      "profile": "http://evan.bio",
+      "contributions": [
+        "code",
+        "test",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
