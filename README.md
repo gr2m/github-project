@@ -78,7 +78,7 @@ for (const item of items) {
     item.fields.priority,
     item.type === "REDACTED"
       ? "_redacted_"
-      : item.content.assignees.map(({ login }) => login).join(",")
+      : item.content.assignees.map(({ login }) => login).join(","),
   );
 }
 
@@ -484,7 +484,7 @@ Resolves with `undefined` if item cannot be found.
 ```js
 const item = await project.items.getByContentRepositoryAndNumber(
   repositoryName,
-  issueOrPullRequestNumber
+  issueOrPullRequestNumber,
 );
 ```
 
@@ -794,7 +794,7 @@ Archives a single item based on the Node ID of its linked issue or pull request.
 ```js
 await project.items.archiveByContentRepositoryAndNumber(
   repositoryName,
-  issueOrPullRequestNumber
+  issueOrPullRequestNumber,
 );
 ```
 
@@ -927,7 +927,7 @@ Removes a single item based on the Node ID of its linked issue or pull request. 
 ```js
 await project.items.removeByContentRepositoryAndNumber(
   repositoryName,
-  issueOrPullRequestNumber
+  issueOrPullRequestNumber,
 );
 ```
 
