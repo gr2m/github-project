@@ -120,7 +120,7 @@ export async function test(defaultTestProject, contentId = "I_1") {
 
   return project.items.getByContentId(contentId).then(
     () => new Error("should have thrown"),
-    (error) => error
+    (error) => error,
   );
 }
 ```
