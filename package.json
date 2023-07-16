@@ -55,6 +55,6 @@
   },
   "dependencies": {
     "@octokit/core": "^5.0.0",
-    "type-fest": "^3.0.0"
+    "type-fest": "^4.0.0"
   }
 }
