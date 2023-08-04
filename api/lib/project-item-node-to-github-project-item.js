@@ -33,7 +33,12 @@ export function projectItemNodeToGitHubProjectItem(state, itemNode) {
     };
   }
 
-  if (itemNode.type === "ISSUE" || itemNode.type === "PULL_REQUEST") {
+  const isIssueOrPullRequest =
+    itemNode.type === "ISSUE" || itemNode.type === "PULL_REQUEST";
+  // content might be unset for deleted issues / pull requests (e.g. in case of a deleted spam user)
+  const hasContent = itemNode.content !== null;
+
+  if (isIssueOrPullRequest && hasContent) {
     // item is issue or pull request
     const issue = {
       id: itemNode.content.id,
