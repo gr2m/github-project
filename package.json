@@ -31,7 +31,7 @@
     "ava": "^5.0.0",
     "c8": "^8.0.0",
     "dotenv": "^16.0.1",
-    "octokit-plugin-create-pull-request": "^4.0.0",
+    "octokit-plugin-create-pull-request": "^5.0.0",
     "open-cli": "^7.0.1",
     "prettier": "^3.0.0",
     "tsd": "^0.28.0",
