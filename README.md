@@ -977,6 +977,141 @@ Removes a single item based on the Node ID of its linked issue or pull request. 
   </tbody>
 </table>
 
+### Errors
+
+Expected errors are thrown using custom `Error` classes. You can check for any error thrown by `github-project` or for specific errors.
+
+```js
+import Project, {
+  GitHubProjectError,
+  GitHubProjectErrorUnknownFieldOption,
+} from "github-project";
+
+try {
+  await myScript(new Project(options));
+} catch (error) {
+  if (error instanceof GitHubProjectError) {
+    myLogger.error(
+      {
+        // .code and .details are always set on GitHubProjectError instances
+        code: error.code,
+        details: error.details,
+        // log out helpful human-readable error message, but beware that it likely contains user content
+      },
+      error.toHumanMessage(),
+    );
+  } else {
+    // handle any other error
+    myLogger.error({ error }, `An unexpected error occurred`);
+  }
+
+  throw error;
+}
+```
+
+#### `GitHubProjectErrorUnknownFieldOption`
+
+Thrown when attempting to set a single select project field to a value that is not included in the field's configured options.
+
+```js
+import Project, { GitHubProjectErrorUnknownFieldOption } from "github-project";
+
+try {
+  await myScript(new Project(options));
+} catch (error) {
+  if (error instanceof GitHubProjectErrorUnknownFieldOption) {
+    analytics.track("GitHubProjectErrorUnknownFieldOption", {
+      fieldName: error.details.field.name,
+      userValue: error.details.userValue,
+    });
+
+    myLogger.error(
+      {
+        code: error.code,
+        details: error.details,
+      },
+      error.toHumanMessage(),
+    );
+  }
+
+  throw error;
+}
+```
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>name</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td><code>GitHubProjectErrorUnknownFieldOption</code></td>
+    </tr>
+    <tr>
+      <th>
+        <code>code</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td><code>E_GITHUB_PROJECT_UNKNOWN_FIELD_OPTION</code></td>
+    </tr>
+    <tr>
+      <th>
+        <code>message</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+> Single select field cannot be set to an unknown option
+
+</td>
+    <tr>
+      <th>
+        <code>details.field</code>
+      </th>
+      <td>
+        <code>{id: string, name: string, options: {id: string, name: string}[]}</code>
+      </td>
+      <td>
+
+`details.field.id` is the project field GraphQL node ID, `details.field.name` is the field name as shown in the project. `details.field.options` is an array of objects with `id` and `name` keys, where `id` is the GraphQL node ID of the option, and `name` is the option name as shown in the project.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.userValue</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The stringified value set in the API call.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
