@@ -60,6 +60,7 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
     });
 
   if (readOnlyFields.length > 0) {
+    // TODO: GitHubProjectUpdateReadOnlyFieldError
     throw new Error(
       `[github-project] Cannot update read-only fields: ${readOnlyFields
         .map(([key, value]) => `"${value}" (.${key})`)
@@ -103,9 +104,9 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
 
         const query = `
           ${alias}: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: "${fieldId}", ${toItemFieldValueInput(
-          field,
-          valueOrOption
-        )}}) {
+            field,
+            valueOrOption
+          )}}) {
             ${queryNodes}
           }
         `;
@@ -192,6 +193,7 @@ function findFieldOptionIdAndValue(state, field, value) {
       .join("\n");
 
     throw Object.assign(
+      // TODO: GitHubProjectUnknownFieldOptionError
       new Error(
         `[github-project] "${value}" is an invalid option for "${field.name}".\n\nKnown options are:\n${existingOptionsString}`
       ),

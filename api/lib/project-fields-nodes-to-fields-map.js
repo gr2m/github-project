@@ -85,6 +85,7 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
           .map((node) => `"${node.name}"`)
           .join(", ");
         if (!fieldOptional) {
+          // TODO: GitHubProjectUnknownFieldError
           throw new Error(
             `[github-project] "${userFieldName}" could not be matched with any of the existing field names: ${projectFieldNames}. If the field should be considered optional, then set it to "${userInternalFieldName}: { name: "${userFieldName}", optional: true}`
           );
