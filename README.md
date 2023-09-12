@@ -1183,7 +1183,7 @@ try {
 </td>
     <tr>
       <th>
-        <code>details.field</code>
+        <code>details</code>
       </th>
       <td>
         <code>object</code>
@@ -1191,6 +1191,19 @@ try {
       <td>
 
 Object with error details
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field</code>
+      </th>
+      <td>
+        <code>object</code>
+      </td>
+      <td>
+
+Object with field details
 
 </td>
     </tr>
