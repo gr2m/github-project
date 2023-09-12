@@ -78,7 +78,7 @@ for (const item of items) {
     item.fields.priority,
     item.type === "REDACTED"
       ? "_redacted_"
-      : item.content.assignees.map(({ login }) => login).join(","),
+      : item.content.assignees.map(({ login }) => login).join(",")
   );
 }
 
@@ -484,7 +484,7 @@ Resolves with `undefined` if item cannot be found.
 ```js
 const item = await project.items.getByContentRepositoryAndNumber(
   repositoryName,
-  issueOrPullRequestNumber,
+  issueOrPullRequestNumber
 );
 ```
 
@@ -794,7 +794,7 @@ Archives a single item based on the Node ID of its linked issue or pull request.
 ```js
 await project.items.archiveByContentRepositoryAndNumber(
   repositoryName,
-  issueOrPullRequestNumber,
+  issueOrPullRequestNumber
 );
 ```
 
@@ -927,7 +927,7 @@ Removes a single item based on the Node ID of its linked issue or pull request. 
 ```js
 await project.items.removeByContentRepositoryAndNumber(
   repositoryName,
-  issueOrPullRequestNumber,
+  issueOrPullRequestNumber
 );
 ```
 
@@ -998,7 +998,7 @@ try {
         details: error.details,
         // log out helpful human-readable error message, but beware that it likely contains user content
       },
-      error.toHumanMessage(),
+      error.toHumanMessage()
     );
   } else {
     // handle any other error
@@ -1034,7 +1034,7 @@ try {
         code: error.code,
         details: error.details,
       },
-      error.toHumanMessage(),
+      error.toHumanMessage()
     );
   }
 
@@ -1062,25 +1062,16 @@ try {
         <code>name</code>
       </th>
       <td>
-        <code>string</code>
+        <code>constant</code>
       </td>
       <td><code>GitHubProjectErrorUnknownFieldOption</code></td>
-    </tr>
-    <tr>
-      <th>
-        <code>code</code>
-      </th>
-      <td>
-        <code>string</code>
-      </td>
-      <td><code>E_GITHUB_PROJECT_UNKNOWN_FIELD_OPTION</code></td>
     </tr>
     <tr>
       <th>
         <code>message</code>
       </th>
       <td>
-        <code>string</code>
+        <code>constant</code>
       </td>
       <td>
 
@@ -1092,11 +1083,89 @@ try {
         <code>details.field</code>
       </th>
       <td>
-        <code>{id: string, name: string, options: {id: string, name: string}[]}</code>
+        <code>object</code>
       </td>
       <td>
 
-`details.field.id` is the project field GraphQL node ID, `details.field.name` is the field name as shown in the project. `details.field.options` is an array of objects with `id` and `name` keys, where `id` is the GraphQL node ID of the option, and `name` is the option name as shown in the project.
+Object with error details
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.id</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+`details.field.id` is the project field GraphQL node ID
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.name</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+      
+The project field GraphQL node ID
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.name</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The field name as shown in the project.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.options</code>
+      </th>
+      <td>
+        <code>array of {id, name}</code>
+      </td>
+      <td>
+
+`details.field.options` is an array of objects with `id` and `name` keys.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.options[].id</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The GraphQL node ID of the option
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.options[].name</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The option name as shown in the project.
 
 </td>
     </tr>
