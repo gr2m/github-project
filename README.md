@@ -1011,7 +1011,112 @@ try {
 
 #### `GitHubProjectUnknownFieldError`
 
-TBD
+Thrown when a configured field configured in the `Project` constructor cannot be found in the project.
+
+<!-- `[github-project] "${userFieldName}" could not be matched with any of the existing field names: ${projectFieldNames}. If the field should be considered optional, then set it to "${userInternalFieldName}: { name: "${userFieldName}", optional: true}` -->
+
+```js
+import Project, { GitHubProjectUnknownFieldError } from "github-project";
+
+try {
+  await myScript(new Project(options));
+} catch (error) {
+  if (error instanceof GitHubProjectUnknownFieldError) {
+    analytics.track("GitHubProjectUnknownFieldError", {
+      projectFieldNames: error.details.projectFieldNames,
+      userFieldName: error.details.userFieldName,
+    });
+
+    myLogger.error(
+      {
+        code: error.code,
+        details: error.details,
+      },
+      error.toHumanMessage()
+    );
+  }
+
+  throw error;
+}
+```
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>name</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td><code>GitHubProjectUnknownFieldError</code></td>
+    </tr>
+    <tr>
+      <th>
+        <code>message</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td>
+
+> Project field cannot be found
+
+</td>
+    <tr>
+      <th>
+        <code>details</code>
+      </th>
+      <td>
+        <code>object</code>
+      </td>
+      <td>
+
+Object with error details
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.projectFieldNames</code>
+      </th>
+      <td>
+        <code>string[]</code>
+      </td>
+      <td>
+
+Names of the fields in the project.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.userFieldName</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The stringified value set in the API call.
+
+</td>
+    </tr>
+  </tbody>
+</table>
 
 #### `GitHubProjectUnknownFieldOptionError`
 
