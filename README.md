@@ -1013,8 +1013,6 @@ try {
 
 Thrown when a configured field configured in the `Project` constructor cannot be found in the project.
 
-<!-- `[github-project] "${userFieldName}" could not be matched with any of the existing field names: ${projectFieldNames}. If the field should be considered optional, then set it to "${userInternalFieldName}: { name: "${userFieldName}", optional: true}` -->
-
 ```js
 import Project, { GitHubProjectUnknownFieldError } from "github-project";
 
