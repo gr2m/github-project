@@ -1135,11 +1135,11 @@ The field name as shown in the project.
         <code>details.field.options</code>
       </th>
       <td>
-        <code>array of {id, name}</code>
+        <code>object[]</code>
       </td>
       <td>
 
-`details.field.options` is an array of objects with `id` and `name` keys.
+Array of objects with project field details
 
 </td>
     </tr>
