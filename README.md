@@ -981,6 +981,8 @@ Removes a single item based on the Node ID of its linked issue or pull request. 
 
 Expected errors are thrown using custom `Error` classes. You can check for any error thrown by `github-project` or for specific errors.
 
+Custom errors are designed in a way that `error.message` does not leak any user content. All errors do provide a `.toHumanMessage()` method if you want to provide a more helpful error message which includes both project data as well ase user-provided data.
+
 ```js
 import Project, {
   GitHubProjectError,
@@ -1303,7 +1305,149 @@ The stringified value set in the API call.
 
 #### `GitHubProjectUpdateReadOnlyFieldError`
 
-TBD
+Thrown when attempting to set a single select project field to a value that is not included in the field's configured options.
+
+```js
+import Project, { GitHubProjectErrorUnknownFieldOption } from "github-project";
+
+try {
+  await myScript(new Project(options));
+} catch (error) {
+  if (error instanceof GitHubProjectErrorUnknownFieldOption) {
+    analytics.track("GitHubProjectErrorUnknownFieldOption", {
+      fieldName: error.details.field.name,
+      userValue: error.details.userValue,
+    });
+
+    myLogger.error(
+      {
+        code: error.code,
+        details: error.details,
+      },
+      error.toHumanMessage()
+    );
+  }
+
+  throw error;
+}
+```
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>name</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td><code>GitHubProjectErrorUnknownFieldOption</code></td>
+    </tr>
+    <tr>
+      <th>
+        <code>message</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td>
+
+> Cannot update read-only field
+
+</td>
+    <tr>
+      <th>
+        <code>details</code>
+      </th>
+      <td>
+        <code>object</code>
+      </td>
+      <td>
+
+Object with error details
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.fields</code>
+      </th>
+      <td>
+        <code>object[]</code>
+      </td>
+      <td>
+
+Array of objects with read-only fields and their user-provided values
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.fields[].id</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+GraphQL node ID of the project field
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.fields[].name</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The project field name
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.fields[].userName</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The user-provided alias for the project field
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.fields[].userValue</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The user provided value that the user attempted to set the field to.
+
+</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Contributors ✨
 
