@@ -1118,6 +1118,10 @@ The stringified value set in the API call.
   </tbody>
 </table>
 
+Example for `error.toHumanMessage()`:
+
+> "NOPE" could not be matched with any of the existing field names: "Title", "Assignees", "Status", "Labels", "Linked pull requests", "Reviewers", "Repository", "Milestone", "Text", "Number", "Date", "Single select", "Iteration". If the field should be considered optional, then set it to "nope: { name: "NOPE", optional: true}
+
 #### `GitHubProjectUnknownFieldOptionError`
 
 Thrown when attempting to set a single select project field to a value that is not included in the field's configured options.
@@ -1303,6 +1307,10 @@ The stringified value set in the API call.
   </tbody>
 </table>
 
+Example for `error.toHumanMessage()`:
+
+> "<unknown>" is an invalid option for "Single select"
+
 #### `GitHubProjectUpdateReadOnlyFieldError`
 
 Thrown when attempting to set a single select project field to a value that is not included in the field's configured options.
@@ -1448,6 +1456,10 @@ The user provided value that the user attempted to set the field to.
     </tr>
   </tbody>
 </table>
+
+Example for `error.toHumanMessage()`:
+
+> Cannot update read-only fields: "Assignees" (.assignees) to "gr2m", "Labels" (.labels) to "bug"
 
 ## Contributors ✨
 
