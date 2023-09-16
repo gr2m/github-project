@@ -325,7 +325,7 @@ export declare class GitHubProjectUnknownFieldError<
 
 type GitHubProjectUnknownFieldOptionErrorDetails = {
   userValue: string;
-  fields: {
+  field: {
     id: string;
     name: string;
     options: {

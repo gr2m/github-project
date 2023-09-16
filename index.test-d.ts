@@ -669,7 +669,7 @@ export function testGitHubProjectUnknownFieldError() {
 
 export function testGitHubProjectUnknownFieldOptionError() {
   const details = {
-    fields: {
+    field: {
       id: "field id",
       name: "field name",
       options: [
