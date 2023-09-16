@@ -1247,19 +1247,6 @@ Object with field details
         <code>string</code>
       </td>
       <td>
-      
-The project field GraphQL node ID
-
-</td>
-    </tr>
-    <tr>
-      <th>
-        <code>details.field.name</code>
-      </th>
-      <td>
-        <code>string</code>
-      </td>
-      <td>
 
 The field name as shown in the project.
 
