@@ -322,3 +322,23 @@ export declare class GitHubProjectUnknownFieldError<
   details: TDetails;
   constructor(details: TDetails);
 }
+
+type GitHubProjectUnknownFieldOptionErrorDetails = {
+  userValue: string;
+  fields: {
+    id: string;
+    name: string;
+    options: {
+      id: string;
+      name: string;
+    }[];
+  };
+};
+
+export declare class GitHubProjectUnknownFieldOptionError<
+  TDetails extends GitHubProjectUnknownFieldOptionErrorDetails,
+> extends GitHubProjectError {
+  name: "GitHubProjectUnknownFieldOptionError";
+  details: TDetails;
+  constructor(details: TDetails);
+}

@@ -3,6 +3,7 @@ import { Octokit } from "@octokit/core";
 import GitHubProject, {
   GitHubProjectError,
   GitHubProjectUnknownFieldError,
+  GitHubProjectUnknownFieldOptionError,
 } from "./index";
 
 export function smokeTest() {
@@ -662,6 +663,27 @@ export function testGitHubProjectUnknownFieldError() {
   const error = new GitHubProjectUnknownFieldError(details);
 
   expectType<"GitHubProjectUnknownFieldError">(error.name);
+  expectType<typeof details>(error.details);
+  expectType<string>(error.toHumanError());
+}
+
+export function testGitHubProjectUnknownFieldOptionError() {
+  const details = {
+    fields: {
+      id: "field id",
+      name: "field name",
+      options: [
+        {
+          id: "option id",
+          name: "option name",
+        },
+      ],
+    },
+    userValue: "user value",
+  };
+  const error = new GitHubProjectUnknownFieldOptionError(details);
+
+  expectType<"GitHubProjectUnknownFieldOptionError">(error.name);
   expectType<typeof details>(error.details);
   expectType<string>(error.toHumanError());
 }

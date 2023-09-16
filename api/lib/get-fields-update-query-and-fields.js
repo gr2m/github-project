@@ -1,5 +1,6 @@
 // @ts-check
 
+import { GitHubProjectUnknownFieldOptionError } from "../../index.js";
 import { queryItemFieldNodes } from "./queries.js";
 
 /**
@@ -187,21 +188,19 @@ function findFieldOptionIdAndValue(state, field, value) {
     ) || [];
 
   if (!optionId) {
-    const knownOptions = Object.keys(field.optionsByValue);
-    const existingOptionsString = knownOptions
-      .map((value) => `- ${value}`)
-      .join("\n");
+    const options = Object.entries(field.optionsByValue).map(([name, id]) => {
+      return { name, id };
+    });
 
     throw Object.assign(
-      // TODO: GitHubProjectUnknownFieldOptionError
-      new Error(
-        `[github-project] "${value}" is an invalid option for "${field.name}".\n\nKnown options are:\n${existingOptionsString}`
-      ),
-      {
-        code: "E_GITHUB_PROJECT_UNKNOWN_FIELD_OPTION",
-        knownOptions,
-        userOption: value,
-      }
+      new GitHubProjectUnknownFieldOptionError({
+        field: {
+          id: field.id,
+          name: field.name,
+          options,
+        },
+        userValue: value,
+      })
     );
   }
 
