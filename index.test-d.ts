@@ -1,6 +1,9 @@
 import { expectType, expectNotType } from "tsd";
 import { Octokit } from "@octokit/core";
-import GitHubProject from "./index";
+import GitHubProject, {
+  GitHubProjectError,
+  GitHubProjectUnknownFieldError,
+} from "./index";
 
 export function smokeTest() {
   expectType<typeof GitHubProject>(GitHubProject);
@@ -305,7 +308,7 @@ export async function getItemByRepositoryAndNumberTest() {
   });
   const item = await project.items.getByContentRepositoryAndNumber(
     "repository-name",
-    1,
+    1
   );
 
   if (typeof item === "undefined") {
@@ -456,7 +459,7 @@ export async function updateItemByContentRepositoryAndNumberTest() {
     1,
     {
       status: "new status",
-    },
+    }
   );
 
   if (typeof item === "undefined") {
@@ -535,7 +538,7 @@ export async function archiveItemByContentRepositoryAndNameTest() {
   });
   const item = await project.items.archiveByContentRepositoryAndNumber(
     "repository-name",
-    1,
+    1
   );
 
   if (typeof item === "undefined") {
@@ -586,7 +589,7 @@ export async function removeItemByContentRepositoryAndNameTest() {
   });
   const item = await project.items.removeByContentRepositoryAndNumber(
     "repository-name",
-    1,
+    1
   );
 
   if (typeof item === "undefined") {
@@ -640,4 +643,25 @@ export async function testGetProperties() {
     title: string;
     url: string;
   }>(properties);
+}
+
+export function testGitHubProjectError() {
+  const error = new GitHubProjectError();
+
+  expectType<"GitHubProjectError">(error.name);
+  expectType<{}>(error.details);
+  expectType<string>(error.toHumanError());
+}
+
+export function testGitHubProjectUnknownFieldError() {
+  const details = {
+    projectFieldNames: ["one", "two"],
+    userFieldName: "Three",
+    userInternalFieldName: "three",
+  };
+  const error = new GitHubProjectUnknownFieldError(details);
+
+  expectType<"GitHubProjectUnknownFieldError">(error.name);
+  expectType<typeof details>(error.details);
+  expectType<string>(error.toHumanError());
 }

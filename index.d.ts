@@ -63,7 +63,7 @@ export default class GitHubProject<
         Record<ConditionalKeys<TFields, { optional: true }>, string | null>
       >,
   >(
-    options: GitHubProjectOptions<TCustomFields>,
+    options: GitHubProjectOptions<TCustomFields>
   ): Promise<GitHubProject<TCustomFields, TFields, TItemFields>>;
 
   constructor(options: GitHubProjectOptions<TCustomFields>);
@@ -72,67 +72,67 @@ export default class GitHubProject<
     list(): Promise<GitHubProjectItem<TItemFields>[]>;
     addDraft(
       content: DraftItemContent,
-      fields?: Partial<TItemFields>,
+      fields?: Partial<TItemFields>
     ): Promise<ProjectItem_DraftIssue<TItemFields>>;
     add(
       contentNodeId: string,
-      fields?: Partial<TItemFields>,
+      fields?: Partial<TItemFields>
     ): Promise<
       ProjectItem_PullRequest<TItemFields> | ProjectItem_Issue<TItemFields>
     >;
     get(
-      itemNodeId: string,
+      itemNodeId: string
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     getByContentId(
-      contentNodeId: string,
+      contentNodeId: string
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     getByContentRepositoryAndNumber(
       repositoryName: string,
-      issueOrPullRequestNumber: number,
+      issueOrPullRequestNumber: number
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     update(
       itemNodeId: string,
-      fields: Partial<TItemFields>,
+      fields: Partial<TItemFields>
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     updateByContentId(
       contentNodeId: string,
-      fields: Partial<TItemFields>,
+      fields: Partial<TItemFields>
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     updateByContentRepositoryAndNumber(
       repositoryName: string,
       issueOrPullRequestNumber: number,
-      fields: Partial<TItemFields>,
+      fields: Partial<TItemFields>
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     archive(
-      itemNodeId: string,
+      itemNodeId: string
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     archiveByContentId(
-      contentNodeId: string,
+      contentNodeId: string
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     archiveByContentRepositoryAndNumber(
       repositoryName: string,
-      issueOrPullRequestNumber: number,
+      issueOrPullRequestNumber: number
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     remove(
-      itemNodeId: string,
+      itemNodeId: string
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     removeByContentId(
-      contentNodeId: string,
+      contentNodeId: string
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
     removeByContentRepositoryAndNumber(
       repositoryName: string,
-      issueOrPullRequestNumber: number,
+      issueOrPullRequestNumber: number
     ): Promise<GitHubProjectItem<TItemFields> | undefined>;
   };
 }
 
 export type MatchFieldNameFn = (
   projectFieldName: string,
-  userFieldName: string,
+  userFieldName: string
 ) => boolean;
 export type MatchFieldOptionValueFn = (
   fieldOptionValue: string,
-  userValue: string,
+  userValue: string
 ) => boolean;
 
 export type GitHubProjectOptions<
@@ -302,3 +302,23 @@ export type GitHubProjectStateWithFields = GitHubProjectStateCommon & {
   fields: ProjectFieldMap;
   databaseId: string;
 };
+
+export declare class GitHubProjectError extends Error {
+  name: "GitHubProjectError";
+  details: {};
+  toHumanError(): string;
+}
+
+type GitHubProjectUnknownFieldErrorDetails = {
+  projectFieldNames: string[];
+  userFieldName: string;
+  userInternalFieldName: string;
+};
+
+export declare class GitHubProjectUnknownFieldError<
+  TDetails extends GitHubProjectUnknownFieldErrorDetails,
+> extends GitHubProjectError {
+  name: "GitHubProjectUnknownFieldError";
+  details: TDetails;
+  constructor(details: TDetails);
+}

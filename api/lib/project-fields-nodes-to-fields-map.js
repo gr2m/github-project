@@ -1,5 +1,7 @@
 // @ts-check
 
+import { GitHubProjectUnknownFieldError } from "../../index.js";
+
 /**
  * Takes `project.fields` and the list of project item fieldValues nodes
  * from the GraphQL query result:
@@ -81,14 +83,13 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
       );
 
       if (!node) {
-        const projectFieldNames = nodes
-          .map((node) => `"${node.name}"`)
-          .join(", ");
+        const projectFieldNames = nodes.map((node) => node.name);
         if (!fieldOptional) {
-          // TODO: GitHubProjectUnknownFieldError
-          throw new Error(
-            `[github-project] "${userFieldName}" could not be matched with any of the existing field names: ${projectFieldNames}. If the field should be considered optional, then set it to "${userInternalFieldName}: { name: "${userFieldName}", optional: true}`
-          );
+          throw new GitHubProjectUnknownFieldError({
+            userFieldName,
+            userInternalFieldName,
+            projectFieldNames,
+          });
         }
         project.octokit.log.info(
           `[github-project] optional field "${userFieldName}" was not matched with any existing field names: ${projectFieldNames}`

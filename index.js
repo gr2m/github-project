@@ -27,6 +27,8 @@ export const BUILT_IN_FIELDS = {
   status: "Status",
 };
 
+export * from "./api/errors.js";
+
 export default class GitHubProject {
   /**
    * @param {import(".").GitHubProjectOptions} options
@@ -58,7 +60,7 @@ export default class GitHubProject {
       getByContentRepositoryAndNumber: getItemByContentRepositoryAndNumber.bind(
         null,
         this,
-        state,
+        state
       ),
       update: updateItem.bind(null, this, state),
       updateByContentId: updateItemByContentId.bind(null, this, state),
