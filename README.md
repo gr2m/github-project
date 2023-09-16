@@ -1115,6 +1115,19 @@ The stringified value set in the API call.
 
 </td>
     </tr>
+    <tr>
+      <th>
+        <code>details.userInternalFieldName</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The user-provided alias for the field.
+
+</td>
+    </tr>
   </tbody>
 </table>
 
