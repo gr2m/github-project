@@ -60,7 +60,7 @@ export default class GitHubProject {
       getByContentRepositoryAndNumber: getItemByContentRepositoryAndNumber.bind(
         null,
         this,
-        state
+        state,
       ),
       update: updateItem.bind(null, this, state),
       updateByContentId: updateItemByContentId.bind(null, this, state),

@@ -34,6 +34,24 @@ export class GitHubProjectUnknownFieldOptionError extends GitHubProjectError {
   }
 
   toHumanError() {
-    return `[github-project] "${value}" is an invalid option for "${field.name}".\n\nKnown options are:\n${existingOptionsString}`;
+    const existingOptionsString = this.details.field.options
+      .map((option) => `"${option.name}"`)
+      .join(", ");
+
+    return `"${this.details.userValue}" is an invalid option for "${this.details.field.name}".\n\nKnown options are:\n${existingOptionsString}`;
+  }
+}
+
+export class GitHubProjectUpdateReadOnlyFieldError extends GitHubProjectError {
+  constructor(details) {
+    super("Project field cannot be found");
+    this.name = "GitHubProjectUpdateReadOnlyFieldError";
+    this.details = details;
+  }
+
+  toHumanError() {
+    return `[github-project] Cannot update read-only fields: ${readOnlyFields
+      .map(([key, value]) => `"${value}" (.${key})`)
+      .join(", ")}`;
   }
 }
