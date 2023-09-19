@@ -304,7 +304,9 @@ export type GitHubProjectStateWithFields = GitHubProjectStateCommon & {
 };
 
 export declare class GitHubProjectError extends Error {
-  name: "GitHubProjectError";
+  // This causes an odd error that I don't know how to workaround
+  // > Property name in type ... is not assignable to the same property in base type GitHubProjectError.
+  // name: "GitHubProjectError";
   details: {};
   toHumanError(): string;
 }

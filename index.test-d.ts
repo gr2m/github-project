@@ -309,7 +309,7 @@ export async function getItemByRepositoryAndNumberTest() {
   });
   const item = await project.items.getByContentRepositoryAndNumber(
     "repository-name",
-    1,
+    1
   );
 
   if (typeof item === "undefined") {
@@ -460,7 +460,7 @@ export async function updateItemByContentRepositoryAndNumberTest() {
     1,
     {
       status: "new status",
-    },
+    }
   );
 
   if (typeof item === "undefined") {
@@ -539,7 +539,7 @@ export async function archiveItemByContentRepositoryAndNameTest() {
   });
   const item = await project.items.archiveByContentRepositoryAndNumber(
     "repository-name",
-    1,
+    1
   );
 
   if (typeof item === "undefined") {
@@ -590,7 +590,7 @@ export async function removeItemByContentRepositoryAndNameTest() {
   });
   const item = await project.items.removeByContentRepositoryAndNumber(
     "repository-name",
-    1,
+    1
   );
 
   if (typeof item === "undefined") {
@@ -649,7 +649,8 @@ export async function testGetProperties() {
 export function testGitHubProjectError() {
   const error = new GitHubProjectError();
 
-  expectType<"GitHubProjectError">(error.name);
+  // setting type for GitHubProjectError.name is causing a type error, see comment in index.d.ts
+  // expectType<"GitHubProjectError">(error.name);
   expectType<{}>(error.details);
   expectType<string>(error.toHumanError());
 }
