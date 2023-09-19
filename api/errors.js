@@ -7,7 +7,7 @@ export class GitHubProjectError extends Error {
     this.details = {};
   }
   /* c8 ignore start */
-  toHumanError() {
+  toHumanMessage() {
     return this.message;
   }
   /* c8 ignore stop */
@@ -20,7 +20,7 @@ export class GitHubProjectUnknownFieldError extends GitHubProjectError {
     this.details = details;
   }
 
-  toHumanError() {
+  toHumanMessage() {
     const projectFieldNames = this.details.projectFieldNames
       .map((node) => `"${node.name}"`)
       .join(", ");
@@ -35,7 +35,7 @@ export class GitHubProjectUnknownFieldOptionError extends GitHubProjectError {
     this.details = details;
   }
 
-  toHumanError() {
+  toHumanMessage() {
     const existingOptionsString = this.details.field.options
       .map((option) => `"${option.name}"`)
       .join(", ");
@@ -51,8 +51,8 @@ export class GitHubProjectUpdateReadOnlyFieldError extends GitHubProjectError {
     this.details = details;
   }
 
-  toHumanError() {
-    return `[github-project] Cannot update read-only fields: ${this.details.fields
+  toHumanMessage() {
+    return `Cannot update read-only fields: ${this.details.fields
       .map(({ userValue, userName }) => `"${userValue}" (.${userName})`)
       .join(", ")}`;
   }

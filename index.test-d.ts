@@ -652,7 +652,7 @@ export function testGitHubProjectError() {
   // setting type for GitHubProjectError.name is causing a type error, see comment in index.d.ts
   // expectType<"GitHubProjectError">(error.name);
   expectType<{}>(error.details);
-  expectType<string>(error.toHumanError());
+  expectType<string>(error.toHumanMessage());
 }
 
 export function testGitHubProjectUnknownFieldError() {
@@ -665,7 +665,7 @@ export function testGitHubProjectUnknownFieldError() {
 
   expectType<"GitHubProjectUnknownFieldError">(error.name);
   expectType<typeof details>(error.details);
-  expectType<string>(error.toHumanError());
+  expectType<string>(error.toHumanMessage());
 }
 
 export function testGitHubProjectUnknownFieldOptionError() {
@@ -686,5 +686,5 @@ export function testGitHubProjectUnknownFieldOptionError() {
 
   expectType<"GitHubProjectUnknownFieldOptionError">(error.name);
   expectType<typeof details>(error.details);
-  expectType<string>(error.toHumanError());
+  expectType<string>(error.toHumanMessage());
 }

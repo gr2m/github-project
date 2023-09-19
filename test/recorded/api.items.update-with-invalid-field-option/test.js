@@ -11,7 +11,7 @@ export function test(project, itemId = "PVTI_1") {
     },
     (error) => ({
       error,
-      humanMessage: error.toHumanError(),
+      humanMessage: error.toHumanMessage(),
     })
   );
 }

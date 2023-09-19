@@ -20,7 +20,7 @@ export function test(defaultTestProject) {
     },
     (error) => ({
       error,
-      humanMessage: error.toHumanError(),
+      humanMessage: error.toHumanMessage(),
     })
   );
 }

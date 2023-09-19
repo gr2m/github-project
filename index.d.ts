@@ -308,7 +308,7 @@ export declare class GitHubProjectError extends Error {
   // > Property name in type ... is not assignable to the same property in base type GitHubProjectError.
   // name: "GitHubProjectError";
   details: {};
-  toHumanError(): string;
+  toHumanMessage(): string;
 }
 
 type GitHubProjectUnknownFieldErrorDetails = {

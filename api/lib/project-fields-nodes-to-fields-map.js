@@ -92,7 +92,7 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
           });
         }
         project.octokit.log.info(
-          `[github-project] optional field "${userFieldName}" was not matched with any existing field names: ${projectFieldNames}`
+          `optional field "${userFieldName}" was not matched with any existing field names: ${projectFieldNames}`
         );
         return acc;
       }
