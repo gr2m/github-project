@@ -78,7 +78,7 @@ for (const item of items) {
     item.fields.priority,
     item.type === "REDACTED"
       ? "_redacted_"
-      : item.content.assignees.map(({ login }) => login).join(","),
+      : item.content.assignees.map(({ login }) => login).join(",")
   );
 }
 
@@ -484,7 +484,7 @@ Resolves with `undefined` if item cannot be found.
 ```js
 const item = await project.items.getByContentRepositoryAndNumber(
   repositoryName,
-  issueOrPullRequestNumber,
+  issueOrPullRequestNumber
 );
 ```
 
@@ -794,7 +794,7 @@ Archives a single item based on the Node ID of its linked issue or pull request.
 ```js
 await project.items.archiveByContentRepositoryAndNumber(
   repositoryName,
-  issueOrPullRequestNumber,
+  issueOrPullRequestNumber
 );
 ```
 
@@ -927,7 +927,7 @@ Removes a single item based on the Node ID of its linked issue or pull request. 
 ```js
 await project.items.removeByContentRepositoryAndNumber(
   repositoryName,
-  issueOrPullRequestNumber,
+  issueOrPullRequestNumber
 );
 ```
 
@@ -1000,7 +1000,7 @@ try {
         details: error.details,
         // log out helpful human-readable error message, but beware that it likely contains user content
       },
-      error.toHumanMessage(),
+      error.toHumanMessage()
     );
   } else {
     // handle any other error
@@ -1032,7 +1032,7 @@ try {
         code: error.code,
         details: error.details,
       },
-      error.toHumanMessage(),
+      error.toHumanMessage()
     );
   }
 
@@ -1156,7 +1156,7 @@ try {
         code: error.code,
         details: error.details,
       },
-      error.toHumanMessage(),
+      error.toHumanMessage()
     );
   }
 
@@ -1197,7 +1197,7 @@ try {
       </td>
       <td>
 
-> Single select field cannot be set to an unknown option
+> Project field option cannot be found
 
 </td>
     <tr>
@@ -1332,7 +1332,7 @@ try {
         code: error.code,
         details: error.details,
       },
-      error.toHumanMessage(),
+      error.toHumanMessage()
     );
   }
 
@@ -1373,7 +1373,7 @@ try {
       </td>
       <td>
 
-> Cannot update read-only field
+> Project read-only field cannot be updated
 
 </td>
     <tr>
