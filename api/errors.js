@@ -30,7 +30,7 @@ export class GitHubProjectUnknownFieldError extends GitHubProjectError {
 
 export class GitHubProjectUnknownFieldOptionError extends GitHubProjectError {
   constructor(details) {
-    super("Project field optional cannot be found");
+    super("Project field option cannot be found");
     this.name = "GitHubProjectUnknownFieldOptionError";
     this.details = details;
   }
@@ -46,7 +46,7 @@ export class GitHubProjectUnknownFieldOptionError extends GitHubProjectError {
 
 export class GitHubProjectUpdateReadOnlyFieldError extends GitHubProjectError {
   constructor(details) {
-    super("Project field cannot be found");
+    super("Project read-only field cannot be updated");
     this.name = "GitHubProjectUpdateReadOnlyFieldError";
     this.details = details;
   }
