@@ -50,8 +50,8 @@ export class GitHubProjectUpdateReadOnlyFieldError extends GitHubProjectError {
   }
 
   toHumanError() {
-    return `[github-project] Cannot update read-only fields: ${readOnlyFields
-      .map(([key, value]) => `"${value}" (.${key})`)
+    return `[github-project] Cannot update read-only fields: ${this.details.fields
+      .map(({ userValue, userName }) => `"${userValue}" (.${userName})`)
       .join(", ")}`;
   }
 }

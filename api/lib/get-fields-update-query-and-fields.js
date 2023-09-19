@@ -1,6 +1,9 @@
 // @ts-check
 
-import { GitHubProjectUnknownFieldOptionError } from "../../index.js";
+import {
+  GitHubProjectUnknownFieldOptionError,
+  GitHubProjectUpdateReadOnlyFieldError,
+} from "../../index.js";
 import { queryItemFieldNodes } from "./queries.js";
 
 /**
@@ -46,27 +49,29 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
       .map((key) => [key, fields[key] === "" ? null : fields[key]])
   );
 
-  const readOnlyFields = Object.keys(existingFields)
-    .map((key) => [key, state.fields[key].userName])
-    .filter(([key]) => {
-      const field = state.fields[key];
+  const readOnlyFields = Object.entries(existingFields)
+    .map(([id, userValue]) => ({
+      id,
+      // @ts-expect-error - assume state.fields[id] is not OptionalNonExistingField
+      name: String(state.fields[id].name),
+      userName: state.fields[id].userName,
+      userValue,
+    }))
+    .filter(({ id, name }) => {
+      const field = state.fields[id];
       return READ_ONLY_FIELDS.some((readOnlyField) => {
         return state.matchFieldName(
           readOnlyField.toLowerCase(),
 
-          // @ts-expect-error - TODO: unclear why `field` is typed as potential "string" here
-          field.name.toLowerCase().trim()
+          name.toLowerCase().trim()
         );
       });
     });
 
   if (readOnlyFields.length > 0) {
-    // TODO: GitHubProjectUpdateReadOnlyFieldError
-    throw new Error(
-      `[github-project] Cannot update read-only fields: ${readOnlyFields
-        .map(([key, value]) => `"${value}" (.${key})`)
-        .join(", ")}`
-    );
+    throw new GitHubProjectUpdateReadOnlyFieldError({
+      fields: readOnlyFields,
+    });
   }
 
   /** @type {Record<string, {query: string, key: string, value: string|undefined}>[]} */
