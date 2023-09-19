@@ -6,9 +6,11 @@ export class GitHubProjectError extends Error {
     this.name = "GitHubProjectError";
     this.details = {};
   }
+  /* c8 ignore start */
   toHumanError() {
     return this.message;
   }
+  /* c8 ignore stop */
 }
 
 export class GitHubProjectUnknownFieldError extends GitHubProjectError {

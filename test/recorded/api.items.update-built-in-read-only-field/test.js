@@ -20,6 +20,9 @@ export function test(defaultTestProject, itemId = "PVTI_1") {
     () => {
       throw new Error("Should not resolve");
     },
-    (error) => error
+    (error) => ({
+      error,
+      humanMessage: error.toHumanError(),
+    })
   );
 }
