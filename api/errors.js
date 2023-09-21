@@ -3,7 +3,7 @@
 export class GitHubProjectError extends Error {
   constructor(message) {
     super(message);
-    this.name = "GitHubProjectError";
+    this.name = this.constructor.name;
     this.details = {};
   }
   /* c8 ignore start */
@@ -16,7 +16,6 @@ export class GitHubProjectError extends Error {
 export class GitHubProjectUnknownFieldError extends GitHubProjectError {
   constructor(details) {
     super("Project field cannot be found");
-    this.name = "GitHubProjectUnknownFieldError";
     this.details = details;
   }
 
@@ -31,7 +30,6 @@ export class GitHubProjectUnknownFieldError extends GitHubProjectError {
 export class GitHubProjectUnknownFieldOptionError extends GitHubProjectError {
   constructor(details) {
     super("Project field option cannot be found");
-    this.name = "GitHubProjectUnknownFieldOptionError";
     this.details = details;
   }
 
@@ -47,7 +45,6 @@ export class GitHubProjectUnknownFieldOptionError extends GitHubProjectError {
 export class GitHubProjectUpdateReadOnlyFieldError extends GitHubProjectError {
   constructor(details) {
     super("Project read-only field cannot be updated");
-    this.name = "GitHubProjectUpdateReadOnlyFieldError";
     this.details = details;
   }
 
