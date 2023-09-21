@@ -27,6 +27,8 @@ export const BUILT_IN_FIELDS = {
   status: "Status",
 };
 
+export * from "./api/errors.js";
+
 export default class GitHubProject {
   /**
    * @param {import(".").GitHubProjectOptions} options

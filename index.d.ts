@@ -302,3 +302,62 @@ export type GitHubProjectStateWithFields = GitHubProjectStateCommon & {
   fields: ProjectFieldMap;
   databaseId: string;
 };
+
+export declare class GitHubProjectError extends Error {
+  // This causes an odd error that I don't know how to workaround
+  // > Property name in type ... is not assignable to the same property in base type GitHubProjectError.
+  // name: "GitHubProjectError";
+  details: {};
+  toHumanMessage(): string;
+}
+
+type GitHubProjectUnknownFieldErrorDetails = {
+  projectFieldNames: string[];
+  userFieldName: string;
+  userInternalFieldName: string;
+};
+
+export declare class GitHubProjectUnknownFieldError<
+  TDetails extends GitHubProjectUnknownFieldErrorDetails,
+> extends GitHubProjectError {
+  name: "GitHubProjectUnknownFieldError";
+  details: TDetails;
+  constructor(details: TDetails);
+}
+
+type GitHubProjectUnknownFieldOptionErrorDetails = {
+  userValue: string;
+  field: {
+    id: string;
+    name: string;
+    options: {
+      id: string;
+      name: string;
+    }[];
+  };
+};
+
+export declare class GitHubProjectUnknownFieldOptionError<
+  TDetails extends GitHubProjectUnknownFieldOptionErrorDetails,
+> extends GitHubProjectError {
+  name: "GitHubProjectUnknownFieldOptionError";
+  details: TDetails;
+  constructor(details: TDetails);
+}
+
+type GitHubProjectUpdateReadOnlyFieldErrorDetails = {
+  fields: {
+    id: string;
+    name: string;
+    userName: string;
+    userValue: string | null;
+  }[];
+};
+
+export declare class GitHubProjectUpdateReadOnlyFieldError<
+  TDetails extends GitHubProjectUpdateReadOnlyFieldErrorDetails,
+> extends GitHubProjectError {
+  name: "GitHubProjectUpdateReadOnlyFieldError";
+  details: TDetails;
+  constructor(details: TDetails);
+}

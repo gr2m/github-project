@@ -977,6 +977,490 @@ Removes a single item based on the Node ID of its linked issue or pull request. 
   </tbody>
 </table>
 
+### Errors
+
+Expected errors are thrown using custom `Error` classes. You can check for any error thrown by `github-project` or for specific errors.
+
+Custom errors are designed in a way that `error.message` does not leak any user content. All errors do provide a `.toHumanMessage()` method if you want to provide a more helpful error message which includes both project data as well ase user-provided data.
+
+```js
+import Project, {
+  GitHubProjectError,
+  GitHubProjectErrorUnknownFieldOption,
+} from "github-project";
+
+try {
+  await myScript(new Project(options));
+} catch (error) {
+  if (error instanceof GitHubProjectError) {
+    myLogger.error(
+      {
+        // .code and .details are always set on GitHubProjectError instances
+        code: error.code,
+        details: error.details,
+        // log out helpful human-readable error message, but beware that it likely contains user content
+      },
+      error.toHumanMessage(),
+    );
+  } else {
+    // handle any other error
+    myLogger.error({ error }, `An unexpected error occurred`);
+  }
+
+  throw error;
+}
+```
+
+#### `GitHubProjectUnknownFieldError`
+
+Thrown when a configured field configured in the `Project` constructor cannot be found in the project.
+
+```js
+import Project, { GitHubProjectUnknownFieldError } from "github-project";
+
+try {
+  await myScript(new Project(options));
+} catch (error) {
+  if (error instanceof GitHubProjectUnknownFieldError) {
+    analytics.track("GitHubProjectUnknownFieldError", {
+      projectFieldNames: error.details.projectFieldNames,
+      userFieldName: error.details.userFieldName,
+    });
+
+    myLogger.error(
+      {
+        code: error.code,
+        details: error.details,
+      },
+      error.toHumanMessage(),
+    );
+  }
+
+  throw error;
+}
+```
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>name</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td><code>GitHubProjectUnknownFieldError</code></td>
+    </tr>
+    <tr>
+      <th>
+        <code>message</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td>
+
+> Project field cannot be found
+
+</td>
+    <tr>
+      <th>
+        <code>details</code>
+      </th>
+      <td>
+        <code>object</code>
+      </td>
+      <td>
+
+Object with error details
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.projectFieldNames</code>
+      </th>
+      <td>
+        <code>string[]</code>
+      </td>
+      <td>
+
+Names of the fields in the project.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.userFieldName</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The stringified value set in the API call.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.userInternalFieldName</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The user-provided alias for the field.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
+Example for `error.toHumanMessage()`:
+
+> "NOPE" could not be matched with any of the existing field names: "Title", "Assignees", "Status", "Labels", "Linked pull requests", "Reviewers", "Repository", "Milestone", "Text", "Number", "Date", "Single select", "Iteration". If the field should be considered optional, then set it to "nope: { name: "NOPE", optional: true}
+
+#### `GitHubProjectUnknownFieldOptionError`
+
+Thrown when attempting to set a single select project field to a value that is not included in the field's configured options.
+
+```js
+import Project, { GitHubProjectUnknownFieldOptionError } from "github-project";
+
+try {
+  await myScript(new Project(options));
+} catch (error) {
+  if (error instanceof GitHubProjectUnknownFieldOptionError) {
+    analytics.track("GitHubProjectUnknownFieldOptionError", {
+      fieldName: error.details.field.name,
+      userValue: error.details.userValue,
+    });
+
+    myLogger.error(
+      {
+        code: error.code,
+        details: error.details,
+      },
+      error.toHumanMessage(),
+    );
+  }
+
+  throw error;
+}
+```
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>name</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td><code>GitHubProjectErrorUnknownFieldOption</code></td>
+    </tr>
+    <tr>
+      <th>
+        <code>message</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td>
+
+> Project field option cannot be found
+
+</td>
+    <tr>
+      <th>
+        <code>details</code>
+      </th>
+      <td>
+        <code>object</code>
+      </td>
+      <td>
+
+Object with error details
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field</code>
+      </th>
+      <td>
+        <code>object</code>
+      </td>
+      <td>
+
+Object with field details
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.id</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+`details.field.id` is the project field GraphQL node ID
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.name</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The field name as shown in the project.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.options</code>
+      </th>
+      <td>
+        <code>object[]</code>
+      </td>
+      <td>
+
+Array of objects with project field details
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.options[].id</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The GraphQL node ID of the option
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.options[].name</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The option name as shown in the project.
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.userValue</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The stringified value set in the API call.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
+Example for `error.toHumanMessage()`:
+
+> "<unknown>" is an invalid option for "Single select"
+
+#### `GitHubProjectUpdateReadOnlyFieldError`
+
+Thrown when attempting to set a single select project field to a value that is not included in the field's configured options.
+
+```js
+import Project, { GitHubProjectUpdateReadOnlyFieldError } from "github-project";
+
+try {
+  await myScript(new Project(options));
+} catch (error) {
+  if (error instanceof GitHubProjectUpdateReadOnlyFieldError) {
+    analytics.track("GitHubProjectUpdateReadOnlyFieldError", {
+      fieldName: error.details.field.name,
+      userValue: error.details.userValue,
+    });
+
+    myLogger.error(
+      {
+        code: error.code,
+        details: error.details,
+      },
+      error.toHumanMessage(),
+    );
+  }
+
+  throw error;
+}
+```
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>name</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td><code>GitHubProjectErrorUnknownFieldOption</code></td>
+    </tr>
+    <tr>
+      <th>
+        <code>message</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td>
+
+> Project read-only field cannot be updated
+
+</td>
+    <tr>
+      <th>
+        <code>details</code>
+      </th>
+      <td>
+        <code>object</code>
+      </td>
+      <td>
+
+Object with error details
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.fields</code>
+      </th>
+      <td>
+        <code>object[]</code>
+      </td>
+      <td>
+
+Array of objects with read-only fields and their user-provided values
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.fields[].id</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+GraphQL node ID of the project field
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.fields[].name</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The project field name
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.fields[].userName</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The user-provided alias for the project field
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.fields[].userValue</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The user provided value that the user attempted to set the field to.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
+Example for `error.toHumanMessage()`:
+
+> Cannot update read-only fields: "Assignees" (.assignees) to "gr2m", "Labels" (.labels) to "bug"
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):

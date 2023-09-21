@@ -9,6 +9,9 @@ export function test(project, itemId = "PVTI_1") {
     () => {
       throw new Error("Expected error");
     },
-    (error) => error
+    (error) => ({
+      error,
+      humanMessage: error.toHumanMessage(),
+    })
   );
 }
