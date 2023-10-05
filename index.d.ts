@@ -338,11 +338,29 @@ export declare class GitHubProjectUnknownFieldError<
   constructor(details: TDetails);
 }
 
+type GitHubProjectInvalidValueErrorDetails = {
+  userValue: string;
+  field: {
+    id: string;
+    name: string;
+    type: "NUMBER" | "DATE" | "SINGLE_SELECT";
+  };
+};
+
+export declare class GitHubProjectInvalidValueError<
+  TDetails extends GitHubProjectInvalidValueErrorDetails,
+> extends GitHubProjectError {
+  name: "GitHubProjectInvalidValueError";
+  details: TDetails;
+  constructor(details: TDetails);
+}
+
 type GitHubProjectUnknownFieldOptionErrorDetails = {
   userValue: string;
   field: {
     id: string;
     name: string;
+    type: "SINGLE_SELECT";
     options: {
       id: string;
       name: string;

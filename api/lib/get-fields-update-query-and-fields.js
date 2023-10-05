@@ -201,7 +201,7 @@ function findFieldOptionIdAndValue(state, field, value) {
       field: {
         id: field.id,
         name: field.name,
-        type: field.dataType,
+        type: "SINGLE_SELECT",
         options,
       },
       userValue: value,
