@@ -1305,7 +1305,7 @@ try {
       </td>
       <td>
 
-> Project field option cannot be found
+> User value is incompatible with project field type
 
 </td>
     <tr>
@@ -1369,7 +1369,7 @@ The field name as shown in the project
       </td>
       <td>
 
-Is always either `DATE` or `NUMBER`
+Is always either `DATE`, `NUMBER`, or `SINGLE_SELECT`. If it's `SINGLE_SELECT`, then the error is a [`GitHubProjectUnknownFieldOptionError`](#githubprojectunknownfieldoptionerror).
 
 </td>
     </tr>
@@ -1391,11 +1391,11 @@ The stringified value set in the API call.
 
 Example for `error.toHumanMessage()`:
 
-> "unknown" is an invalid option for the "My Date" project field
+> "unknown" is not compatible with the "My Date" project field
 
 #### `GitHubProjectUnknownFieldOptionError`
 
-Thrown when attempting to set a single select project field to a value that is not included in the field's configured options.
+Thrown when attempting to set a single select project field to a value that is not included in the field's configured options. Inherits from [`GitHubProjectInvalidValueError`](#githubprojectinvalidvalueerror).
 
 ```js
 import Project, { GitHubProjectUnknownFieldOptionError } from "github-project";
