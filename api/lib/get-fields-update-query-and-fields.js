@@ -202,6 +202,7 @@ function findFieldOptionIdAndValue(state, field, value) {
         field: {
           id: field.id,
           name: field.name,
+          type: field.dataType,
           options,
         },
         userValue: value,
