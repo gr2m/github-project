@@ -10,7 +10,7 @@ export function test(project) {
     },
     (error) => ({
       error,
-      // humanMessage: error.toHumanMessage(),
+      humanMessage: error.toHumanMessage(),
     })
   );
 }
