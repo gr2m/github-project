@@ -1,5 +1,7 @@
 // @ts-check
 
+import { GitHubProjectInvalidValueError } from "../../../index.js";
+
 /**
  * @param {import("../../../").default} project
  * @param {string} [itemId]
@@ -12,6 +14,8 @@ export function test(project, itemId = "PVTI_1") {
     (error) => ({
       error,
       humanMessage: error.toHumanMessage(),
+      isInstanceOfGitHubProjectInvalidValueError:
+        error instanceof GitHubProjectInvalidValueError,
     })
   );
 }

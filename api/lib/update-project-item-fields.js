@@ -1,5 +1,6 @@
 // @ts-check
 
+import { GitHubProjectInvalidValueError } from "../../index.js";
 import { getFieldsUpdateQueryAndFields } from "./get-fields-update-query-and-fields.js";
 import { getStateWithProjectFields } from "./get-state-with-project-fields.js";
 
@@ -29,10 +30,34 @@ export async function updateItemFields(project, state, itemNodeId, fields) {
 
   const result = getFieldsUpdateQueryAndFields(stateWithFields, existingFields);
 
-  await project.octokit.graphql(result.query, {
-    projectId: stateWithFields.id,
-    itemId: itemNodeId,
-  });
+  try {
+    await project.octokit.graphql(result.query, {
+      projectId: stateWithFields.id,
+      itemId: itemNodeId,
+    });
+  } catch (error) {
+    const isInvalidValueError =
+      error?.response?.errors?.[0]?.extensions?.code ===
+      "argumentLiteralsIncompatible";
+
+    /* c8 ignore next */
+    if (!isInvalidValueError) throw error;
+
+    const key = error.response.errors[0].path[1];
+    const field = stateWithFields.fields[key];
+
+    throw new GitHubProjectInvalidValueError({
+      userValue: fields[key],
+      field: {
+        // @ts-expect-error
+        id: field.id,
+        // @ts-expect-error
+        name: field.name,
+        // @ts-expect-error
+        type: field.dataType,
+      },
+    });
+  }
 
   return result.fields;
 }

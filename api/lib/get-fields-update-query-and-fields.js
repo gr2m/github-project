@@ -197,16 +197,15 @@ function findFieldOptionIdAndValue(state, field, value) {
       return { name, id };
     });
 
-    throw Object.assign(
-      new GitHubProjectUnknownFieldOptionError({
-        field: {
-          id: field.id,
-          name: field.name,
-          options,
-        },
-        userValue: value,
-      })
-    );
+    throw new GitHubProjectUnknownFieldOptionError({
+      field: {
+        id: field.id,
+        name: field.name,
+        type: "SINGLE_SELECT",
+        options,
+      },
+      userValue: value,
+    });
   }
 
   return { id: optionId, value: optionValue };

@@ -4,6 +4,7 @@ import GitHubProject, {
   GitHubProjectError,
   GitHubProjectNotFoundError,
   GitHubProjectUnknownFieldError,
+  GitHubProjectInvalidValueError,
   GitHubProjectUnknownFieldOptionError,
   GitHubProjectUpdateReadOnlyFieldError,
 } from "./index";
@@ -682,11 +683,28 @@ export function testGitHubProjectUnknownFieldError() {
   expectType<string>(error.toHumanMessage());
 }
 
+export function testGitHubProjectInvalidValueError() {
+  const details = {
+    field: {
+      id: "field id",
+      name: "field name",
+      type: "DATE" as const,
+    },
+    userValue: "invalid",
+  };
+  const error = new GitHubProjectInvalidValueError(details);
+
+  expectType<"GitHubProjectInvalidValueError">(error.name);
+  expectType<typeof details>(error.details);
+  expectType<string>(error.toHumanMessage());
+}
+
 export function testGitHubProjectUnknownFieldOptionError() {
   const details = {
     field: {
       id: "field id",
       name: "field name",
+      type: "SINGLE_SELECT" as const,
       options: [
         {
           id: "option id",
