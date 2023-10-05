@@ -311,6 +311,19 @@ export declare class GitHubProjectError extends Error {
   toHumanMessage(): string;
 }
 
+type GitHubProjectNotFoundErrorDetails = {
+  owner: string;
+  number: number;
+};
+
+export declare class GitHubProjectNotFoundError<
+  TDetails extends GitHubProjectNotFoundErrorDetails,
+> extends GitHubProjectError {
+  name: "GitHubProjectNotFoundError";
+  details: TDetails;
+  constructor(details: TDetails);
+}
+
 type GitHubProjectUnknownFieldErrorDetails = {
   projectFieldNames: string[];
   userFieldName: string;
