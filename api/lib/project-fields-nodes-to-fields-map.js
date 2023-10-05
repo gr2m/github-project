@@ -67,7 +67,7 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
   );
 
   return Object.entries(project.fields).reduce(
-    (acc, [userInternalFieldName, userFieldNameOrConfig]) => {
+    (acc, [userFieldNameAlias, userFieldNameOrConfig]) => {
       let fieldOptional = false;
       let userFieldName = userFieldNameOrConfig;
       if (typeof userFieldNameOrConfig === "object") {
@@ -87,7 +87,7 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
         if (!fieldOptional) {
           throw new GitHubProjectUnknownFieldError({
             userFieldName,
-            userInternalFieldName,
+            userFieldNameAlias,
             projectFieldNames,
           });
         }
@@ -97,19 +97,19 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
         return acc;
       }
 
-      acc[userInternalFieldName] = {
+      acc[userFieldNameAlias] = {
         id: node.id,
         name: node.name,
         dataType: node.dataType,
         userName: userFieldName,
-        optional: userInternalFieldName in optionalFields,
+        optional: userFieldNameAlias in optionalFields,
         existsInProject: true,
       };
 
       // Settings is a JSON string. It contains view information such as column width.
       // If the field is of type "Single select", then the `options` property will be set.
       if (node.options) {
-        acc[userInternalFieldName].optionsById = node.options.reduce(
+        acc[userFieldNameAlias].optionsById = node.options.reduce(
           (acc, option) => {
             return {
               ...acc,
@@ -118,7 +118,7 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
           },
           {}
         );
-        acc[userInternalFieldName].optionsByValue = node.options.reduce(
+        acc[userFieldNameAlias].optionsByValue = node.options.reduce(
           (acc, option) => {
             return {
               ...acc,

@@ -673,7 +673,7 @@ export function testGitHubProjectUnknownFieldError() {
   const details = {
     projectFieldNames: ["one", "two"],
     userFieldName: "Three",
-    userInternalFieldName: "three",
+    userFieldNameAlias: "three",
   };
   const error = new GitHubProjectUnknownFieldError(details);
 

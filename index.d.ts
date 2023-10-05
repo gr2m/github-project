@@ -327,7 +327,7 @@ export declare class GitHubProjectNotFoundError<
 type GitHubProjectUnknownFieldErrorDetails = {
   projectFieldNames: string[];
   userFieldName: string;
-  userInternalFieldName: string;
+  userFieldNameAlias: string;
 };
 
 export declare class GitHubProjectUnknownFieldError<

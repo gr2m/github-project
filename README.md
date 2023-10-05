@@ -1011,35 +1011,6 @@ try {
 }
 ```
 
-#### `GitHubProjectUnknownFieldError`
-
-Thrown when a configured field configured in the `Project` constructor cannot be found in the project.
-
-```js
-import Project, { GitHubProjectUnknownFieldError } from "github-project";
-
-try {
-  await myScript(new Project(options));
-} catch (error) {
-  if (error instanceof GitHubProjectUnknownFieldError) {
-    analytics.track("GitHubProjectUnknownFieldError", {
-      projectFieldNames: error.details.projectFieldNames,
-      userFieldName: error.details.userFieldName,
-    });
-
-    myLogger.error(
-      {
-        code: error.code,
-        details: error.details,
-      },
-      error.toHumanMessage(),
-    );
-  }
-
-  throw error;
-}
-```
-
 #### `GitHubProjectNotFoundError`
 
 Thrown when a project cannot be found based on the `owner` and `number` passed to the `Project` constructor. The error is also thrown if the project exists but cannot be found based on authentication.
@@ -1102,6 +1073,117 @@ try {
       </td>
       <td>
 
+> Project cannot be found
+
+</td>
+    <tr>
+      <th>
+        <code>details</code>
+      </th>
+      <td>
+        <code>object</code>
+      </td>
+      <td>
+
+Object with error details
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.owner</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+Login of owner of the project
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.number</code>
+      </th>
+      <td>
+        <code>number</code>
+      </td>
+      <td>
+
+Number of the project
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
+Example for `error.toHumanMessage()`:
+
+> Project #1 could not be found for @gr2m
+
+#### `GitHubProjectUnknownFieldError`
+
+Thrown when a configured field configured in the `Project` constructor cannot be found in the project.
+
+```js
+import Project, { GitHubProjectUnknownFieldError } from "github-project";
+
+try {
+  await myScript(new Project(options));
+} catch (error) {
+  if (error instanceof GitHubProjectUnknownFieldError) {
+    analytics.track("GitHubProjectUnknownFieldError", {
+      projectFieldNames: error.details.projectFieldNames,
+      userFieldName: error.details.userFieldName,
+    });
+
+    myLogger.error(
+      {
+        code: error.code,
+        details: error.details,
+      },
+      error.toHumanMessage(),
+    );
+  }
+
+  throw error;
+}
+```
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>name</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td><code>GitHubProjectUnknownFieldError</code></td>
+    </tr>
+    <tr>
+      <th>
+        <code>message</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td>
+
 > Project field cannot be found
 
 </td>
@@ -1127,7 +1209,7 @@ Object with error details
       </td>
       <td>
 
-Names of the fields in the project.
+Names of all project fields as shown in the project
 
 </td>
     </tr>
@@ -1136,24 +1218,24 @@ Names of the fields in the project.
         <code>details.userFieldName</code>
       </th>
       <td>
-        <code>string</code>
+        <code>object</code>
       </td>
       <td>
 
-The stringified value set in the API call.
+Name of the field provided by the user
 
 </td>
     </tr>
     <tr>
       <th>
-        <code>details.userInternalFieldName</code>
+        <code>details.userFieldNameAlias</code>
       </th>
       <td>
-        <code>string</code>
+        <code>object</code>
       </td>
       <td>
 
-The user-provided alias for the field.
+Alias of the field name provided by the user
 
 </td>
     </tr>
@@ -1162,7 +1244,7 @@ The user-provided alias for the field.
 
 Example for `error.toHumanMessage()`:
 
-> "NOPE" could not be matched with any of the existing field names: "Title", "Assignees", "Status", "Labels", "Linked pull requests", "Reviewers", "Repository", "Milestone", "Text", "Number", "Date", "Single select", "Iteration". If the field should be considered optional, then set it to "nope: { name: "NOPE", optional: true}
+> "NOPE" could not be matched with any of the existing field names: "My text", "My number", "My Date". If the field should be considered optional, then set it to "nope: { name: "NOPE", optional: true}
 
 #### `GitHubProjectUnknownFieldOptionError`
 
@@ -1277,7 +1359,7 @@ Object with field details
       </td>
       <td>
 
-The field name as shown in the project.
+The field name as shown in the project
 
 </td>
     </tr>

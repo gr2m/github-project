@@ -34,7 +34,7 @@ export class GitHubProjectUnknownFieldError extends GitHubProjectError {
     const projectFieldNames = this.details.projectFieldNames
       .map((node) => `"${node.name}"`)
       .join(", ");
-    return `"${this.details.userFieldName}" could not be matched with any of the existing field names: ${projectFieldNames}. If the field should be considered optional, then set it to "${this.details.userInternalFieldName}: { name: "${this.details.userFieldName}", optional: true}`;
+    return `"${this.details.userFieldName}" could not be matched with any of the existing field names: ${projectFieldNames}. If the field should be considered optional, then set it to "${this.details.userFieldNameAlias}: { name: "${this.details.userFieldName}", optional: true}`;
   }
 }
 
