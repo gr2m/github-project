@@ -984,10 +984,7 @@ Expected errors are thrown using custom `Error` classes. You can check for any e
 Custom errors are designed in a way that `error.message` does not leak any user content. All errors do provide a `.toHumanMessage()` method if you want to provide a more helpful error message which includes both project data as well ase user-provided data.
 
 ```js
-import Project, {
-  GitHubProjectError,
-  GitHubProjectErrorUnknownFieldOption,
-} from "github-project";
+import Project, { GitHubProjectError } from "github-project";
 
 try {
   await myScript(new Project(options));
@@ -1297,7 +1294,7 @@ try {
       <td>
         <code>constant</code>
       </td>
-      <td><code>GitHubProjectErrorUnknownFieldOption</code></td>
+      <td><code>GitHubProjectUnknownFieldOptionError</code></td>
     </tr>
     <tr>
       <th>
@@ -1420,7 +1417,7 @@ The stringified value set in the API call.
 
 Example for `error.toHumanMessage()`:
 
-> "<unknown>" is an invalid option for "Single select"
+> "unknown" is an invalid option for "Single select"
 
 #### `GitHubProjectUpdateReadOnlyFieldError`
 
@@ -1473,7 +1470,7 @@ try {
       <td>
         <code>constant</code>
       </td>
-      <td><code>GitHubProjectErrorUnknownFieldOption</code></td>
+      <td><code>GitHubProjectUpdateReadOnlyFieldError</code></td>
     </tr>
     <tr>
       <th>
