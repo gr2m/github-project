@@ -1040,6 +1040,35 @@ try {
 }
 ```
 
+#### `GitHubProjectNotFoundError`
+
+Thrown when a project cannot be found based on the `owner` and `number` passed to the `Project` constructor. The error is also thrown if the project exists but cannot be found based on authentication.
+
+```js
+import Project, { GitHubProjectNotFoundError } from "github-project";
+
+try {
+  await myScript(new Project(options));
+} catch (error) {
+  if (error instanceof GitHubProjectNotFoundError) {
+    analytics.track("GitHubProjectNotFoundError", {
+      owner: error.details.owner,
+      number: error.details.number,
+    });
+
+    myLogger.error(
+      {
+        code: error.code,
+        details: error.details,
+      },
+      error.toHumanMessage(),
+    );
+  }
+
+  throw error;
+}
+```
+
 <table>
   <thead align=left>
     <tr>
@@ -1062,7 +1091,7 @@ try {
       <td>
         <code>constant</code>
       </td>
-      <td><code>GitHubProjectUnknownFieldError</code></td>
+      <td><code>GitHubProjectNotFoundError</code></td>
     </tr>
     <tr>
       <th>
