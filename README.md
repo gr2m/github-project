@@ -250,6 +250,19 @@ function (fieldOptionValue, userValue) {
 
 </td>
     </tr>
+    <tr>
+      <th>
+        <code>options.truncate</code>
+      </th>
+      <td>
+        <code>Function</code>
+      </td>
+      <td>
+
+Text field values cannot exceed 1024 characters. By default, the `options.truncate` just returns text as is. We recommend to use an establish truncate function such as [loadsh's `_.truncate()`](https://lodash.com/docs/4.17.15#truncate), as byte size is not the same as text length.
+
+</td>
+    </tr>
   </tbody>
 </table>
 

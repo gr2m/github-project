@@ -134,6 +134,7 @@ export type MatchFieldOptionValueFn = (
   fieldOptionValue: string,
   userValue: string,
 ) => boolean;
+export type TruncateFn = (text: string) => string;
 
 export type GitHubProjectOptions<
   TFields extends Record<string, FieldOptions> = {},
@@ -145,6 +146,7 @@ export type GitHubProjectOptions<
       fields?: TFields;
       matchFieldName?: MatchFieldNameFn;
       matchFieldOptionValue?: MatchFieldOptionValueFn;
+      truncate?: TruncateFn;
     }
   | {
       owner: string;
@@ -153,6 +155,7 @@ export type GitHubProjectOptions<
       fields?: TFields;
       matchFieldName?: MatchFieldNameFn;
       matchFieldOptionValue?: MatchFieldOptionValueFn;
+      truncate?: TruncateFn;
     };
 
 export type GitHubProjectItem<
@@ -289,6 +292,7 @@ export type GitHubProjectState =
 type GitHubProjectStateCommon = {
   matchFieldName: MatchFieldNameFn;
   matchFieldOptionValue: MatchFieldOptionValueFn;
+  truncate: TruncateFn;
 };
 type GitHubProjectStateInit = GitHubProjectStateCommon & {
   didLoadFields: false;

@@ -20,6 +20,7 @@ import { removeItemByContentRepositoryAndNumber } from "./api/items.remove-by-co
 import { getProperties } from "./api/project.getProperties.js";
 
 import { defaultMatchFunction } from "./api/lib/default-match-function.js";
+import { defaultTruncateFunction } from "./api/lib/default-truncate-function.js";
 
 /** @type {import("./").BUILT_IN_FIELDS} */
 export const BUILT_IN_FIELDS = {
@@ -48,6 +49,7 @@ export default class GitHubProject {
       matchFieldName: options.matchFieldName || defaultMatchFunction,
       matchFieldOptionValue:
         options.matchFieldOptionValue || defaultMatchFunction,
+      truncate: options.truncate || defaultTruncateFunction,
     };
 
     // set API
