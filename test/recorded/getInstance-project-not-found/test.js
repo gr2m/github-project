@@ -13,6 +13,9 @@ export function test(defaultTestProject) {
     () => {
       throw new Error("Should not resolve");
     },
-    (error) => error
+    (error) => ({
+      error,
+      humanMessage: error.toHumanMessage(),
+    })
   );
 }

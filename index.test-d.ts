@@ -2,8 +2,10 @@ import { expectType, expectNotType } from "tsd";
 import { Octokit } from "@octokit/core";
 import GitHubProject, {
   GitHubProjectError,
+  GitHubProjectNotFoundError,
   GitHubProjectUnknownFieldError,
   GitHubProjectUnknownFieldOptionError,
+  GitHubProjectUpdateReadOnlyFieldError,
 } from "./index";
 
 export function smokeTest() {
@@ -655,6 +657,18 @@ export function testGitHubProjectError() {
   expectType<string>(error.toHumanMessage());
 }
 
+export function testGitHubProjectNotFoundError() {
+  const details = {
+    owner: "owner",
+    number: 1,
+  };
+  const error = new GitHubProjectNotFoundError(details);
+
+  expectType<"GitHubProjectNotFoundError">(error.name);
+  expectType<typeof details>(error.details);
+  expectType<string>(error.toHumanMessage());
+}
+
 export function testGitHubProjectUnknownFieldError() {
   const details = {
     projectFieldNames: ["one", "two"],
@@ -685,6 +699,24 @@ export function testGitHubProjectUnknownFieldOptionError() {
   const error = new GitHubProjectUnknownFieldOptionError(details);
 
   expectType<"GitHubProjectUnknownFieldOptionError">(error.name);
+  expectType<typeof details>(error.details);
+  expectType<string>(error.toHumanMessage());
+}
+
+export function testGitHubProjectUpdateReadOnlyFieldError() {
+  const details = {
+    fields: [
+      {
+        id: "field id",
+        name: "field name",
+        userName: "user name",
+        userValue: "user value",
+      },
+    ],
+  };
+  const error = new GitHubProjectUpdateReadOnlyFieldError(details);
+
+  expectType<"GitHubProjectUpdateReadOnlyFieldError">(error.name);
   expectType<typeof details>(error.details);
   expectType<string>(error.toHumanMessage());
 }
