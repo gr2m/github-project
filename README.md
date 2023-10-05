@@ -78,7 +78,7 @@ for (const item of items) {
     item.fields.priority,
     item.type === "REDACTED"
       ? "_redacted_"
-      : item.content.assignees.map(({ login }) => login).join(","),
+      : item.content.assignees.map(({ login }) => login).join(",")
   );
 }
 
@@ -259,15 +259,7 @@ function (fieldOptionValue, userValue) {
       </td>
       <td>
 
-Text field values cannot exceed 1024 characters. By default, longer texts are truncated using [this function](api/lib/default-truncate-function.js):
-
-```js
-function truncate(text) {
-  return text.slice(0, 400).replace(/\S*$/, "…");
-}
-```
-
-**Note**: while text is truncated before setting project fields, the item returned from methods like `project.items.update(id, fields)` will still have the full text.
+Text field values cannot exceed 1024 characters. By default, the `options.truncate` just returns text as is. We recommend to use an establish truncate function such as [loadsh's `_.truncate()`](https://lodash.com/docs/4.17.15#truncate), as byte size is not the same as text length.
 
 </td>
     </tr>
@@ -505,7 +497,7 @@ Resolves with `undefined` if item cannot be found.
 ```js
 const item = await project.items.getByContentRepositoryAndNumber(
   repositoryName,
-  issueOrPullRequestNumber,
+  issueOrPullRequestNumber
 );
 ```
 
@@ -815,7 +807,7 @@ Archives a single item based on the Node ID of its linked issue or pull request.
 ```js
 await project.items.archiveByContentRepositoryAndNumber(
   repositoryName,
-  issueOrPullRequestNumber,
+  issueOrPullRequestNumber
 );
 ```
 
@@ -948,7 +940,7 @@ Removes a single item based on the Node ID of its linked issue or pull request. 
 ```js
 await project.items.removeByContentRepositoryAndNumber(
   repositoryName,
-  issueOrPullRequestNumber,
+  issueOrPullRequestNumber
 );
 ```
 
@@ -1018,7 +1010,7 @@ try {
         details: error.details,
         // log out helpful human-readable error message, but beware that it likely contains user content
       },
-      error.toHumanMessage(),
+      error.toHumanMessage()
     );
   } else {
     // handle any other error
@@ -1050,7 +1042,7 @@ try {
         code: error.code,
         details: error.details,
       },
-      error.toHumanMessage(),
+      error.toHumanMessage()
     );
   }
 
@@ -1161,7 +1153,7 @@ try {
         code: error.code,
         details: error.details,
       },
-      error.toHumanMessage(),
+      error.toHumanMessage()
     );
   }
 
@@ -1285,7 +1277,7 @@ try {
         code: error.code,
         details: error.details,
       },
-      error.toHumanMessage(),
+      error.toHumanMessage()
     );
   }
 
@@ -1435,7 +1427,7 @@ try {
         code: error.code,
         details: error.details,
       },
-      error.toHumanMessage(),
+      error.toHumanMessage()
     );
   }
 
@@ -1624,7 +1616,7 @@ try {
         code: error.code,
         details: error.details,
       },
-      error.toHumanMessage(),
+      error.toHumanMessage()
     );
   }
 
