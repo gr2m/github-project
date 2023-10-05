@@ -1362,6 +1362,19 @@ The field name as shown in the project
     </tr>
     <tr>
       <th>
+        <code>details.field.type</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+Is always either `DATE` or `NUMBER`
+
+</td>
+    </tr>
+    <tr>
+      <th>
         <code>details.userValue</code>
       </th>
       <td>
@@ -1494,6 +1507,19 @@ Object with field details
       <td>
 
 The field name as shown in the project
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.type</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td>
+
+`SINGLE_SELECT`
 
 </td>
     </tr>
