@@ -2,6 +2,7 @@
 
 import { getProjectCoreDataQuery } from "./queries.js";
 import { projectFieldsNodesToFieldsMap } from "./project-fields-nodes-to-fields-map.js";
+import { GitHubProjectNotFoundError } from "../../index.js";
 
 /**
  * This method assures that the project fields are loaded. It returns the new
@@ -17,10 +18,7 @@ export async function getStateWithProjectFields(project, state) {
     return state;
   }
 
-  const response = await project.octokit.graphql(getProjectCoreDataQuery, {
-    owner: project.owner,
-    number: project.number,
-  });
+  const response = await getProjectCoreData(project);
 
   const {
     userOrOrganization: { projectV2 },
@@ -44,4 +42,26 @@ export async function getStateWithProjectFields(project, state) {
     databaseId,
     fields,
   });
+}
+
+/**
+ *
+ * @param {import("../..").default} project
+ * @returns {Promise<any>}
+ */
+async function getProjectCoreData(project) {
+  try {
+    return await project.octokit.graphql(getProjectCoreDataQuery, {
+      owner: project.owner,
+      number: project.number,
+    });
+  } catch (error) {
+    /* c8 ignore next */
+    if (error?.response?.errors[0]?.type !== "NOT_FOUND") throw error;
+
+    throw new GitHubProjectNotFoundError({
+      owner: project.owner,
+      number: project.number,
+    });
+  }
 }
