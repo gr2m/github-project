@@ -250,6 +250,27 @@ function (fieldOptionValue, userValue) {
 
 </td>
     </tr>
+    <tr>
+      <th>
+        <code>options.truncate</code>
+      </th>
+      <td>
+        <code>Function</code>
+      </td>
+      <td>
+
+Text field values cannot exceed 1024 characters. By default, longer texts are truncated using [this function](api/lib/default-truncate-function.js):
+
+```js
+function truncate(text) {
+  return text.slice(0, 400).replace(/\S*$/, "…");
+}
+```
+
+**Note**: while text is truncated before setting project fields, the item returned from methods like `project.items.update(id, fields)` will still have the full text.
+
+</td>
+    </tr>
   </tbody>
 </table>
 
