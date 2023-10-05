@@ -12,7 +12,7 @@ export async function test(project) {
 
   // this should fail
   return project.items
-    .addDraft({ title: "1025 length test" }, { text: ".".repeat(1025) })
+    .addDraft({ title: "1024+ length test" }, { text: ".".repeat(1025) })
     .then(
       () => {
         throw new Error("Expected error");

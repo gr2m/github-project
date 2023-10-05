@@ -14,7 +14,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Thu, 05 Oct 2023 17:59:10 GMT",
+        "date": "Thu, 05 Oct 2023 21:04:22 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -23,12 +23,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "B1B3:46B1:5A7ADB:5D9EE9:651EF96E",
+        "x-github-request-id": "BEAD:59DC:97D7CF:9CB4FA:651F24D6",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4984",
-        "x-ratelimit-reset": "1696532266",
+        "x-ratelimit-remaining": "4903",
+        "x-ratelimit-reset": "1696541064",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "16",
+        "x-ratelimit-used": "97",
         "x-xss-protection": "0"
       },
       "data": {
@@ -179,7 +179,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Thu, 05 Oct 2023 17:59:11 GMT",
+        "date": "Thu, 05 Oct 2023 21:04:23 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -188,12 +188,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "B1B3:46B1:5A7C3D:5DA04E:651EF96E",
+        "x-github-request-id": "BEAD:59DC:97D92D:9CB66F:651F24D6",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4983",
-        "x-ratelimit-reset": "1696532266",
+        "x-ratelimit-remaining": "4902",
+        "x-ratelimit-reset": "1696541064",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "17",
+        "x-ratelimit-used": "98",
         "x-xss-protection": "0"
       },
       "data": {
@@ -248,7 +248,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Thu, 05 Oct 2023 17:59:12 GMT",
+        "date": "Thu, 05 Oct 2023 21:04:24 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -257,12 +257,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "B1B3:46B1:5A7D84:5DA1A1:651EF96F",
+        "x-github-request-id": "BEAD:59DC:97DA3C:9CB779:651F24D7",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4982",
-        "x-ratelimit-reset": "1696532266",
+        "x-ratelimit-remaining": "4901",
+        "x-ratelimit-reset": "1696541064",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "18",
+        "x-ratelimit-used": "99",
         "x-xss-protection": "0"
       },
       "data": {
@@ -313,7 +313,7 @@
     "query": "\n  mutation addProjectV2DraftIssue($projectId: ID!, $title: String!, $body: String, $assigneeIds: [ID!]) {\n    addProjectV2DraftIssue(input: {projectId: $projectId, title: $title, body: $body, assigneeIds: $assigneeIds}) {\n      projectItem {\n        \n  id\n  createdAt\n  type\n  isArchived\n  \n  content {\n    ... on DraftIssue {\n      id\n      title\n      createdAt\n      updatedAt\n      author: creator {\n        login\n      }\n      assignees(first: 10) {\n        nodes {\n          login\n        }\n      }\n    }\n    ... on Issue {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n    }\n    ... on PullRequest {\n      \n  id\n  databaseId\n  number\n  title\n  url\n  createdAt\n  author {\n    login\n  }\n  assignees(first: 10) {\n    nodes {\n      login\n    }\n  }\n  labels(first: 10) {\n    nodes {\n      name\n    }\n  }\n  closed\n  closedAt\n  milestone {\n    number\n    title\n    state\n  }\n  repository {\n    name\n  }\n\n      merged\n    }\n  }\n\n  fieldValues(first: 20) {\n    nodes {\n      __typename\n      ... on ProjectV2ItemFieldDateValue {\n        date\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldIterationValue {\n        title\n        iterationId\n        startDate\n        duration\n        field {\n          ... on ProjectV2IterationField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldNumberValue {\n        number\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldSingleSelectValue {\n        optionId\n        field {\n          ... on ProjectV2SingleSelectField {\n            id\n          }\n        }\n      }\n      ... on ProjectV2ItemFieldTextValue {\n        text\n        field {\n          ... on ProjectV2Field {\n            id\n          }\n        }\n      }\n    }\n  }\n\n      }\n    }\n  }\n",
     "variables": {
       "projectId": "PVT_1",
-      "title": "1025 length test"
+      "title": "1024+ length test"
     },
     "response": {
       "status": 200,
@@ -324,7 +324,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Thu, 05 Oct 2023 17:59:13 GMT",
+        "date": "Thu, 05 Oct 2023 21:04:25 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -333,12 +333,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "B1B3:46B1:5A7EB1:5DA2CF:651EF970",
+        "x-github-request-id": "BEAD:59DC:97DB75:9CB8BE:651F24D8",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4981",
-        "x-ratelimit-reset": "1696532266",
+        "x-ratelimit-remaining": "4900",
+        "x-ratelimit-reset": "1696541064",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "19",
+        "x-ratelimit-used": "100",
         "x-xss-protection": "0"
       },
       "data": {
@@ -351,7 +351,7 @@
               "isArchived": false,
               "content": {
                 "id": "DI_2",
-                "title": "1025 length test",
+                "title": "1024+ length test",
                 "createdAt": "2022-02-02T12:00:00Z",
                 "updatedAt": "2022-02-02T12:00:00Z",
                 "author": {
@@ -365,7 +365,7 @@
                 "nodes": [
                   {
                     "__typename": "ProjectV2ItemFieldTextValue",
-                    "text": "1025 length test",
+                    "text": "1024+ length test",
                     "field": {
                       "id": "PVTF_1"
                     }
@@ -393,7 +393,7 @@
         "content-encoding": "gzip",
         "content-security-policy": "default-src 'none'",
         "content-type": "application/json; charset=utf-8",
-        "date": "Thu, 05 Oct 2023 17:59:14 GMT",
+        "date": "Thu, 05 Oct 2023 21:04:26 GMT",
         "referrer-policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
         "server": "GitHub.com",
         "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
@@ -402,12 +402,12 @@
         "x-content-type-options": "nosniff",
         "x-frame-options": "deny",
         "x-github-media-type": "github.v3; format=json",
-        "x-github-request-id": "B1B3:46B1:5A7FEA:5DA41E:651EF971",
+        "x-github-request-id": "BEAD:59DC:97DCA7:9CB9FF:651F24D9",
         "x-ratelimit-limit": "5000",
-        "x-ratelimit-remaining": "4980",
-        "x-ratelimit-reset": "1696532266",
+        "x-ratelimit-remaining": "4899",
+        "x-ratelimit-reset": "1696541064",
         "x-ratelimit-resource": "graphql",
-        "x-ratelimit-used": "20",
+        "x-ratelimit-used": "101",
         "x-xss-protection": "0"
       },
       "data": {
