@@ -152,15 +152,10 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
  * @returns {string}
  */
 function toItemFieldValueInput(state, field, valueOrOption) {
-  console.log("state.truncate");
-  console.log(state.truncate.toString());
-
   const value =
     typeof valueOrOption === "string"
       ? state.truncate(valueOrOption)
       : valueOrOption.id;
-
-  console.log({ value });
 
   const valueKey =
     {
