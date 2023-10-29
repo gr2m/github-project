@@ -38,9 +38,21 @@ export class GitHubProjectUnknownFieldError extends GitHubProjectError {
   }
 }
 
-export class GitHubProjectUnknownFieldOptionError extends GitHubProjectError {
+export class GitHubProjectInvalidValueError extends GitHubProjectError {
   constructor(details) {
-    super("Project field option cannot be found");
+    super("User value is incompatible with project field type");
+    this.details = details;
+  }
+
+  toHumanMessage() {
+    return `"${this.details.userValue}" is not compatible with the "${this.details.field.name}" project field which expects a value of type "${this.details.field.type}"`;
+  }
+}
+
+export class GitHubProjectUnknownFieldOptionError extends GitHubProjectInvalidValueError {
+  constructor(details) {
+    super(details);
+    this.message = "Project field option cannot be found";
     this.details = details;
   }
 

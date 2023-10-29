@@ -134,6 +134,7 @@ export type MatchFieldOptionValueFn = (
   fieldOptionValue: string,
   userValue: string,
 ) => boolean;
+export type TruncateFn = (text: string) => string;
 
 export type GitHubProjectOptions<
   TFields extends Record<string, FieldOptions> = {},
@@ -145,6 +146,7 @@ export type GitHubProjectOptions<
       fields?: TFields;
       matchFieldName?: MatchFieldNameFn;
       matchFieldOptionValue?: MatchFieldOptionValueFn;
+      truncate?: TruncateFn;
     }
   | {
       owner: string;
@@ -153,6 +155,7 @@ export type GitHubProjectOptions<
       fields?: TFields;
       matchFieldName?: MatchFieldNameFn;
       matchFieldOptionValue?: MatchFieldOptionValueFn;
+      truncate?: TruncateFn;
     };
 
 export type GitHubProjectItem<
@@ -307,6 +310,7 @@ export type GitHubProjectState =
 type GitHubProjectStateCommon = {
   matchFieldName: MatchFieldNameFn;
   matchFieldOptionValue: MatchFieldOptionValueFn;
+  truncate: TruncateFn;
 };
 type GitHubProjectStateInit = GitHubProjectStateCommon & {
   didLoadFields: false;
@@ -356,11 +360,29 @@ export declare class GitHubProjectUnknownFieldError<
   constructor(details: TDetails);
 }
 
+type GitHubProjectInvalidValueErrorDetails = {
+  userValue: string;
+  field: {
+    id: string;
+    name: string;
+    type: "NUMBER" | "DATE" | "SINGLE_SELECT";
+  };
+};
+
+export declare class GitHubProjectInvalidValueError<
+  TDetails extends GitHubProjectInvalidValueErrorDetails,
+> extends GitHubProjectError {
+  name: "GitHubProjectInvalidValueError";
+  details: TDetails;
+  constructor(details: TDetails);
+}
+
 type GitHubProjectUnknownFieldOptionErrorDetails = {
   userValue: string;
   field: {
     id: string;
     name: string;
+    type: "SINGLE_SELECT";
     options: {
       id: string;
       name: string;

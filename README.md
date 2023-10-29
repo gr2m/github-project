@@ -250,6 +250,19 @@ function (fieldOptionValue, userValue) {
 
 </td>
     </tr>
+    <tr>
+      <th>
+        <code>options.truncate</code>
+      </th>
+      <td>
+        <code>Function</code>
+      </td>
+      <td>
+
+Text field values cannot exceed 1024 characters. By default, the `options.truncate` just returns text as is. We recommend to use an establish truncate function such as [loadsh's `_.truncate()`](https://lodash.com/docs/4.17.15#truncate), as byte size is not the same as text length.
+
+</td>
+    </tr>
   </tbody>
 </table>
 
@@ -1243,9 +1256,159 @@ Example for `error.toHumanMessage()`:
 
 > "NOPE" could not be matched with any of the existing field names: "My text", "My number", "My Date". If the field should be considered optional, then set it to "nope: { name: "NOPE", optional: true}
 
-#### `GitHubProjectUnknownFieldOptionError`
+#### `GitHubProjectInvalidValueError`
 
 Thrown when attempting to set a single select project field to a value that is not included in the field's configured options.
+
+```js
+import Project, { GitHubProjectInvalidValueError } from "github-project";
+
+try {
+  await myScript(new Project(options));
+} catch (error) {
+  if (error instanceof GitHubProjectInvalidValueError) {
+    analytics.track("GitHubProjectInvalidValueError", {
+      fieldName: error.details.field.name,
+      userValue: error.details.userValue,
+    });
+
+    myLogger.error(
+      {
+        code: error.code,
+        details: error.details,
+      },
+      error.toHumanMessage(),
+    );
+  }
+
+  throw error;
+}
+```
+
+<table>
+  <thead align=left>
+    <tr>
+      <th>
+        name
+      </th>
+      <th>
+        type
+      </th>
+      <th width=100%>
+        description
+      </th>
+    </tr>
+  </thead>
+  <tbody align=left valign=top>
+    <tr>
+      <th>
+        <code>name</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td><code>GitHubProjectInvalidValueError</code></td>
+    </tr>
+    <tr>
+      <th>
+        <code>message</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td>
+
+> User value is incompatible with project field type
+
+</td>
+    <tr>
+      <th>
+        <code>details</code>
+      </th>
+      <td>
+        <code>object</code>
+      </td>
+      <td>
+
+Object with error details
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field</code>
+      </th>
+      <td>
+        <code>object</code>
+      </td>
+      <td>
+
+Object with field details
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.id</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+`details.field.id` is the project field GraphQL node ID
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.name</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The field name as shown in the project
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.type</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+Is always either `DATE`, `NUMBER`, or `SINGLE_SELECT`. If it's `SINGLE_SELECT`, then the error is a [`GitHubProjectUnknownFieldOptionError`](#githubprojectunknownfieldoptionerror).
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.userValue</code>
+      </th>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+
+The stringified value set in the API call.
+
+</td>
+    </tr>
+  </tbody>
+</table>
+
+Example for `error.toHumanMessage()`:
+
+> "unknown" is not compatible with the "My Date" project field
+
+#### `GitHubProjectUnknownFieldOptionError`
+
+Thrown when attempting to set a single select project field to a value that is not included in the field's configured options. Inherits from [`GitHubProjectInvalidValueError`](#githubprojectinvalidvalueerror).
 
 ```js
 import Project, { GitHubProjectUnknownFieldOptionError } from "github-project";
@@ -1357,6 +1520,19 @@ Object with field details
       <td>
 
 The field name as shown in the project
+
+</td>
+    </tr>
+    <tr>
+      <th>
+        <code>details.field.type</code>
+      </th>
+      <td>
+        <code>constant</code>
+      </td>
+      <td>
+
+`SINGLE_SELECT`
 
 </td>
     </tr>

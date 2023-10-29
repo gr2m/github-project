@@ -57,8 +57,7 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
       userName: state.fields[id].userName,
       userValue,
     }))
-    .filter(({ id, name }) => {
-      const field = state.fields[id];
+    .filter(({ name }) => {
       return READ_ONLY_FIELDS.some((readOnlyField) => {
         return state.matchFieldName(
           readOnlyField.toLowerCase(),
@@ -102,14 +101,16 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
           key,
           value: null,
         };
-      } else {
-        const valueOrOption =
-          "optionsByValue" in field
-            ? findFieldOptionIdAndValue(state, field, value)
-            : value;
+      }
 
-        const query = `
+      const valueOrOption =
+        "optionsByValue" in field
+          ? findFieldOptionIdAndValue(state, field, value)
+          : value;
+
+      const query = `
           ${alias}: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: "${fieldId}", ${toItemFieldValueInput(
+            state,
             field,
             valueOrOption
           )}}) {
@@ -117,15 +118,14 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
           }
         `;
 
-        return {
-          query,
-          key,
-          value:
-            typeof valueOrOption === "string"
-              ? valueOrOption
-              : valueOrOption.value,
-        };
-      }
+      return {
+        query,
+        key,
+        value:
+          typeof valueOrOption === "string"
+            ? valueOrOption
+            : valueOrOption.value,
+      };
     })
     .filter(Boolean);
 
@@ -145,14 +145,17 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
 }
 
 /**
+ * @param {import("../..").GitHubProjectStateWithFields} state
  * @param {import("../..").ProjectField} field
  * @param {string | {id: string, value: string | undefined}} valueOrOption
  *
  * @returns {string}
  */
-function toItemFieldValueInput(field, valueOrOption) {
+function toItemFieldValueInput(state, field, valueOrOption) {
   const value =
-    typeof valueOrOption === "string" ? valueOrOption : valueOrOption.id;
+    typeof valueOrOption === "string"
+      ? state.truncate(valueOrOption)
+      : valueOrOption.id;
 
   const valueKey =
     {
@@ -197,16 +200,15 @@ function findFieldOptionIdAndValue(state, field, value) {
       return { name, id };
     });
 
-    throw Object.assign(
-      new GitHubProjectUnknownFieldOptionError({
-        field: {
-          id: field.id,
-          name: field.name,
-          options,
-        },
-        userValue: value,
-      })
-    );
+    throw new GitHubProjectUnknownFieldOptionError({
+      field: {
+        id: field.id,
+        name: field.name,
+        type: "SINGLE_SELECT",
+        options,
+      },
+      userValue: value,
+    });
   }
 
   return { id: optionId, value: optionValue };
