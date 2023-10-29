@@ -21,6 +21,7 @@ const queryIssuesAndPullRequestNodes = `
     }
   }
   closed
+  closedAt
   milestone {
     number
     title
