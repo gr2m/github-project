@@ -1,6 +1,12 @@
 import { expectType, expectNotType } from "tsd";
 import { Octokit } from "@octokit/core";
-import GitHubProject from "./index";
+import GitHubProject, {
+  GitHubProjectError,
+  GitHubProjectNotFoundError,
+  GitHubProjectUnknownFieldError,
+  GitHubProjectUnknownFieldOptionError,
+  GitHubProjectUpdateReadOnlyFieldError,
+} from "./index";
 
 export function smokeTest() {
   expectType<typeof GitHubProject>(GitHubProject);
@@ -305,7 +311,7 @@ export async function getItemByRepositoryAndNumberTest() {
   });
   const item = await project.items.getByContentRepositoryAndNumber(
     "repository-name",
-    1
+    1,
   );
 
   if (typeof item === "undefined") {
@@ -456,7 +462,7 @@ export async function updateItemByContentRepositoryAndNumberTest() {
     1,
     {
       status: "new status",
-    }
+    },
   );
 
   if (typeof item === "undefined") {
@@ -535,7 +541,7 @@ export async function archiveItemByContentRepositoryAndNameTest() {
   });
   const item = await project.items.archiveByContentRepositoryAndNumber(
     "repository-name",
-    1
+    1,
   );
 
   if (typeof item === "undefined") {
@@ -586,7 +592,7 @@ export async function removeItemByContentRepositoryAndNameTest() {
   });
   const item = await project.items.removeByContentRepositoryAndNumber(
     "repository-name",
-    1
+    1,
   );
 
   if (typeof item === "undefined") {
@@ -640,4 +646,77 @@ export async function testGetProperties() {
     title: string;
     url: string;
   }>(properties);
+}
+
+export function testGitHubProjectError() {
+  const error = new GitHubProjectError();
+
+  // setting type for GitHubProjectError.name is causing a type error, see comment in index.d.ts
+  // expectType<"GitHubProjectError">(error.name);
+  expectType<{}>(error.details);
+  expectType<string>(error.toHumanMessage());
+}
+
+export function testGitHubProjectNotFoundError() {
+  const details = {
+    owner: "owner",
+    number: 1,
+  };
+  const error = new GitHubProjectNotFoundError(details);
+
+  expectType<"GitHubProjectNotFoundError">(error.name);
+  expectType<typeof details>(error.details);
+  expectType<string>(error.toHumanMessage());
+}
+
+export function testGitHubProjectUnknownFieldError() {
+  const details = {
+    projectFieldNames: ["one", "two"],
+    userFieldName: "Three",
+    userFieldNameAlias: "three",
+  };
+  const error = new GitHubProjectUnknownFieldError(details);
+
+  expectType<"GitHubProjectUnknownFieldError">(error.name);
+  expectType<typeof details>(error.details);
+  expectType<string>(error.toHumanMessage());
+}
+
+export function testGitHubProjectUnknownFieldOptionError() {
+  const details = {
+    field: {
+      id: "field id",
+      name: "field name",
+      options: [
+        {
+          id: "option id",
+          name: "option name",
+        },
+      ],
+    },
+    userValue: "user value",
+  };
+  const error = new GitHubProjectUnknownFieldOptionError(details);
+
+  expectType<"GitHubProjectUnknownFieldOptionError">(error.name);
+  expectType<typeof details>(error.details);
+  expectType<string>(error.toHumanMessage());
+}
+
+export function testGitHubProjectUpdateReadOnlyFieldError() {
+  const details = {
+    fields: [
+      {
+        id: "field id",
+        name: "field name",
+        userName: "user name",
+        userValue: "user value",
+      },
+    ],
+  };
+  const error = new GitHubProjectUpdateReadOnlyFieldError(details);
+
+  expectType<"GitHubProjectUpdateReadOnlyFieldError">(error.name);
+  expectType<typeof details>(error.details);
+  expectType<string>(error.toHumanMessage());
 }

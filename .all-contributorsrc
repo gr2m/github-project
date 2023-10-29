@@ -1,0 +1,73 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "gr2m",
+      "name": "Gregor Martynus",
+      "avatar_url": "https://avatars.githubusercontent.com/u/39992?v=4",
+      "profile": "https://dev.to/gr2m",
+      "contributions": [
+        "ideas",
+        "code",
+        "test",
+        "review",
+        "maintenance",
+        "infra"
+      ]
+    },
+    {
+      "login": "mikesurowiec",
+      "name": "Mike Surowiec",
+      "avatar_url": "https://avatars.githubusercontent.com/u/821435?v=4",
+      "profile": "https://mikesurowiec.com",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "tmelliottjr",
+      "name": "Tom Elliott",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13594679?v=4",
+      "profile": "https://github.com/tmelliottjr",
+      "contributions": [
+        "code",
+        "test",
+        "review"
+      ]
+    },
+    {
+      "login": "maxisam",
+      "name": "Sam Lin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/456807?v=4",
+      "profile": "http://maxisam.github.io/",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "Ebonsignori",
+      "name": "Evan Bonsignori",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17055832?v=4",
+      "profile": "http://evan.bio",
+      "contributions": [
+        "code",
+        "test",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "github-project",
+  "projectOwner": "gr2m"
+}

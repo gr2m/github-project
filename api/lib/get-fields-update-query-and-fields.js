@@ -1,5 +1,9 @@
 // @ts-check
 
+import {
+  GitHubProjectUnknownFieldOptionError,
+  GitHubProjectUpdateReadOnlyFieldError,
+} from "../../index.js";
 import { queryItemFieldNodes } from "./queries.js";
 
 /**
@@ -45,26 +49,29 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
       .map((key) => [key, fields[key] === "" ? null : fields[key]])
   );
 
-  const readOnlyFields = Object.keys(existingFields)
-    .map((key) => [key, state.fields[key].userName])
-    .filter(([key]) => {
-      const field = state.fields[key];
+  const readOnlyFields = Object.entries(existingFields)
+    .map(([id, userValue]) => ({
+      id,
+      // @ts-expect-error - assume state.fields[id] is not OptionalNonExistingField
+      name: String(state.fields[id].name),
+      userName: state.fields[id].userName,
+      userValue,
+    }))
+    .filter(({ id, name }) => {
+      const field = state.fields[id];
       return READ_ONLY_FIELDS.some((readOnlyField) => {
         return state.matchFieldName(
           readOnlyField.toLowerCase(),
 
-          // @ts-expect-error - TODO: unclear why `field` is typed as potential "string" here
-          field.name.toLowerCase().trim()
+          name.toLowerCase().trim()
         );
       });
     });
 
   if (readOnlyFields.length > 0) {
-    throw new Error(
-      `[github-project] Cannot update read-only fields: ${readOnlyFields
-        .map(([key, value]) => `"${value}" (.${key})`)
-        .join(", ")}`
-    );
+    throw new GitHubProjectUpdateReadOnlyFieldError({
+      fields: readOnlyFields,
+    });
   }
 
   /** @type {Record<string, {query: string, key: string, value: string|undefined}>[]} */
@@ -103,9 +110,9 @@ export function getFieldsUpdateQueryAndFields(state, fields) {
 
         const query = `
           ${alias}: updateProjectV2ItemFieldValue(input: {projectId: $projectId, itemId: $itemId, fieldId: "${fieldId}", ${toItemFieldValueInput(
-          field,
-          valueOrOption
-        )}}) {
+            field,
+            valueOrOption
+          )}}) {
             ${queryNodes}
           }
         `;
@@ -186,20 +193,19 @@ function findFieldOptionIdAndValue(state, field, value) {
     ) || [];
 
   if (!optionId) {
-    const knownOptions = Object.keys(field.optionsByValue);
-    const existingOptionsString = knownOptions
-      .map((value) => `- ${value}`)
-      .join("\n");
+    const options = Object.entries(field.optionsByValue).map(([name, id]) => {
+      return { name, id };
+    });
 
     throw Object.assign(
-      new Error(
-        `[github-project] "${value}" is an invalid option for "${field.name}".\n\nKnown options are:\n${existingOptionsString}`
-      ),
-      {
-        code: "E_GITHUB_PROJECT_UNKNOWN_FIELD_OPTION",
-        knownOptions,
-        userOption: value,
-      }
+      new GitHubProjectUnknownFieldOptionError({
+        field: {
+          id: field.id,
+          name: field.name,
+          options,
+        },
+        userValue: value,
+      })
     );
   }
 
