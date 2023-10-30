@@ -62,6 +62,16 @@
         "test",
         "doc"
       ]
+    },
+    {
+      "login": "blombard",
+      "name": "Baptiste Lombard",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17877656?v=4",
+      "profile": "https://www.leexi.ai/",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
