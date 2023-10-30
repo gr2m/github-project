@@ -43,8 +43,7 @@ function projectFieldValueNodeToValue(projectField, node) {
       return projectField.optionsById[node.optionId];
     case "ProjectV2ItemFieldTextValue":
       return node.text;
-    // TODO: implement iteration fields
-    // case "ProjectV2ItemFieldIterationValue":
-    // return null;
+    case "ProjectV2ItemFieldIterationValue":
+      return node.title;
   }
 }

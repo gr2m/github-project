@@ -129,6 +129,28 @@ export function projectFieldsNodesToFieldsMap(state, project, nodes) {
         );
       }
 
+      // If the field is of type "Iteration", then the `configuration` property will be set.
+      if (node.configuration) {
+        acc[userFieldNameAlias].optionsById = node.configuration.iterations.concat(node.configuration.completedIterations).reduce(
+          (acc, option) => {
+            return {
+              ...acc,
+              [option.id]: option.title,
+            };
+          },
+          {}
+        );
+        acc[userFieldNameAlias].optionsByValue = node.configuration.iterations.concat(node.configuration.completedIterations).reduce(
+          (acc, option) => {
+            return {
+              ...acc,
+              [option.title]: option.id,
+            };
+          },
+          {}
+        );
+      }
+
       return acc;
     },
     optionalFields

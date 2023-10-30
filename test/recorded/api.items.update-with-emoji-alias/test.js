@@ -15,6 +15,6 @@ export function test(defaultTestingProject, itemId = "PVTI_1") {
       "🎯text": "Text",
     },
   });
-  
+
   return project.items.update(itemId, { "🎯text": "new text" });
 }

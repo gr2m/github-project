@@ -241,6 +241,24 @@ export type ProjectFieldNode = {
    * `options` is only set on `ProjectV2SingleSelectField`
    */
   options?: { id: string; name: string }[];
+
+  /**
+   * `configuration` is only set on `ProjectV2IterationField`
+   */
+  configuration?: {
+    iterations: {
+      id: string;
+      title: string;
+      duration: number;
+      startDate: string;
+    }[];
+    completedIterations: {
+      id: string;
+      title: string;
+      duration: number;
+      startDate: string;
+    }[];
+  };
 };
 
 export type ProjectField =
