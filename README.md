@@ -280,7 +280,7 @@ Returns project level data `url`, `title`, `description` and `databaseId`
 const items = await project.items.list();
 ```
 
-Returns the first 100 items of the project.
+Returns all items in the project.
 
 ### `project.items.addDraft()`
 
