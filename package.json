@@ -34,7 +34,7 @@
     "octokit-plugin-create-pull-request": "^6.0.0",
     "open-cli": "^8.0.0",
     "prettier": "^3.0.0",
-    "tsd": "^0.32.0",
+    "tsd": "^0.33.0",
     "typescript": "^5.0.0"
   },
   "renovate": {
