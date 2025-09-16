@@ -25,7 +25,7 @@
   "license": "ISC",
   "devDependencies": {
     "@octokit/app": "^16.0.0",
-    "@octokit/openapi-types": "^25.0.0",
+    "@octokit/openapi-types": "^26.0.0",
     "@octokit/plugin-paginate-rest": "^13.0.0",
     "@octokit/plugin-throttling": "^11.0.0",
     "ava": "^6.0.0",
