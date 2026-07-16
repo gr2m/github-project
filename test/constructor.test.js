@@ -50,3 +50,15 @@ test("constructor with token", (t) => {
 
   t.true(project.octokit instanceof Octokit);
 });
+
+test("rejects NaN as the number option", (t) => {
+  t.throws(
+    () =>
+      new GitHubProject({
+        owner: "owner",
+        number: NaN,
+        octokit: new Octokit(),
+      }),
+    { message: "The number option must be a valid number" },
+  );
+});

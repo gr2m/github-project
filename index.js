@@ -37,6 +37,10 @@ export default class GitHubProject {
   constructor(options) {
     const { owner, number, fields = {} } = options;
 
+    if (Number.isNaN(number)) {
+      throw new TypeError("The number option must be a valid number");
+    }
+
     // set octokit either from `options.octokit` or `options.token`
     const octokit =
       "token" in options
